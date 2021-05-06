@@ -18,6 +18,7 @@ public class Swing_0506 {
 	private JTextField textField;
 	private JButton btn_0;
 	private boolean[] is_op = {true};
+	private boolean oper_is=true;
 
 	/**
 	 * Launch the application.
@@ -58,11 +59,10 @@ public class Swing_0506 {
 		panel.setLayout(null);
 		
 		
-		
-	
 		createNumButton(panel);
 		createNumOp(panel);
 
+		
 	}
 	
 	
@@ -82,15 +82,24 @@ public class Swing_0506 {
 		return op;
 	}
 	void setOp(String op) {
-		if(getOp()!=null && p!=0) {
-			calcurator();
-			p = 0;
+//		if(getOp()!=null && getP()!=0) {
+//			calcurator();
+//			setP(0);
+//		}
+		
+		if(oper_is == true) {
+			if(getOp()!=null && getP()!=0 ) {
+				calcurator();
+				setP(Integer.parseInt(textField.getText()));
+			}
 		}
 		setP(Integer.parseInt(textField.getText()));
 		is_op[0] = false;
 		this.op = op;
+		
 	}
 	void calcurator() {
+		
 
 		switch(getOp()) {
 			case "*":
@@ -109,7 +118,6 @@ public class Swing_0506 {
 				int n4 = getP() /Integer.parseInt(textField.getText());
 				textField.setText(n4+"");
 				break;
-			
 		}
 		
 		
@@ -124,12 +132,11 @@ public class Swing_0506 {
 			if(i ==4) {
 				System.out.println(btt_7.getText());
 				btt_7.addActionListener(new ActionListener() {
-					
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						System.out.println("setOp:"+e.getActionCommand());
 						calcurator();
-						//setOp("");
+						oper_is = false;
 					}
 				});
 				btt_7.setBounds(245, 450, 100, 100);
@@ -141,8 +148,9 @@ public class Swing_0506 {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						setOp("");
-						p=0;
 						textField.setText("0");
+						p=0;
+						oper_is = false;
 					}
 				});
 			}
@@ -154,6 +162,7 @@ public class Swing_0506 {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						setOp(e.getActionCommand());
+						oper_is = false;
 					}
 				});
 			}
@@ -161,10 +170,8 @@ public class Swing_0506 {
 		}
 			
 	}
-
 	
 	void createNumButton(JPanel panel) {
-		
 		textField = new JTextField();
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField.setFont(new Font("굴림", Font.BOLD, 27));
@@ -172,12 +179,13 @@ public class Swing_0506 {
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		ButtonEventTest button = new ButtonEventTest(textField, is_op);
+		ButtonEventTest button = new ButtonEventTest(textField, is_op, oper_is);
 		
 		btn_0 = new JButton("0");
 		btn_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText(e.getActionCommand());
+				oper_is = true;
 			}
 		});
 		btn_0.setBounds(25, 450, 100, 100);
@@ -191,6 +199,11 @@ public class Swing_0506 {
 				
 				JButton btn_7 = new JButton(nums[(i)+(j*3)]+"");
 				btn_7.addActionListener(button);
+				btn_7.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						oper_is = true;
+					}
+				});
 				btn_7.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
 				btn_7.setBounds(25+(110*i), 120+(110*j), 100, 100);
 				panel.add(btn_7);
