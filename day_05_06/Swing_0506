@@ -87,12 +87,10 @@ public class Swing_0506 {
 //			setP(0);
 //		}
 		
-		if(oper_is == true) {
-			if(getOp()!=null && getP()!=0 ) {
+			if(getOp()!=null && getP()!=0 &&oper_is == true) {
 				calcurator();
 				setP(Integer.parseInt(textField.getText()));
 			}
-		}
 		setP(Integer.parseInt(textField.getText()));
 		is_op[0] = false;
 		this.op = op;
@@ -134,7 +132,6 @@ public class Swing_0506 {
 				btt_7.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("setOp:"+e.getActionCommand());
 						calcurator();
 						oper_is = false;
 					}
