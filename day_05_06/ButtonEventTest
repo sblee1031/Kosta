@@ -11,6 +11,7 @@ public class ButtonEventTest implements ActionListener{
 	public String[] sa = new String[1];
 	String oper = "";
 	boolean[] is_op = {true};
+	boolean oper_is ;
 	
 	public ButtonEventTest() {
 		
@@ -24,16 +25,15 @@ public class ButtonEventTest implements ActionListener{
 		this.sa = s;
 	}
 	
-	public ButtonEventTest(JTextField input, boolean[] is_op) {
+	public ButtonEventTest(JTextField input, boolean[] is_op, boolean oper_is) {
 		this.input = input;
 		this.is_op = is_op;
+		this.oper_is = oper_is;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(e.getActionCommand());
-		System.out.println(is_op[0]);
-		
 		if(!input.getText().equals("0")) {
 			if(is_op[0] == true) {
 				input.setText(input.getText()+e.getActionCommand());
