@@ -1,3 +1,5 @@
+//21/05/27
+
 자바 플랫폼 : 자바어플리케이션이 실행될 수 있는 환경 (JVM)
  	- JAVA Standard E : GUI어플리케이션, Network어플리케이션
 	- JAVA Enterprise E : Web어플리케이션, 
