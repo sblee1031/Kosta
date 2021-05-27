@@ -1,0 +1,20 @@
+자바 플랫폼 : 자바어플리케이션이 실행될 수 있는 환경 (JVM)
+ 	- JAVA Standard E : GUI어플리케이션, Network어플리케이션
+	- JAVA Enterprise E : Web어플리케이션, 
+	- JAVA Micro E : 2g폰,,
+
+day_05_24프로젝트
+- 객체모델링
+	객체의 속성- 상품번호 : prod_no : String
+		    상품명    : prod_name : String
+		    가격      : prod_pice : int
+		    수량      : ?
+		     제조일자 : prod_mf_dt : java.utill.Date
+		    사세 설명 : prod_detail: String
+
+DB모델링
+	엔터티의 속성 - 상품번호 : prod_no
+		         상품명   : prod_name: Sting
+		        가격      : prod_price
+		        //수량   : ?
+ 
