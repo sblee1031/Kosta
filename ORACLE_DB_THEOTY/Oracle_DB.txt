@@ -1,0 +1,431 @@
+--SELECT : 검색용 문법
+--구성요소
+--SELECT
+--FROM
+--WHERE
+--GROUP BY
+--HAVING
+--ORDER BY
+
+--SELECT 처리순서
+--<- --------------------SELECTION 절차 ---------->|<-PROJECTION절차---->
+--   (조건에 만족하는 행 찾기) 			(필요한 컬럼을 출력)
+--FROME ->WHERE ->GROUP BY -> HAVING -> SELECT -> ORDER BY
+
+SELECT employee_id, first_name, last_name
+From EMPLOYEES;
+
+--사원들의 모든 컬럼값을 출력하시오.
+SELECT *
+FROM employees;
+
+--컬럼(헤딩)의 별칭주기
+SELECT employee_id empid, first_name fn, last_name "ln"
+From employees;
+
+--문자열 ' '로 표현한다.
+--문자열 결합연산자 || 
+SELECT employee_id ,first_name , last_name, first_name || last_name
+From employees;
+
+--행 중복 제거
+SELECT department_id
+FROM employees;
+
+SELECT distinct department_id, job_id
+FROM employees;
+
+--산술연산식 : null값을 연산식에 사용하면 결과는 무조건 null을 반영한다.
++, -, *, /,
+SELECT employee_id,salary, COMMISSION_PCT , salary + salary* COMMISSION_PCT 실급여
+FROM employees;
+
+--null은 아무값도 아니다
+--null용 함수 : NVL(null값을 포함하는 표현시, null인경우 반환할 값)
+SELECT employee_id, salary, COMMISSION_PCT,
+salary + salary*NVL(COMMISSION_PCT,0) 실급여
+FROM employees;
+
+
+--나머지값 계산함수 : mod()
+SELECT 3+4, 3/4, MOD(3,4)
+--FROME employees;
+FROM dual;
+
+--ORDER BY
+--오름차순
+	ASC - 생략가능
+--내림차순
+--컬럼에 대한 별칭사용 가능, index로도 사용가능
+	DESC - 생략불가
+--많은 급여를 받는 사원순으로 사번, 이름, 급여를 출력하시오
+SELECT employee_id, first_name, salary
+FROM employees
+ORDER BY salary DESC, first_name ASC;
+	(내림차순)	(오름차순)
+
+SELECT employee_id, first_name, salary 급여
+FROM employees
+ORDER BY 급여 DESC; --별칭사용
+
+SELECT employee_id, first_name, salary
+FROM employees
+ORDER BY 3 DESC; --별칭사용 DB에선 index 1부터시작하여, 1,2,3순//프로그램에선 0부터 0,1,2
+
+SELECT employee_id, first_name, salary
+FROM employees
+ORDER BY job_id DESC; --프로젝션에서 사용하지 않은 컬럼(select절에서 사용하지 않은 컬럼)도 사용가능.
+
+-------------------------------------------------------------------------
+
+--조건에 만족하는 행 추출하기
+--비교연산자 : >, >=,< ,<=, = , <>
+--논리연산자 : AND, OR, NOT
+
+--급여가 10000보다 많은 사원의 사번, 이름, 급여, 부서번호를 출력하시오
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where salary > 10000 AND department_id = 80;
+
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where salary > 10000 OR department_id = 80;
+
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where department_id IN (80,50);
+
+--부서번호가 80번도 아니고 50번도 아닌 부서의 사번, 이름 급여 부서번호 추출
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where department_id <> 80 AND department_id <> 50;
+
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where NOT(department_id =80 OR department_id = 50);
+
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where department_id NOT IN (80,50);
+
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+where salary BETWEEN 10000 AND 30000
+AND department_id IN (80, 50);
+
+--이름이 kelly인 사원의 사번, 이름을 출력하시오. 단 대소문자는 구분안함
+--대문자로 변환함수 : UPPER()/소문자로 변환함수 : LOWER()
+SELECT employee_id, first_name, salary, department_id
+FROM employees
+Where LOWER(first_name) = 'kelly';
+
+--이름이 'K'로 시작하는 사원의 사번, 이름을 출력하시오.
+--LIKE연산자
+	%패턴은 0이상의 문자와 일치
+	_ 패턴은 1개의 문자와 일치
+SELECT employee_id, first_name
+FROM employees
+where first_name LIKE 'K%';   //--'K', 'Ka', 'Kabc'
+
+--이름이 'K'로 시작하고 글자수가 5개인 사원의 사번, 이름 출력
+SELECT employee_id, first_name
+FROM employees
+where first_name LIKE 'K____';    //kabcd, k가나다라, K1234
+
+--입사일자가 '05/09/21'인 사원의 사번, 이름, 입사일을 출력
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date = '05/09/21';
+
+--입사 년도가 '05' 사원, 이름 입사일을 출력
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date LIKE '05%';
+
+
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date >= '05/01/01' AND hire_date <= '05/12/31';
+
+
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date BETWEEN '05/01/01' AND hire_date  '05/12/31';
+
+
+--입사년월이 '05/09'
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date LIKE '05/09%';
+
+SELECT employee_id, first_name, HIRE_DATE
+FROM employees
+Where hire_date = '05' AND hire_date ='__/09%';
+
+--NULL관련 연산자 IS NULL/ IS NOT NULL
+수당을 받지 않는 사원의 사번, 이름, 급여, 수당률을 출력
+SELECT employee_id, first_name, salary, commission_pct
+FROM employees
+Where commission_pct IS NULL;
+------------------------------------------------------------------------
+--집합연산자 : 합집합, 교집합, 차집합
+--101번 사원의 현재 직무를 출력하시오
+SELECT job_id
+FROM employees
+WHERE employee_id =101;
+
+--101번 사원의 이전직무를 출력하시오(AC_ACCOUNT, AC_MGR)
+SELECT job_id
+FROM job_history
+WHERE employee_id =101;
+
+--101번 사원의 이전직무와 현재직무를 출력하시오
+SELECT job_id, null
+FROM employees
+WHERE employee_id =101
+UNION
+SELECT job_id, start_date
+FROM job_history
+WHERE employee_id =101;
+
+--176번 사원의 이전직무와 현재직무, 직무시작일을 출력하시오(SA_REP -> SA_MAN-> SA_REP)
+--UNION(중복행제거)
+SELECT job_id, null
+FROM employees
+WHERE employee_id =176
+UNION
+SELECT job_id, start_date
+FROM job_history
+WHERE employee_id =176;
+
+--176번 사원의 이전직무와 현재직무 출력
+--UNION ALL(중복행제거 안함) --(SA_REP, SA_MAN, SA_REP)
+SELECT job_id,
+FROM employees
+WHERE employee_id =176
+UNION
+SELECT job_id
+FROM job_history
+WHERE employee_id =176;
+
+SELECT job_id,
+FROM employees
+WHERE employee_id =176
+UNION ALL
+SELECT job_id
+FROM job_history
+WHERE employee_id =176;
+
+--교집합 : INTERSECT
+SELECT job_id,
+FROM employees
+WHERE employee_id =176
+INTERSECT
+SELECT job_id
+FROM job_history
+WHERE employee_id =176;
+
+--현재 직무와 중복되지 않는 이전직무만 출력하시오
+--차집합 : minus //job_history - employees (SA_MAN)
+SELECT job_id 이전직무
+FROM job_history
+WHERE employee_id =176
+MINUS
+SELECT job_id 현재직무
+FROM employees
+WHERE employee_id =176;
+
+--집합연산자 정렬
+176번 사번의 이전직무와 현재직무, 직무시작일를 모두 출력하시오
+SELECT job_id 이전직무, start_date
+FROM job_history
+WHERE employee_id =176
+UNION
+SELECT job_id 현재직무, null
+FROM employees
+WHERE employee_id =176
+ORDER BY start_date ASC;
+
+
+**오라클 자료형
+ - 문자형
+	CHAR : 고정길이를 갖는다  ex) 자리수 지정안하면 4000바이트로 메모리차지
+				  주민번호/ 우편번호처럼 고정된 자리수를 갖는 데이터의 타입으로 쓰인다.
+	VARCHAR2 : 가변길이를 갖는다 ex) 자리수 지정 안하면 오류!
+					이름처럼 가변 자리수를 갖는 데이터의 타입으로 쓰인다.
+- 숫자형
+	NUMBER(전체자리수, 소수점이하지리수)
+
+-날짜형 /자리수 지정 없음
+	DATE
+	TIMESTAMP  
+--------------------------------------------
+**오라클 함수(p.130)
+
+-문자처리함수 : UPPER(), LOWER(), INITCAP(), LENGTH()
+		SUBSTR(),
+		INSTR()
+		REPLACE()
+		LPAD(), RPAD()
+		TRIM()
+SELECT LENGTH('한글')  -- LENGTHB('한글') 바이트전환, 한글은 2byte //
+FROM dual;
+
+SELECT SUBSTR('hellojava', 2,4) -- ello출력
+FROM dual;
+
+SELECT INSTR('hellojava', 'l') -- 결과:3 // 찾지 못할경우 return 0을 반환
+	,INSTR('hellojava', 'l' , 4)  --4
+	,INSTR('hellojava', 'l' , 1, 2)  --4
+FROM dual;
+
+SELECT REPLACE('hellojava', 'l','t') -- hettojava 결과값
+FROM dual;
+
+SELECT LPAD('hellojava', 15, '^') --^^^^^^hellojava
+	,RPAD('hellojava', 15, '^') --hellojava^^^^^^
+FROM dual;
+
+SELECT LPAD('hellojava', 12, '^')
+	,RPAD('hellojava', 12, '^')
+	,RPAD(LPAD('hellojava', 12, '^'),15,'^')
+FROM dual;
+
+SELECT '앞' || TRIM(' ABC ') ||'뒤',    --앞ABC뒤
+	'앞' || TRIM(LEADING FROM' ABC ') ||'뒤',   --앞ABC 뒤
+	'앞' || TRIM(TRAILING FROM' ABC ') ||'뒤'    --앞 ABC뒤
+FROM dual;
+
+SELECT '앞' || TRIM('^' FROM '^^ABC^^') ||'뒤',    --특정문자 제거 //BOTH '^' FROM~~)
+	'앞' || TRIM(LEADING '^' FROM '^^ABC^^') ||'뒤',   --
+	'앞' || TRIM(TRAILING '^' FROM '^^ABC^^') ||'뒤'    --
+FROM dual;
+
+-숫자처리함수
+ROUND(), TRUNC(), CEIL(), FLOOR(), MOD()
+SELECT ROUND(45.923) --46
+	,ROUND(45.923, 1) --45.9
+	,ROUND(45.923, -1) --50
+FROM dual;
+
+SELECT TRUNC(45.923) --46
+	,TRUNC(45.923, 1) --45.9
+	,TRUNC(45.923, -1) --50
+FROM dual;
+
+SELECT CEIL(45.923), FLOOR(45.923)
+FROM dual;
+
+
+-날짜처리함수
+SYSDATE, STSTIMESTAMP,
+ADD_MONTHS() --월
+NEXT_DAY() -- 요일
+LAST_DAY() -- 월의 마지막 일자
+
+SELECT SYSDATE,
+	SYSTIMESTAMP
+FROM dual;
+
+SELECT ADD_MONTHS(SYSDATE, 1), --한달후
+	ADD_MONTHS(SYSDATE, -1) --한달전
+FROM dual;
+
+SELECT MONTHS_BETWEEN(ADD_MONTHS(SYSDATE,10), SYSDATE),
+	MONTHS_BETWEEN('21/09/07',SYSDATE)
+FROM dual;
+
+SELECT NEXT_DAY(SYSDATE, '일'), -- 돌아오는 일요일의 날짜값
+	NEXT_DAY('21/05/01', '월'), --5월의 첫 월요일의 날짜값
+	LAST_DAY(SYSDATE), --이달의 마지막날짜
+	LAST_DAY('21/02/01') --2월의 마지막 달
+FROM dual;
+
+날짜값 + 숫자 : ex) SYSDATE +1 =>내일
+날짜값 - 숫자	SYSDATE -1 =>어제
+날짜값 - 날짜값     (SYSDATE +2) - (SYSDATE -1) => 기간(어제~모레)
+
+문자값 '21/05/27'을 날짜자료형과 비교할 경우 문자형이 날짜형으로 자동형변환됨
+ex) SYSDATE > '21/05/27'
+ex) SELECT FROME employees WHERE hire_date LIKE '05%';
+
+
+-변환함수
+숫자형 ---TO_CHAR() ---> 문자형 <--- TO_CHAR() ---- 날짜형
+        <-- TO_NUMBER() ---               TO_DATE() --->
+--날짜를 문자로 숫자로
+SELECT SYSDATE, TO_CHAR(SYSDATE, 'YYYY-MM-DD DAY HH:MI:SS') --현재 날짜와 현재 시간분초까지 문자형으로 바뀌어서 나옴
+FROM dual;
+
+--숫자를 문자를 변환
+SELECT TO_CHAR(123456789.567, 'L9,999,999,999,999.0000'), --    ￦123,456,789.5670
+	TO_CHAR(123456789.567, '9,999.0') --######
+FROM dual;
+
+--문자를 숫자로 변환
+SELECT TO_NUMBER('￦123,456,789.5670', 'L9,999,999,999,999.0000')
+FROM dual;
+
+--문자를 날짜로 변환
+SELECT TO_DATE('2021-01-01','YYYY-MM-DD' ) --오류발생
+FROM dual;
+
+SELECT TO_DATE('22/01/01', 'YY/MM/DD') - TO_DATE('21/01/01') --날짜 연산
+FROM dual;
+
+--올해 크리스마스의 요일을 출력하시오.
+SELECT TO_CHAR(TO_DATE('21/12/25'),'DAY')
+FROM dual;
+
+--RR과 YY의 차이
+SELECT TO_CHAR(TO_DATE('991231', 'YYMMDD'), 'DAY'), --2000년대를 가르킴.
+	TO_CHAR(TO_DATE('991231', 'RRMMDD'), 'DAY') --지나간 세기 1999년도를 가르킴
+FROM dual;
+
+-------------------------------------------------------------------------------------------------------
+NULL관련 함수
+NVL() 
+NVL2()
+--부서없는 사원을 출력하시오 (--178번 사원)
+SELECT *
+FROM employees
+WHERE department_id IS NULL;
+
+--부서없는 사원은 부서없음으로 출력, 그렇지 않으면 부서번호를 출력하시오.
+SELECT employee_id, department_id, NVL(TO_CHAR(department_id),'부서없음') --두개 인자의 자료형이 일치해야함
+FROM employees;
+
+--부서없는 사원은 부서없음으로 출력, 그렇지 않으면 부서있음를 출력하시오.
+SELECT employee_id, department_id, NVL2(TO_CHAR(department_id), '부서없음' , '부서있음')
+FROM employees;
+-------------------------------------------------------------------------------------------------------
+--DECODE함수 : 조건문처리가능 <,> 비교연산처리가 불편하다.
+SELECT employee_id,
+	job_id,
+	DECODE(job_id, 'AD_PRES', 'CEO', 
+			'AD_VP', '임원',
+			'EMP')
+FROM employees;
+
+SELECT employee_id,
+	DECODE(manager_id, null, '관리자없음', '관리자있음')
+FROM employees;
+
+--CASE식 : 조건문처리가능, 비교연산처리가 용이하다.
+--급여가 10000보다 큰 경우 'A'
+--	5000보다 큰 경우 'B'
+-- 	그 외는 'C'
+SELECT employee_id,
+	salary,
+	CASE WHEN salary > 10000 THEN 'A'
+		 WHEN salary > 5000 THEN 'B'
+		ELSE 'C'
+	END
+FROM emploees;
+
+SELECT employee_id,
+	CASE WHEN manager_id IS NULL THEN '관리자 없음'
+	ELSE '관리자 있음'
+	END
+FROM employees;
+
