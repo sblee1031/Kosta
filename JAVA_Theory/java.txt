@@ -1,0 +1,301 @@
+chapter_1  variable(변수)
+	식별자 =>예약어, 특수문자, 숫자 등은 변수이름으로 쓸수 없다
+		단, 특수문자중에(_$)은 사용가능 그리고 숫자는 첫번쨰만 아니면 사용가능
+		변수나 메서드는 이름들이 중복되면 안됨.
+
+            variable(변수) =>메모리주소에 일정한 타입에 따라 공간을 할당해 주는것
+			선언된 변수에는 valu를 수시로 변경가능함.
+			_
+		선언식 =>int c;  초기식 int c = 100;
+		type(자료형)
+			이름 name
+			나이 age
+			short =>max2^(16-1)-1
+			byte => max2^(8-1)-1
+			char =>
+			int
+			long
+			flaot
+			double
+			boolean
+			
+		
+
+		자료형의 분리
+		정수형 byte, short, int(기본) , long
+		실수형 float, double(기본)
+		문자형 char(글자한자를의미' '=>부호가 없다)
+		블린형 boolean(true false)
+		System.out.printf("문자열 %s\n 문자%c\n 정수형%d\n",(String)name,(char)c,(int)300);
+		System.out.print("helloworld"); 개행처리가 안됨(하고픔 "\n")
+		System.out.println("helloworld"); 자동으로 개행처리가 됨.
+		기본 8개 기본타입
+		value 형식
+		오버풀로우 => max+1 min => byte max 127+1 -> - 128
+			       min-1 max => byte max -128-1 ->127
+
+
+		참조타입 String 문자열(" "), 배열, new 연산자
+			        _주소(참조)형식
+				\n => 프린트이후 줄 바꿈 
+				\t => 자판 tab키의 기능
+				\s => space 기능
+chapter_1 연산자
+		논리연산자 &&=> and 연산자, ||=> or 연산자
+			||	=>좌항 ||우항 ->좌항이 true면 우항 안읽는다 반대면 읽는다.
+			&&	=>좌항 &&우항 -> 좌항이 false면 우항 안읽는다 반대면 읽는다.
+
+		비교연산자 => == <=  >=  < > !=
+		대입연산자 =>  =
+		산술연산자 => + - * / %(나머지연산자)
+		삼항연산주 =>?:
+		증감연산자 ++, --
+
+		단항연산자 ++ --전위, 후위
+		이항연산자 
+		삼항연산 ?:
+		최우선순위 ( )3+6)*9
+		우선순위 높은방향에서 낮은 방향으로 ->단항=>이항=>삼항
+
+chapter_2 제어문 => 클래스 바로 안에서 구현 불가능, 메서드 안에서만 가능함.
+		(참고 => 메서드(함수) 선언은 클래스 바로 안에서만 가능함, 메서드안에선 불가는)
+
+	 조건문 : if switch
+
+		조건문 : if 
+		if, if else, if eles if , else
+		형식 if( 조건식(true 또는 false) ){ 구현 내용}
+		중첩조건문
+		
+
+		switch문 =>제약조건이 있다.
+			return =>메서드 자체를 나간다
+			break =>조건의 블럭을 나간다
+			continue => 해당 될 경우에는 블럭을 나가지 않고, 위로 보냄.
+
+		변수에는 영역이 있음
+		전역변수 => 클래스 바로 안에서 선언하면 됩니다.
+		지역변수 => 메서드 안에서 선언하면 됩니다
+		매개변수 => 메서드의 파라미터를 설정하는 것
+		(오버로드)참고 => 메서드()소괄호 안에서 선어 타입 다르면 메서드 이름이 같아도 된다.
+				매개변수의 갯수 다르면 메서드 이름이 같아도 된다.
+		(오버라이더) => 상속 추상화 인터페이스(무모 자식)
+
+	반복문: for문  while문 foreach문
+
+		for문 =>for(초기식  ;  조건식 ;   증감식  ){ 구현  }
+		for문 =>for(int i = 0; i<0; i++){구현할 내용}
+		중첩반복문
+
+		while문 => max값을 알수 없을때 주로 많이 사용함.
+			while(조건식){
+				구현할 내용;
+				조건식이 항상 true면 이 안에서 break를 사용하여 빠져나감}
+				}
+
+			do { 
+				System.out.println("와일문 나왔습니다.");
+			} while(fase);
+
+		foreach문 사용 예=>
+				for(type i : 가변배열){
+					
+
+chapter_3 배열 (array) => 고정배열=> 같은 타입의 변수들의 집합 (참조타임 => heap 공간에 할당 받는다)
+			정의 => 같은 변수들의 모임
+			타입 [] 배열이름 = new 타입[size]; => 8타입도 가능함/ 참조타입 가능함.
+			int = 30;
+			int[] array = new int[c]; => array.length = size; index의 마지막값은 length-1;
+			1차배열=>array => 종류가 같은 변수들의 영역을 할당해준 메모리 주소를 받는다.
+			1차배열 => array[index] => value를 저장할 수 있는 공간
+			int[] array = {100,200,300};
+			int[] array = null;
+			array = new int[]{100,200,300};
+			array[0] = 100;
+
+			int[] array = new int[10]; => array[0]~array[9]
+			int[][] array2 = null;
+			array2 => 주소를 담는 주소.
+			int[][] array2 = new int[3][];
+			array2 [0] = new int[3];
+			array2 [1] = new int [3];
+			array2 [2] = new int [3];
+			array2 [0][0] = 100; array2[0][1] = 100; array2[0][2] = 100;
+			array2 [1][0] = 100; array2[1][1] = 100; array2[1][2] = 100;
+			array2 [2][0] = 100; array2[2][1] = 100; array2[2][2] = 100;
+			int[][] array3 = {{{100,200,300},{100,200,300},{100,200,300}},{100,200,300},{100,200,300}}
+			
+
+			String 배열입니다.
+				내재함수 : 
+					String == String =>주소 비교(기본타입은 value 비교)
+					class == calss
+					boolean = String.equals("helloworld") => 전체단어value 비교
+					boolean = String.contains("hell"); =>같은 부분단어가 있는지 비교
+					char c = String.charAt(index) ~String.length-1; =>index에 따라 단어 불러옴
+					String[] sa = String.split(";");  =>따옴표 안에 기호로 배열 단위로 나눔.
+					String.trim(); => 처음과 끝 부분
+					String.replace(""," "); => 중간 빈 문자열을 없애주는것
+					int i = Interger.parseInt(String);
+					int i = String.indexOf("=");
+	
+			
+chapter_4 Collections =>가변배열
+		정의=> 길이가 정한 이후에도 조절이 가능함.
+
+		list=>
+			ArrayList=> 중복허용
+				ArrayList.add(type, item);
+				ArrayList.remove();
+				ArrayList.size();
+				ArrayList.add(type, item);
+				ArrayList<int[][]>
+				ArrayList.add(type new int[][]{{},{}});
+				ArrayList.clear();
+				ArrayList.equals(list2);	=>전체비교
+				ArrayList.contains(200);	=>부분비교
+				ArrayList.set(0,400); => update 수정
+
+			LInkedList => 중복허용
+				LInkedList.add(type, item);
+				LInkedList.remove();
+				LInkedListt.size();
+
+		set 	=> 중복허용안됨
+				hashSet=> 순서가 없다 index가 없다 foreach
+				TreeSet=> 순서가 있다
+				TreeSet<A>=> 이경우 정열 기준을 마련해줌
+				class A implements Comparable<A>
+					public int compareTo(A o){
+							o.변수, this.변수 비교
+						if문으로 정열을 구함}
+				무명클래스 사용 예 =>함수
+					new Comparator<A>(){
+					@Override
+					public int compare(A o1 A o2) {
+						return o1.count - o2.count;
+					}
+				}
+				람다함수의 파라미터로 아래 코드를 넣음(이자리에 코드를 넣음)
+					(x,y)-> {
+						return x.count - y.count;
+						}
+
+		map 	=> 
+			HashMap<k,v> map = new HashMap<K,V> 0;
+				map.put(k,v);
+				map.keyset();
+				map.values();
+
+
+
+chapter_5 class		정의=>분석설계=>기획서=>설계도=>완선=>와꾸
+			변수와 메서드들로 구성되고, 또는 클래스도 추가할 수 있다.
+			생성자(constructor) => 기본 생성자는 자동호출
+					커스텀 생성자가 있으면 자동호출 안됨.
+					커스텀 생성자의 갯수는 파라미터의 갯수 또는 타입에 따라
+					여러개 만들 수 있다.
+					생성자 이름은 항상 클래스 이름하고 일치해야 한다.
+					생성자는 메서드의 형식과 같으나 타입과 void 키워드가 없다.
+			A a = new A(); => a는 인스텐스 또는 객체
+
+
+			접근 제어자
+			보안이 강한 순으로
+					class안   같은패키지 = 자식클래스 = 전체
+			private		o	x		x	x
+			default		o	o		x	x
+			protected	o	o		o	x
+			public		o	o		o	o
+				자식클래스는 직접 자신이 상속을 받은 경우를 뜻함
+
+			의존객체		=> 자신의 객체를 생성할 때 내가 필요한 객체를 생성하는것
+
+			Model View Controller=>jsp php asp jsp spring
+			//dao(Data Access Object) 데이터베이스에 연결해주는 객체
+			//dto(Data Transfer Object) 데이터들을 클래스에 맞게 변환한것
+
+			
+
+chapter_5_1 상속 인처페이스 추상화
+
+		상속		=> 상위 부모(슈퍼) 조상 => 필드나 메서드 사용가능
+		인터페이스	=> 헤드 또는 선언만 존재하고 몸통이나 구현은 하위에서 함.
+		추상화		=> 불완전한 클래스 그래서 하위 클래스에서 그 부분을 완성함
+		다형성		=> 인터페이스나 추상화의 클래스로 하위 클래스를 받을 수 있다
+			=> 상속 중첩상속 불가
+			     인터페이스도 중첩구현 불가
+			     추상화를 통해 가능
+
+
+chapter_6 io
+		tyr catch문
+			try=> 블럭 안에서 문제가 없으면 try문 나가고
+				문제가 발생하면 catch 문으로 넘김
+			catch	=>예외처리로 메세지를 보여줌
+			finally 	=>정상처리나 문제발생이나 매번 호출.
+
+			프로그램 프로세서 실행을 정상으로 처리해줌.
+
+			Flie 클래스 (객체) 만들어 사용 함.
+				경로와 파일 포멧을 파라미터로 설정함.
+			Filewriter 클래스(객체) 선로 전송을 담당함.
+			BuffedWriter 클래스(객체) 맵핑하여 줌. 그래서 보호역할.
+
+			
+			
+			스트림이란?
+					스트림이란 배열이나 문자열 같든 데이터 컬렉션을 말하며, 자료를 입출력하기 위하여 사용하는 것이다. 
+					프로그램과 입출력 장치 사이에서 입출력 자료들을 중계하는 역할을 담당한다.  
+					즉, 입출력 과정에서 데이터들이 자유롭게 움직일 수 있도록 중간 다리 역할을 한다고 생각하면 편할 것 같아요.
+
+					1.입출력 데이터를 입출력 순서에 의해서 순차적으로 처리되는 데이터 열
+					2.데이터를 이동시킬 수 있는 다리
+					3.전송되어야할 크기만큼 바이트들이 모여 만들어진 통로
+					4.통신을 목적으로한 바이트 단위의 집합
+
+			버퍼란?
+					버퍼는 기본적으로 입출력 전송 속도차이에 대한 성능을 보완하기 위해 사용합니다. 
+					입력속도에 비해 출력속도가 느린경우 데이터를 임시 저장하는 공간을 말하며, 임시저장장치라고도 합니다.
+
+					예를들어 사용자는 1초에 100개의 데이터, 프로그램은 1초에 5개의 데이터를 처리 할 수있다고 가정해봅시다. 
+					프로그램에서 처리를 진행하는 동안 입력장치를 통해 들어오는 데이터는 대기를 해야하는 상황이 됩니다. 
+					이러한 상황을 방지하기 위해 입력받은 데이터를 버퍼라는 임시공간에 저장해두고 
+					프로그램에서 처리할 수 있는 상황이 혹은 버퍼가 꽉차게 되거나 개행문자가 입력되게 되면 버퍼에 저장된 데이터를 한 번에 전송하게 됩니다.
+							스트림stream
+					키보드 ---------------------------------> 프로그램	
+						키보드 입력이 키를 누르는 즉시 전달
+
+					키보드 ------------버퍼(buffer)-----------> 프로그램
+				              키보드 입력이 있을 때마다 한 문자씩 버퍼로 전송함
+				              버퍼가 가득차거나 개행문자가 나타나면 한 번에 전송함
+
+					String         :  문자열 연산이 적고 멀티쓰레드 환경일 경우
+					StringBuffer   :  문자열 연산이 많고 멀티쓰레드 환경일 경우
+					StringBuilder  :  문자열 연산이 많고 단일쓰레드이거나 동기화를 고려하지 않아도
+
+					Thread => 프로세스 안에서 자동으로 생성
+					Thread => 실행순서 생성자로 생성->start()->run()->sleep()->wating
+
+
+
+
+chapter_6_1 swing
+		=>gui
+		=>전자계산기
+
+
+chapter_6_2 project 수행
+
+chapter_7 sql
+chapter_8 html css
+chapter_9 jsp
+chapter_10 svn git
+chapter_11 jpa
+chapter_11 mybatis
+chapter_12 spring
+chapter_13 test 및 builder (aws)
+
+
+
+
