@@ -1,0 +1,182 @@
+--사원의 사번, 이름, 부서번호, 부서명을 출력하시오.
+SELECT employee_id, first_name, department_id, department_name
+FROM employees, departments;
+SELECT employee_id, first_name, employees.department_id, department_name
+FROM employees, departments
+where employees.department_id = departments.DEPARTMENT_ID;
+
+--표준화된ANSI조인
+--JOIN ON
+SELECT employee_id, first_name, e.department_id, department_name
+FROM employees e JOIN departments d ON (e.department_id = d.DEPARTMENT_ID);
+
+--JOIN USING [조인조건용 컬러명이 동일한 경우]
+--주의 테이블명.  또는 테이블 별칭명. 사용불가
+SELECT employee_id, first_name,
+	department_id, department_name
+FROM employees e JOIN departments d USING(department_id);
+
+--NATURAL JOIN [조인조건용 컬럼명이 동일한 경우 자동 조건설정됨]
+SELECT employee_id, first_name,
+	department_id, department_name
+FROM employees e NATURAL JOIN departments;
+
+위의 NATURAL JOIN은 아래 ON과 같은 효과가 남
+SELECT employee_id, first_name,
+	e.department_id, d.department_name
+FROM employees e JOIN departments d ON (e.department_id = d.DEPARTMENT_ID AND e.manager_id = d.manager_id);
+--------------------------------------------------------------------------------
+--사원사번, 이름, 부서번호, 부서명, 직무명(job_title)을 출력하시오
+SELECT employee_id, first_name,
+	e.department_id, department_name,
+	job_title
+FROM employees e JOIN departments d ON ( e.department_id = d.department_id)
+		JOIN jobs j ON (e.job_id = j.job_id);
+
+--사원 사번, 이름, 부서번호, 부서명, 부서가 속한 도시명(city)을 출력하시오
+SELECT employee_id, first_name,
+	e.department_id, department_name,
+	city
+FROM employees e
+JOIN departments d ON ( e.department_id = d.department_id)
+JOIN locations l ON (d.location_id = l.location_id);
+
+--사원 사번, 이름, 부서번호, 부서명, 부서가 속한 도시명(city)을 출력하시오
+--'s'를 포함한 부서중 'Seattle' 도시에 속한 사원들만 출력한다.
+SELECT employee_id, first_name,
+	e.department_id, department_name,
+	city
+FROM employees e
+JOIN departments d ON ( e.department_id = d.department_id)
+JOIN locations l ON (d.location_id = l.location_id)
+where instr(department_name, 's') > 0
+--WHERE LOWER(department_name) LIKE '%s%'
+AND city = 'Seattle';
+
+--부서번호, 부서명, 부서가 속한 도시명(city), 국가명(country_name)을 출력하시오.
+SELECT department_id, department_name,
+city, country_name
+FROM departments d JOIN location l ON (d.location_id = l.location_id)
+JOIN contries c ON (l.country_id = c.country_id);
+---------------------------------------------------------------------------------------
+--OUTER JOIN
+  1)ANSI 표준 방식
+  -LEFT OUTER JOIN
+  -RIGHT OUTER JOIN
+  
+2) 오라클 방식:(+) --기준이 되지 않는 쪽에 더하기 기호를 사용
+
+ANSI표준방식
+--모든사원의 사번, 이름, 부서번호, 부서명을 출력하시오. 부사가 없는 사원도 출력한다
+SELECT employee_id, first_name,
+	e.department_id, department_name
+FROME employees e JOIN departments d ON (e.department_id = d.department_id)
+
+--부서
+--지역
+--모든 지역의 지역ID, 도시명, 부서번호, 부서명을 출력하시오. 부서가 없는 지역도 모두 출력한다.
+ex)	AA	BB	null	null
+	CC	DD	1	F
+SELECT l.location_id, city,
+	department_id, department_name
+FROM departments d RIGHT JOIN locations l ON (d.location_id = l.location_id);
+
+--사원의 사번, 이름, 부서명, 직무명을 출력하시ㅗ. 단 부서가 없는 사원도 출력한다 --107건
+SELECT employee_id, first_name,
+	e.department_id, department_name,
+	job_title
+FROM employees e LEFT OUTER JOIN departments d ON (e.department_id = d.department_id)
+			JOIN jobs j ON (e.job_id = j.job_id);
+
+3. FULL OUTER JOIN: 양쪽테이블의 자료를 모두 출력한다 (ANSI)
+CREATE TABLE a (a1 number, b1 char(1));
+INSERT INTO a VALUES (1, 'A');
+INSERT INTO a VALUES (2, 'B');
+INSERT INTO a VALUES (3, null);
+
+CREATE TABLE b (b1 char(1), a1 number);
+INSERT INTO b VALUES ('A', 1);
+INSERT INTO b VALUES ('B', null);
+INSERT INTO b VALUES ('C', 2);
+commit;
+
+SELECT * 
+FROM a JOIN b ON a.b1 = b.b1;
+
+SELECT * 
+FROM a LEFT JOIN b ON a.b1 = b.b1;
+
+SELECT * 
+FROM a RIGHT JOIN b ON a.b1 = b.b1;
+
+SELECT * 
+FROM a FULL JOIN b ON a.b1 = b.b1;
+-----------------------------------------------------------
+4. SELF JOIN : 자기참조관계에서 사용
+--사원의 사번과 이름, 사원의 관리자번호, 관리자 이름을 출력하시오
+SELECT e.employee_id 사번, e.first_name 사원이름
+	m.employee_id 관리자번호, m.first_name 관리자이름
+FROM employees e JOIN employees m ON (e.manager_id = m.employee_id);
+
+--사원의 부서와 사원의 관리자 부서가 서로 다른 사원들의 사원의 사번과 이름, 부서번호, 부서명
+사원의 관리자번호, 관리자 이름, 부서번호, 부서명을 출력하시오
+SELECT e.employee_id 사번 , e.first_name 사원이름, e.department_id 사원부서번호, d.department_name 사원부서명,
+           m.employee_id 관리자번호, m.first_name 관리자이름, 
+           m.department_id 관리자부서번호,  md.department_name 관리자부서명
+FROM employees  e  JOIN employees m ON ( e.manager_id = m.employee_id )
+                             JOIN departments d ON ( e.department_id = d.department_id)
+                             JOIN departments md ON (m.department_id = md.department_id)
+WHERE  e.department_id <> m.department_id;
+---------------------------------------------------------------------------------------------
+
+--subquery : 부분질의, 순차질의
+--'IT'부서에 속한 사원 사번, 이름, 급여를 출력하시오
+SELECT
+FROM employees e JOIN depqrtments d ON (e.department_id = d.department_id)
+WHERE department_name = 'IT';
+
+--subquery의 종류
+--위치에 따른 구분
+	SubQuery : WHERE절
+	INLINE View : FROM절
+	Scalar Query : SELECT절
+
+--서브쿼리의 결과행수에 따른 구분
+	multi Row SubQuery : 메인쿼리의 WHERE절에서 비교연산자 사용불가
+				IN, ALL, ANY
+	single Row SubQuery : 메인쿼리의 WHERE절에서 비교 연산자(<,>,>=,<=,<>) 사용가능
+
+--사원의 사번, 급여를 출력하시오. 직무명에 대소문자구분 없이 manager가 포함된 사원들만 출력한다
+--1)직무명에 manager가 포함된 job_id를 검색한다 
+	SELECT job_id FROM jobs WHERE LOWER(job_title) LIKE '%manager%'
+--2) 1)과 같은 job_id를 같는 사원의 사번, 급여를 검색한다.
+	SELECT employee_id, salary
+	FROM employees
+	WHERE job_id = (SELECT job_id FROM jobs WHERE LOWER(job_ FROM jobs WHERE LOWER(job_title) LIKE '%manager%');
+
+
+--subQuery
+SELECT employee_id, department_id
+FROM employees
+WHERE department_id > ALL (10,20,30); --서브쿼리 결과중 최대값보다 크다
+
+SELECT employee_id, department_id
+FROM employees
+WHERE department_id < ALL (10,20,30); --서브쿼리 결과중 최대값보다 크다
+
+SELECT employee_id, department_id
+FROM employees
+WHERE department_id > ANY(10,20,30); --서브쿼리 결과중 최대값보다 크다
+
+SELECT employee_id, department_id
+FROM employees
+WHERE department_id < ANY (10,20,30); --서브쿼리 결과중 최대값보다 크다
+
+SELECT employee_id, department_id
+FROM employees
+WHERE department_id IN (10,20,NULL,30); --null해당 사원 못찾음
+
+SELECT employee_id, department_id
+FROM employees
+WHERE NVL(department_id, 0) IN (10, 20, 0, 30);
+				(SELECT NVL(department_id,0) FROM ~)
