@@ -1,0 +1,131 @@
+객체종류
+ - 테이블
+ - 뷰
+ - 인덱스
+ - 시퀀스
+
+--객체생성, 변경, 삭제
+CREATE TABLE
+ALTER TABLE
+DROP TABLE
+
+테이블 객체생성
+--고객이 상품을 주문한다
+--고객ID, 고객비번, 상품번호, 상품이름, 주문수량, 주문일자
+--[고객]
+고객ID 고객비번
+
+--[상품]
+상품번호 상품이름
+
+--[주문기본]
+주문번호 고객ID 주문일자
+
+--[주문상세]
+주문번호 상품번호 주문수량;
+-----------------------------------------------------------
+--고객테이블 생성
+CREATE TABLE customer(
+	id VARCHAR2(10),
+	pwd VARCHAR2(10),
+	name VARCHAR2(10)
+);
+CREATE TABLE product(
+    prod_no VARCHAR2(10),
+    prod_name VARCHAR2(30),
+    prod_price NUMBER(8),
+    prod_mfg_dt DATE
+);
+--(우편번호용 식별자컬럼인 건물번호)컬럼 추가
+ALTER TABLE customer
+ADD buildingno CHAR(25);
+
+--고객테이블 제거
+DROP TABLE customer;
+--고객 테이블에 행추가
+INSERT INTO customer (id, pwd, name, buildingno) values ('id1','p1','n1',NULL);
+INSERT INTO customer (id, pwd, name, buildingno) values ('id2','p2','n2','');
+INSERT INTO customer (id, pwd, name) values ('id3','p3','n3'); --buildingno는 자동 null이 삽입됨
+INSERT INTO customer values ('id4','p4','n4','');
+
+Select * from customer;
+--옳지 않은 데이트를 고객테이블에 추가
+INSERT INTO customer(id,pwd,name) values('id1','p4','n4'); --중복된 아이디 입력
+
+--옳지 않은 데이터 고객테이블에서 삭제
+DELETE FROM customer WHERE id = 'id1';
+DELETE FROM customer;
+
+--이상치, 결측치는 추가되지 않도록 테이블을 생성해야 한다.
+--제약조건을 설정하여 테이블을 생성해야 한다.
+--제약조건 종류 : NOT NULL, UNIQUE, PRIMARY KEY, CHECK, FOREIGN KEY
+--NOT NULL 제약조건은 테이블레벨로 설정할 수 없다. 컬럼레벨로만 설정 할 수 있다.
+--테이블 생성시 컬럼레벨 제약조건
+CREATE TABLE t1(
+    a varchar2(10) constraint t1_a_c NOT null,
+    b number(10) constraint t1_b_c primary key);
+
+--테이블레벨 제약조건
+CREATE TABLE t1(
+    a varchar2(10),
+    b number(10),
+     constraint t1_a_c UNIQUE,
+     constraint t1_b_c primary key);
+     
+--이미 테이블이 생성된 경우는 ALTER TABLE로 제약조건을 추가
+--ALTER TABLE customer
+--ADD CONSTRAINT 제약조건명 제약조건종류 제약조건참여컬럼
+
+--고객의 name컬럼에 null값 허용 안함
+ALTER TABLE customer
+ADD CONSTRAINT customer_name_nn NOT NULL(name); -- 테이블레벨로 제약조건추가. NOT NULL은 안됨
+ALTER TABLE customer
+MODIFY name CONSTRAINT customer_name_nn NOT NULL; --컬럼레벨로 제약조건추가
+
+--고객의 id컬럼에 null값 허용안하고 중복허용 안함(PRIMARY KEY : NOT NULL + UNIQUE)
+ALTER TABLE customer
+ADD CONSTRAINT customer_id_pk PRIMARY KEY(id);
+
+--상품의 prod_no컬럼에 null값 허용안하고 중복허용 안함(PRIMARY KEY 제약조건 추가)
+--상품의 prod_name컬럼에 null값 허용안함
+--상품의 prod_price컬럼에 null값 허용안함
+ALTER TABLE product
+MODIFY prod_no CONSTRAINT prod_no_nn NOT NULL;
+ALTER TABLE product
+MODIFY prod_no CONSTRAINT prod_no_pk Primary key;
+ALTER TABLE product
+MODIFY prod_name CONSTRAINT prod_name_nn NOT NULL;
+ALTER TABLE product
+MODIFY prod_price CONSTRAINT prod_price_nn NOT NULL;
+
+--상품의 prod_pice컬럼의 값은 0이상
+ALTER TABLE product
+ADD CONSTRAINT prod_price_ck CHECK (prod_price >=0);
+
+--------------------------------------------------------
+CREATE TABLE order_info(
+    order_no number CONSTRAINT order_info_no_pk PRIMARY KEY,
+    order_id VARCHAR2(10) CONSTRAINT order_info_id_nn NOT NULL,
+    order_dt DATE DEFAULT SYSDATE NOT NULL,
+    CONSTRAINT oder_info_id_fk FOREIGN KEY (order_id) REFERENCES customer(id)
+);
+
+CREATE TABLE order_line(
+    order_no NUMBER, 
+    order_prod_no VARCHAR2(10), 
+    order_quantity number(3) DEFAULT 1,
+    
+    CONSTRAINT order_line_pk PRIMARY KEY (order_no,order_prod_no),
+    
+    CONSTRAINT order_line_no FOREIGN KEY (order_no) REFERENCES order_info(order_no),
+    CONSTRAINT order_prod_no_fk FOREIGN KEY (order_prod_no) REFERENCES product(prod_no)
+);
+CREATE table order_line(
+order_no number,
+order_prod_no VARCHAR(10)--product의 prod_no를 참조해야하니까 자료형과 자릿수가 같아야함
+,order_quantity number default 1 --강제입력안할때 자동들어갈 값을 기본값이라고 함. default뒤에 기본값 설정.
+,CONSTRAINT order_line_pk PRIMARY KEY (order_no, order_prod_no)--복합키로 PK
+,CONSTRAINT order_line_no FOREIGN KEY (order_no) REFERENCES order_info(order_no) --order_no가 주문기본 참조
+,CONSTRAINT order_prod_no_fk FOREIGN KEY (order_prod_no) REFERENCES product(prod_no)); --order_prod_no가 상품 참조
+
+
