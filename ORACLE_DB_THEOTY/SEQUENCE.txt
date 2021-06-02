@@ -1,0 +1,36 @@
+
+--시퀀스생성
+CREATE SEQUENCE seq1;
+
+--시퀀스 일련번호값 얻기
+SELECT seq1.NEXTVAL
+FROM dual;
+SELECT seq1.NEXTVAL
+FROM dual;
+
+--시퀀스 현재일련번호값 확인 (NEXTVAL 사용후에만 사용가능하다)
+SELECT seq1.CURRVAL FROM dual;
+
+--시퀀스생성
+CREATE SEQUENCE seq2
+START WITH 11
+INCREMENT BY 3
+MINVALUE 5
+MAXVALUE 30
+CYCLE
+NOCACHE
+
+--시퀀스 현재일련번호값 확인(NEXTVAL사용후에만 사용가능하다)
+SELECT seq2.CURRVAL FROM dual; --(x)
+
+--시퀀스 일련번호값 얻기
+SELECT seq2.NEXTVAL FROM dual; --11
+SELECT seq2.NEXTVAL FROM dual; --14,17,20, 23
+
+--시퀀스 변경
+ALTER SEQUENCE seq2
+--START WITH 1; --(x)
+--MAXVALUE3 ; --(x)
+
+--시퀀스 제거
+DROP sequence seq2;
