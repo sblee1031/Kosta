@@ -1,0 +1,239 @@
+plsql.sql
+
+--오문정 출력.
+SET SERVEROUTPUT ON
+BEGIN
+	DBMS_OUTPUT.PUT_LINE('오문정');
+END;
+/
+
+--년도 홀수 검증
+DECLARE 
+	year number;
+BEGIN
+	year := 2021;
+	if MOD(year,2) = 1 then
+		DBMS_OUTPUT.PUT_LINE(year ||'년도는 홀수해 입니다.');
+	END IF;
+--년도를 12로 나눈 나머지 값이 0이면 원숭이띠, 1이면 닭, 2: 개, 3:돼지, 4:쥐,
+5:소, 6:호랑이, 7:토끼, 8:용, 9:뱀, 10:말, 11:양
+	if MOD(year, 12) = 0 then
+		DBMS_OUTPUT.PUT_LINE(year ||'원숭이띠 임돠');
+	END IF;
+
+END;
+/
+-- 출생년 도 출력하기
+DECLARE 
+	year number;
+BEGIN
+	year := 1988;
+--년도를 12로 나눈 나머지 값이 0이면 원숭이띠, 1이면 닭, 2: 개, 3:돼지, 4:쥐,
+--5:소, 6:호랑이, 7:토끼, 8:용, 9:뱀, 10:말, 11:양
+	if MOD(year, 12) = 9 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 뱀띠 임돠');
+	ELSIF MOD(year, 12) = 10 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 말띠 임돠');
+	ELSIF MOD(year, 12) = 11 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 양띠 임돠');
+	ELSIF MOD(year, 12) = 0 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 원숭이띠 임돠');
+	ELSIF MOD(year, 12) = 1 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 닭띠 임돠');
+	ELSIF MOD(year, 12) = 2 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 개띠 임돠');
+	ELSIF MOD(year, 12) = 3 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 돼지띠 임돠');
+	ELSIF MOD(year, 12) = 4 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 쥐띠 임돠');
+	ELSIF MOD(year, 12) = 5 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 소띠 임돠');
+	ELSIF MOD(year, 12) = 6 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 호랑이띠 임돠');
+	ELSIF MOD(year, 12) = 7 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 토끼띠 임돠');
+	ELSIF MOD(year, 12) = 8 then
+		DBMS_OUTPUT.PUT_LINE(year ||' 용띠 임돠');
+
+	END IF;
+END;
+/
+
+--VARRAY(variable-size arry)
+DECLARE
+  year number; 
+  type arr1 is varray(12) of varchar2(10);
+  sign_arr arr1 := arr1('원숭이', '닭', '개', '돼지', '쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양');
+  sign_index number;
+  sign varchar2(10);
+BEGIN
+  year := 2021;
+   sign_index := MOD(year, 12);
+   sign := sign_arr(sign_index+1);
+   DBMS_OUTPUT.PUT_LINE(sign);
+END;
+/
+----------------------------------------------
+--커서
+
+DECLARE
+  emp_id employees.employee_id%TYPE;
+  emp_sal employees.salary%TYPE;
+BEGIN
+  SELECT employee_id,  salary INTO emp_id, emp_sal 
+  FROM employees
+  WHERE department_id IS NULL;
+  
+  DBMS_OUTPUT.PUT_LINE('부서없는 사원의 사번:' || emp_id || ', 급여:' || emp_sal);
+  
+  emp_sal := emp_sal * 0.8; --복잡한 계산;
+
+  UPDATE employees
+  SET salary = emp_sal 
+  WHERE  employee_id = emp_id; 
+
+  DBMS_OUTPUT.PUT_LINE('급여 조정');
+
+  SELECT employee_id,  salary INTO emp_id, emp_sal 
+  FROM employees
+  WHERE department_id IS NULL;
+  DBMS_OUTPUT.PUT_LINE('부서없는 사원의 사번:' || emp_id || ', 급여:' || emp_sal);
+  rollback;
+END;
+
+DECLARE
+	emp employees%ROWTYPE;
+BEGIN
+	SELECT * INTO emp
+	FROM employees
+	WHERE department_id IS NULL;
+	DBMS_OUTPUT.PUT_LINE('부서없는 사원의 사번' || emp.employee_id || ', 급여 : ' || emp.salary);
+END;
+
+
+DECLARE
+	emp employees%ROWTYPE;
+	CURSOR c1 IS
+	SELECT * FROM employees;
+BEGIN
+	FOR e IN c1 LOOP
+	DBMS_OUTPUT.PUT_LINE(e.employee_id || '-' || e.salary);
+	END LOOP;
+END;
+
+--------------------------------------------------프로시저
+Procedure
+CREATE OR REPLACE PROCEDURE emp_all_print
+IS
+  emp employees%ROWTYPE; 
+  CURSOR c1 IS
+     SELECT * FROM employees; 
+BEGIN
+   FOR e IN c1 LOOP
+     DBMS_OUTPUT.PUT_LINE(e.employee_id || '-' || e.salary);
+   END LOOP;
+END;
+
+--프로시저 실행
+EXECUTE emp_all_print;
+
+CREATE OR REPLACE FUNCTION zodiac_sign(year number)
+RETURN varchar2
+IS  
+  type arr1 is varray(12) of varchar2(10);
+  sign_arr arr1 := arr1('원숭이', '닭', '개', '돼지', '쥐', '소', '호랑이', '토끼', '용', '뱀', '말', '양');
+  sign_index number;
+  sign varchar2(10);
+BEGIN
+ --year := 2021;
+   sign_index := MOD(year, 12);
+   sign := sign_arr(sign_index+1);
+   RETURN sign;
+END;
+
+
+--함수 실행
+SELECT zodiac_sign(2021)
+FROM dual;
+
+--함수 생성
+CREATE OR REPLACE FUNCTION start_row(page IN number,
+	row IN number)
+return (row-1)*page+1
+END;
+CREATE OR REPLACE FUNCTION end_row(page IN number,
+	row IN number)
+return row*page
+END;
+
+--함수 실행
+SELECT start_row(1,10), end_row(1,10) -- 1, 10
+	,start_row(1,3), end_row(1,3) -- 1, 3
+	,start_row(2,3), end_row(2,3) -- 4, 6
+	,start_row(2,4), end_row(2,4) -- 5, 8
+FROM dual;
+
+----------------------
+--트리거
+CREATE TABLE customer_point(
+	id VARCHAR2(10),
+	score NUMBER(3) DEFAULT 0 NOT NULL,
+	CONSTRAINT customer_point_pk PRIMARY KEY(id),
+	CONSTRAINT customer_point_fk FOREIGN KEY(id) REFERENCES customer(id)
+);
+
+SELECT * FROM customer;
+INSERT INTO customer_point(id) VALUES ('id1');
+INSERT INTO customer_point(id) VALUES ('id2');
+INSERT INTO customer_point(id) VALUES ('id3');
+
+--고객추가시 포인트행도 추가되어야 한다
+--INSERT INTO customer(id,pwd,name) VALUES ('id4', 'p4', 'n4');
+--INSERT INTO customer_point(id) VALUES ('id4');
+
+CREATE OR REPLACE TRIGGER customer_trg
+AFTER 
+INSERT on customer
+FOR EACH ROW
+BEGIN
+	INSERT INTO customer_point(id) VALUES (:NEW.id); --AFTER 이기때문에 NEW // BEFORE 일경우 :OLD라고 적게됨.
+END;
+
+--트리거 테스트
+--고객추가
+INSERT INTO customer(id,pwd,name) VALUES ('id4', 'p4', 'n4');
+
+--트리거 생성
+--주문추가시 포인트1점 누적한다
+--INSERT INTO order_info (order_no, order_id) VALUES (ORDER_SEQ.nextVAL, 'id4');
+--
+create or replace TRIGGER order_trg
+AFTER --(BEFORE)
+INSERT ON order_info
+FOR EACH ROW
+BEGIN
+	UPDATE customer_point
+    set score= score+1
+    WHERE id = :new.order_id;
+END;
+
+--트리거 테스트
+--고객포인트 추가인지 확인
+SELECT * FROM custoemr_point WHERE id = 'id4';
+
+--트리거생성
+--고객행삭제 시 포인트행도 삭제
+CREATE OR REPLACE TRIGGER customer_trg2
+BEFORE DELETE
+ON customer
+FOR EACH ROW
+BEGIN
+	DELETE customer_point WHERE id = :OLD.id;
+END;
+
+--트리거테스트
+--고객삭제
+INSERT INTO customer(id,pwd,name) VALUES ('id5', 'p5', 'n5');
+DELETE customer WHERE id = 'id5';
+--포인트 삭제 확인 
+SELECT * FROM customer_point WHERE id = 'id5'; --0행
