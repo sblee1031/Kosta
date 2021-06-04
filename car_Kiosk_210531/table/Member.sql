@@ -1,0 +1,17 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "Member";
+CREATE TABLE IF NOT EXISTS "Member" (
+	"mem_Num"	INTEGER,
+	"member_Id"	TEXT,
+	"member_Pw"	TEXT,
+	"li_Num"	TEXT,
+	"li_Date"	TEXT,
+	"ph_Num"	TEXT,
+	"Mileage" INTEGER,
+	PRIMARY KEY("mem_Num")
+);
+
+INSERT INTO "Member" VALUES (1,'lee','1234','경기(12)-01-123456-12','20200101','01012345678',15270);
+INSERT INTO "Member" VALUES (2,'kim','1234','경기(12)-02-234567-23','20190301','01023456789', 2410);
+INSERT INTO "Member" VALUES (3,'ahn','1234','경기(12)-03-345678-34','20210301','01034567890', 0);
+COMMIT;

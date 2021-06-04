@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <style>
+        #imgId{
+            margin-top: 10px;
+            padding:10px;
+            display: block; 
+            margin-bottom: 20px;
+        }
+
+    </style>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+  <title>코드의 美</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <img  src="img/main_image.png" id="imgId" width="230px" />
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active mt-3">
+                <a class="nav-link" href="main">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Home Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading mb-2">
+                MANAGEMENT
+            </div>
+
+                      <!-- Nav Item - Tables -->
+           <li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-table"></i> <span>Tables </span></a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">고객 테이블 관리:</h6>
+						<a class="collapse-item" href="membertable">회원 관리</a> <a
+							class="collapse-item" href="customertable">대여 고객 관리</a>
+						<div class="collapse-divider"></div>
+						<h6 class="collapse-header">차 테이블 관리:</h6>
+						<a class="collapse-item" href="cartable">차 테이블</a> <a
+							class="collapse-item" href="chargetable">요금 테이블</a>
+					</div>
+				</div></li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline mt-5">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
+
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                 <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Alerts Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">march 12, 2021</div>
+                                        <span class="font-weight-bold">한달 수리내역.excel 다운로드 완료!</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">April 7, 2021</div>
+                                       목표 매출까지 + 300,000,000
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">December 2, 2021</div>
+                                          사내 홈페이지 점검 예정 12:00 - 4:30
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">안녕하세요! 거기 위치가 혹시 정확히 어디인가요?</div>
+                                        <div class="small text-gray-500">김아무개 · 1m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
+                                            alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">내일 휴일인데 보험 적용도 가능한가요?</div>
+                                        <div class="small text-gray-500">박영희 · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
+                                            alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">사용하다 긁혔는데 어떡하죠...?</div>
+                                        <div class="small text-gray-500">김철수 · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">오늘 회식 어떻습니까? 메뉴는 내가 오늘 땡기는 것으로 ㅎㅎ</div>
+                                        <div class="small text-gray-500">김대표 · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800 text-center font-weight-bold ">Customer Table</h1>
+                    <p class="mb-5 text-center ">대여 했었던 회원들의 기록과 현재 대여 중인 고객들의 기록을 확인하고 관리할 수 있습니다.</p>
+                   
+                    <div class="container-fluid">
+        		<div class="col-md-12 btn-group-mg mb-2">
+                                    <button class="btn btn-primary" type="button"onclick="exportTableToCsv('dataTable', 'CustomerTable')">
+                                      	Export csv
+                                    </button>               
+                            </div>
+             
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 ">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">고객 테이블</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="text-center table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+                                    <thead>
+                                        <tr>
+                                            <th>면허 번호</th>
+                                            <th>발급 일자</th>
+                                            <th>핸드폰 번호</th>
+                                            <th>대여 차 번호</th>
+                                            <th>대여 시간</th>
+                                            <th>반납 시간</th>
+                                            <th>지불 금액</th>
+                                            <th>버  튼</th>
+                                        </tr>
+                                    </thead>
+            					    <tbody>
+										<tr class="h5 mt-5 text-center text-gray-700" th:each="DTO : ${customerDTO}">
+											<td th:text="${DTO.li_num}"></td>
+											<td th:text="${DTO.li_Date}"></td>
+											<td th:text="${DTO.ph_Num}"></td>
+											<td th:text="${DTO.car_Num}"></td>
+											<td th:text="${DTO.lent_Time}"></td>
+											<td th:text="${DTO.return_Time}"></td>
+											<td th:text="${DTO.pay_Money}"></td>
+											<td>											
+											<form action="customerdelete" method="post" >							
+											<button class="btn btn-outline-primary" id ="name" name ="name" th:value="${DTO.li_num}">
+		                                       삭제
+		                                     </button>		     
+		                                                           
+											</form> </td >
+											<!-- <td th:text="${DTO.car_Num}"></td> -->
+										</tr>
+									</tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+   <!-- Delete Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">삭제하시겠습니까?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">삭제하면 데이터는 다시 복구할 수 없습니다.<br>참고해주세요.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="index.html">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">당신의 기록을 만료할 준비가 되었다면,<br>로그아웃 버튼을 눌러주세요.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="index.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    	 <script>
+    	 function exportTableToCsv(tableId, filename) {
+         if (filename == null || typeof filename == undefined)
+             filename = tableId;
+         filename += ".csv";
+
+         var BOM = "\uFEFF";
+
+         var table = document.getElementById(tableId);
+         var csvString = BOM;
+         for (var rowCnt = 0; rowCnt < table.rows.length; rowCnt++) {
+             var rowData = table.rows[rowCnt].cells;
+             for (var colCnt = 0; colCnt < rowData.length; colCnt++) {
+                 var columnData = rowData[colCnt].innerHTML;
+                 if (columnData == null || columnData.length == 0) {
+                     columnData = "".replace(/"/g, '""');
+                 }
+                 else {
+                     columnData = columnData.toString().replace(/"/g, '""'); // escape double quotes
+                 }
+                 csvString = csvString + '"' + columnData + '",';
+             }
+             csvString = csvString.substring(0, csvString.length - 1);
+             csvString = csvString + "\r\n";
+         }
+         csvString = csvString.substring(0, csvString.length - 1);
+
+         if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+             var blob = new Blob([decodeURIComponent(csvString)], {
+                 type: 'text/csv;charset=utf8'
+             });
+
+             window.navigator.msSaveOrOpenBlob(blob, filename);
+
+         } else if (window.Blob && window.URL) {
+             var blob = new Blob([csvString], { type: 'text/csv;charset=utf8' });
+             var csvUrl = URL.createObjectURL(blob);
+             var a = document.createElement('a');
+             a.setAttribute('style', 'display:none');
+             a.setAttribute('href', csvUrl);
+             a.setAttribute('download', filename);
+             document.body.appendChild(a);
+
+             a.click()
+             a.remove();
+         } else {
+             var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvString);
+             var blob = new Blob([csvString], { type: 'text/csv;charset=utf8' });
+             var csvUrl = URL.createObjectURL(blob);
+             var a = document.createElement('a');
+             a.setAttribute('style', 'display:none');
+             a.setAttribute('target', '_blank');
+             a.setAttribute('href', csvData);
+             a.setAttribute('download', filename);
+             document.body.appendChild(a);
+             a.click()
+             a.remove();
+         }
+     }
+     </script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

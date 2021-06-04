@@ -1,0 +1,31 @@
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "Customer";
+CREATE TABLE IF NOT EXISTS "Customer" (
+	"customer_Num"	integer,
+	"li_Num"	text,
+	"li_Date"	text,
+	"ph_Num"	text,
+	"car_Num"	text,
+	"Agree"	boolean,
+	"lent_Time"	text,
+	"return_Time"	text,
+	"pay_Method"	text,
+	"pay_Money"	int,
+	"overpay_Method"	text,
+	"overpay_Money"	int,
+	"isKey"	boolean,
+	"start_Time"	text,
+	PRIMARY KEY("customer_Num" AUTOINCREMENT)
+);
+
+INSERT INTO "Customer" VALUES (1,'서울(11)-01-123456-11','20121201','01012345678','123허 1005',1,'3일 0시 0분 ',NULL,'간편결제',280800,NULL,NULL,1,'21/05/14 14:58');
+INSERT INTO "Customer" VALUES (2,'서울(11)-02-123457-12','20130301','01023456789','123허 1001',1,'0일 3시 0분 ',NULL,'현금결제',11700,NULL,NULL,1,'21/05/12 11:24');
+INSERT INTO "Customer" VALUES (3,'서울(11)-03-123458-13','20140901','01034567890','234하 2006',1,'0일 9시 0분 ',NULL,'간편결제',35100,NULL,NULL,1,'21/05/14 18:51');
+INSERT INTO "Customer" VALUES (4,'경기(12)-04-123459-14','20150201','01045678901','234하 2014',1,'1일 0시 0분 ',NULL,'간편결제',151200,NULL,NULL,1,'21/05/16 19:37');
+INSERT INTO "Customer" VALUES (5,'경기(12)-05-123460-15','20161101','01056789012','234하 2011',1,'3일 0시 0분 ',NULL,'카드결제',432000,NULL,NULL,1,'21/05/16 19:38');
+INSERT INTO "Customer" VALUES (6,'경기(12)-06-123461-16','20170501','01067890123','123허 1002',1,'3일 0시 0분 ',NULL,'간편결제',81200,NULL,NULL,1,'21/05/16 22:20');
+INSERT INTO "Customer" VALUES (7,'경기(12)-07-123462-17','20180701','01078901234','123허 1006',1,'3일 0시 0분 ',NULL,'카드결제',280800,NULL,NULL,1,'21/05/16 22:23');
+INSERT INTO "Customer" VALUES (8,'경기(12)-08-123463-18','20190201','01089012345','123허 1012',1,'3일 0시 0분 ',NULL,'현금결제',172400,NULL,NULL,1,'21/05/17 09:26');
+INSERT INTO "Customer" VALUES (9,'서울(11)-09-123464-19','20200301','01090123456','234하 2010',1,'3일 0시 0분 ',NULL,'카드결제',132500,NULL,NULL,1,'21/05/16 22:23');
+INSERT INTO "Customer" VALUES (10,'경기(12)-02-234567-23','20190301','01023456789','234하 2001',1,'3일 0시 0분 ',NULL,'현금결제',142700,NULL,NULL,1,'21/05/17 09:26');
+COMMIT;
