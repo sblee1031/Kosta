@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.day.dto.Product;
@@ -70,6 +71,7 @@ public class ProductDAOOracle implements ProductDAO {
 	@Override
 	public List<Product> selectAll(int currentPage) throws FindException {
 		int cnt_per_page = 4; //페이지별 보여줄 목록수
+		System.out.println(currentPage +"페이지의 내용 입니다.");
 		//전체건수 : 7건, 총페이지수 : 2페이지
 		Connection con = null;
 		try {
@@ -166,8 +168,43 @@ public class ProductDAOOracle implements ProductDAO {
 
 	@Override
 	public List<Product> selectByName(String word) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
+		//DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Product> list = new ArrayList<>();
+		String selectByNameSQL = "SELECT * FROM product WHERE prod_name LIKE ? ORDER BY prod_no";
+		
+		//SQL구문 송신, 수신
+		try {
+			pstmt = con.prepareStatement(selectByNameSQL);
+			pstmt.setString(1, "%"+word+"%");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String prod_no = rs.getString("prod_no");
+				String prod_name = rs.getString("prod_name");
+				int prod_price = rs.getInt("prod_price");
+				Date prod_mf_dt = rs.getDate("prod_mf_dt");
+				Product p = new Product(prod_no, prod_name, prod_price, prod_mf_dt, null);
+				list.add(p);
+			}if(list.size() == 0) {
+				
+				throw new FindException("상품이 없습니다");
+			}return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		
 	}
 
 	public static void main(String[] args) {
@@ -178,8 +215,15 @@ public class ProductDAOOracle implements ProductDAO {
 //				System.out.println(p);
 //			}
 			
-			Product p = dao.selectByNo("C0012");
-			System.out.println(p);
+//			Product p = dao.selectByNo("C0001");
+//			System.out.println(p);
+			
+			String word = "리";
+			System.out.println("\""+word+"\""+ "단어를 포함한 상품목록");
+			List<Product> list = dao.selectByName(word);
+			for(Product p : list) {
+				System.out.println(p);
+			}
 			
 		}catch(FindException e) {//자식 exception 발생시 selectAll에서 발생의 경우
 //			e.printStackTrace();
