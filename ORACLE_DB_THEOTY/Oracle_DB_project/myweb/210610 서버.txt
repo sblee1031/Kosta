@@ -1,0 +1,55 @@
+IIS
+-ASP 실행모듈 / VB언어
+
+아파치
+-php실행DLL
+-c언어
+
+톰캣
+-JSP, sevlet실행엔진
+-JAVA
+-------------------------------------------------------------------------
+미들웨어(Web Application Server WAS) //톰캣은 와스가 아님
+-레진
+-제우스
+-웹로직
+-웹스피어
+
+Java WAS - JavaEE를 완벽히 구현
+
+---------------------------------------------------------------------------
+웹관련 기술
+
+WB : HTML	CSS	JavaScript
+       데이터	스타일	기능
+
+
+
+Wserver : ASP	PHP	jSP	Servlet
+
+
+------------------------------------------------------------------------
+
+GET방식 - QueryString url뒤에 주소 name=value?name=value
+->bodycontent사용안함
+
+POST방식 - QueryString 주소에 표시 안됨(bodycontent에 사용됨)
+->bodycontent사용
+
+<form method="get, post">선택가능
+
+---------------------------------------------------------------------------
+input 태그
+
+name -> 서버로 전송용도
+id ->중복 되면 안됨
+class ->style을 위한 목적
+--------------------
+과제
+Network OSI 7Layer와 TCP/IP 프로토콜
+HTTP와 HTTPS차이점
+HTTP프로토콜의 구조
+
+---익일 시맨틱태그들
+CSS
+	-선택자
