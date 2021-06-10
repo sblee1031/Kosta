@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>박스모델</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <!--블럭요소들 : 크기지정가능(가로세로 상하좌우마진, 패딩, 보더설정가능), 자동줄바꿈됨
+      <address><article><aside><blockquote><canvas><dd><div><dl><dt><fieldset><figcaption><figure><footer><form><h1>-<h6><header><hr><li><main><nav><noscript><ol><p><pre><section><table><tfoot><ul><video>
+        블럭요소들이 나열될떄 위쪽요소의 bottom마진과 아래쪽요소의 top마진값이 겹침
+      -->
+
+    <!--인라인 요소들 : 크기지정불가능(좌우마진, 패딩, 보더설정가능),자동불바꿈 안됨
+      <a><abbr><acronym><b><bdo><big><br><button><cite><code><dfn><em><i><img><input><kbd><label><map><object><output><q><samp><script><select><small><span><strong><sub><sup><textarea><time><tt><var>-->
+    <!--인라인-블럭 요소 : 인라인(줄바꿈안됨) + 블럭(크기지정) <img>-->
+    <div
+      style="
+        width: 200px;
+        height: 400px;
+        padding: 10px 20px 30px 40px;
+        border-width: 40px 30px;
+        border-style: solid;
+        margin: 5px;
+      "
+    >
+      DIVSION1 대표블럭 요소 입니다.<br />
+      모든요소는 가로세로크기를 갖습니다.<br />
+      다른요소와의 간격(margin), 테두리(border), 테두리와 실제내용과의
+      간격(padding)을 갖습니다.
+    </div>
+    <div>
+      <!--자동줄바꿈 가능 (블럭요소)-->
+      div2
+    </div>
+    <div>div3</div>
+
+    <span
+      style="
+        width: 200px;
+        height: 400px;
+        padding: 10px 20px 30px 40px;
+        border-width: 40px 30px;
+        border-style: solid;
+        margin: 5px;
+      "
+    >
+      SPAN1</span
+    >
+    <!--자동줄바꿈 안됨(인라인모델이며, 사이즈를 무시해버림)-->
+    <span>SPAN2</span>
+    <span>SPAN3</span>
+  </body>
+</html>
