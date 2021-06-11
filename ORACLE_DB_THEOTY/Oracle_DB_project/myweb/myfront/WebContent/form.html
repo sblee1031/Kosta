@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><!-- 모바일 디바이스에서 확대/축소여부 결정 태그 -->
     <title>Insert title here</title>
   </head>
-<<<<<<< HEAD
 
   <body>
     <div>
@@ -23,7 +23,7 @@
             type="search"
             name="sc"
             value="x로 쉽게 값 삭제" /></label
-        ><!--포커스가 label안으로 input태그 커서됨--><br>
+        ><!--포커스가 label안으로 input태그 커서됨--><br />
         <label>숫자 : <input type="number" /></label>
         <label>이메일 :<input type="email" /></label>
         <label>전화번호 :<input type="tel" /></label>
@@ -32,13 +32,22 @@
           >datetime :
           <input type="datetime" /><!--브라우저마다 구현되어있지 않음--></label
         >
-        <label>placeholder :<input type="text" name="name" placeholder="이름을 입력하세요" />
-          <label>required :<input
-          type="text"
-          required="required"
-        /><!--반드시 입력을 해줘야하는 input-->
+        <label
+          >placeholder :<input
+            type="text"
+            name="name"
+            placeholder="이름을 입력하세요"
+        /></label>
+        <label
+          >required :<input
+            type="text"
+            required="required"
+          /><!--반드시 입력을 해줘야하는 input--></label
+        >
         <label>readonly :<input type="text" value="읽기전용" readonly /></label>
-          <label>min,max :<input type="number" min="1" max="10" value="5" /></label>
+        <label
+          >min,max :<input type="number" min="1" max="10" value="5"
+        /></label>
 
         <button type="submit">전송2</button>
       </form>
@@ -48,22 +57,54 @@
       <h3>기본 입력양식</h3>
       <!--입력양식-->
       <form method="post" action="http://www.daum.net">
-        <label>서버전송용 속성 name :<input type="text" name="t" value="this is text form..." /></label>
-          <label>비밀번호 :<input type="password" name="p" /></label>
-          <br />
-          <fieldset>
-            <legend>다중선택</legend>
-            <label><input type="checkbox" name="c" value="c1" checked/>one&nbsp;&nbsp;&nbsp;</label><!--checked속성-->
-              <label><input type="checkbox" name="c" value="c2" />two&nbsp;&nbsp;&nbsp;</label>
-                <label><input type="checkbox" name="c" value="c3" checked/>three</label>
-              </fieldset>
+        <label
+          >서버전송용 속성 name :<input
+            type="text"
+            name="t"
+            value="this is text form..."
+        /></label>
+        <label>비밀번호 :<input type="password" name="p" /></label>
+        <br />
+        <fieldset>
+          <legend>다중선택</legend>
+          <label
+            ><input
+              type="checkbox"
+              name="c"
+              value="c1"
+              checked
+            />one&nbsp;&nbsp;&nbsp;</label
+          ><!--checked속성-->
+          <label
+            ><input
+              type="checkbox"
+              name="c"
+              value="c2"
+            />two&nbsp;&nbsp;&nbsp;</label
+          >
+          <label
+            ><input type="checkbox" name="c" value="c3" checked />three</label
+          >
+        </fieldset>
 
-              <fieldset>
-                <legend>단일선택</legend>
-                  <label><input type="radio" name="r" value="r1" />ONE&nbsp;&nbsp;&nbsp;</label>
-                    <label><input type="radio" name="r" value="r2" />TWO&nbsp;&nbsp;&nbsp;</label>
-                      <label><input type="radio" name="r"  value="r3"/>THREE </label>
-                    </fieldset>
+        <fieldset>
+          <legend>단일선택</legend>
+          <label
+            ><input
+              type="radio"
+              name="r"
+              value="r1"
+            />ONE&nbsp;&nbsp;&nbsp;</label
+          >
+          <label
+            ><input
+              type="radio"
+              name="r"
+              value="r2"
+            />TWO&nbsp;&nbsp;&nbsp;</label
+          >
+          <label><input type="radio" name="r" value="r3" />THREE </label>
+        </fieldset>
         <label>파일업로드 :<input type="file" /></label>
         <input
           type="hidden"
@@ -71,65 +112,37 @@
           value="hiddenValue"
         /><!--반드시 이름과 value가 설정되어있어야함-->
 
-        <label>select : <select name="s">
-          <option value="s1">ONE</option>
-          <option value="s2">TWO</option>
-          <option value="s3">THREE</option>
-        </select></label>
-        <label>textarea : 
-        <textarea rows="3" cols="10">여러줄 입력란.......</textarea></label>
+        <label
+          >select :
+          <select name="s">
+            <option value="s1">ONE</option>
+            <option value="s2">TWO</option>
+            <option value="s3">THREE</option>
+          </select></label
+        >
+        <label
+          >textarea :
+          <textarea rows="3" cols="10">여러줄 입력란.......</textarea>
+        </label>
 
         <fieldset>
           <legend>input type용 버튼들</legend>
-        <input type="button" value="일반버튼1" />
-        <input type="submit" value="전송 1" />
-        <input type="reset" value="clear" />
-      </fieldset>
-      <fieldset>
-        <legend>button type용 버튼들</legend>
-        <button type="button">일반버튼2</button>
-        <button type="submit">전송2</button>
-        <button type="reset">clear2</button>
-        <!--button type="submit"과 같음-->
-      </fieldset>
-      <button>전송3</button>
+          <input type="button" value="일반버튼1" />
+          <input type="submit" value="전송 1" />
+          <input type="reset" value="clear" />
+        </fieldset>
+        <fieldset>
+          <legend>button type용 버튼들</legend>
+          <button type="button">일반버튼2</button>
+          <button type="submit">전송2</button>
+          <button type="reset">clear2</button>
+          <!--button type="submit"과 같음-->
+        </fieldset>
+        <button>전송3</button>
       </form>
 
       <button>일반버튼3</button
       ><!--button type="button"과 같음-->
     </div>
-=======
-  <!--입력양식-->
-  <body>
-    <form action="http://www.daum.net">
-      <input type="text" name="t" value="this is text form..." />
-      <input type="password" name="p" />
-      <input type="checkbox" name="c" value="c1" />one&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" name="c" value="c2" />two&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" name="c" value="c3" />three
-      <input type="radio" name="r" value="r1" />ONE&nbsp;&nbsp;&nbsp;
-      <input type="radio" name="r" value="r2" />TWO&nbsp;&nbsp;&nbsp;<input
-        type="radio"
-        name="r"
-        value="r3"
-      />three
-      <input type="file" />
-      <input
-        type="hidden"
-        name="h"
-        value="hiddenValue"
-      /><!--반드시 이름과 value가 설정되어있어야함-->
-
-      <select name="s">
-        <option value="s1">ONE</option>
-        <option value="s2">TWO</option>
-        <option value="s3">THREE</option>
-      </select>
-
-      <textarea rows="3" cols="10">여러줄 입력란.......</textarea>
-      <input type="button" value="일반버튼1" />
-      <input type="submit" value="전송 1" />
-    </form>
->>>>>>> 422a20b432b146230f9a79f0a88f41b976865146
   </body>
 </html>
