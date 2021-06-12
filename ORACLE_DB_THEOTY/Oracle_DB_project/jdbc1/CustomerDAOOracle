@@ -1,0 +1,37 @@
+String updateSQL = "UPDATE customer SET ";
+		String updateSQL1 = " WHERE ID='"+c.getId()+"'";
+		String pwd=c.getPwd();
+		boolean flag = false;
+		if(pwd!=null&&!pwd.equals("")) {
+			updateSQL +="pwd='"+c.getPwd()+"' ";
+			flag=true;
+		}
+		
+		String name=c.getName();
+		if(name!=null&&!name.equals("")) {
+			if(flag) {
+				updateSQL +=",";
+			}
+			updateSQL +="name='"+c.getName()+"' ";
+			flag=true;
+		}
+		String buildingno=c.getBuildingno();
+		if(buildingno!=null&&!buildingno.equals("")) {
+			if(flag) {
+				updateSQL +=",";
+			}
+			updateSQL +="buildingno='"+c.getBuildingno()+"' ";
+			flag=true;
+		}
+		int enabled=c.getEnabled();
+		if(enabled>-1) { // 0 탈퇴, 1 활동
+			if(flag) {
+				updateSQL +=",";
+			}
+			updateSQL +="enabled='"+c.getEnabled()+"' ";
+			flag=true;
+		}
+		if(flag=false) {
+			throw new ModifyException("실패");
+		}
+		updateSQL+=updateSQL1;
