@@ -6,11 +6,22 @@
     <title>구조화용 태그</title>
     <style>
       header {
+        margin: auto;
+        height: 150px;
+        text-align: center;
+        line-height: 150px;
         font-size: 3em;
         color: skyblue;
         background-color: lavenderblush;
 
         /*background-image: url(./images/11.JPG); */
+      }
+      header> img{
+
+        margin:25px 10px;
+        display: block;
+        float: left; 
+          width: 100px;
       }
       div#body {
         width: 100%;
@@ -29,23 +40,24 @@
       }
       nav > a {
         color: black;
-        margin: 10px;
+        margin: 50px;
         text-decoration: none;
       }
 
 
       div#section{
-        height: 500px;
-       
+        
+        height: 450px;
         float: left;
-        max-width: 70%;
+        max-width: 85%;
         height: 100%;
-        margin: 0px;
+       
         font-size: 15pt;
         font-weight: 700;
       }
 
       article{
+       margin: 10px;
         width: 100%;
         height: 350px;
         overflow: auto;
@@ -55,39 +67,36 @@
       }
       aside {
         float: right;
-        width: 30%;
-        
+        width: 20%;
         margin: 0px;
        
       }
       footer {
-        height: 20%;
-        
+        height: 150px;
+        line-height: 150px;
         clear: both;
         text-align: center;
         font-weight: 600;
         background-color: lightsalmon;
-
-        height: 200px;
-        font-size: 1.5em;
+        font-size: 1.0em;
         font-weight: 700; 
-        padding: 50px;
+        display: block;
+        overflow: auto;
+      
       }
       img#h_card {
         position: fixed;
-        width: 30%;
-       
-        top: 20%;
-        right: 0%;
+        width: 10%;
+        top: 25%;
+        right: 3%;
       }
     </style>
   </head>
   <body>
     <div id="body">
-      <header style="text-align: center">
+      <header >
         <img
-          style="float: left"
-          width="70px;"
+          
           src="https://image.istarbucks.co.kr/common/img/main/rewards-logo.png"
           alt="KOSTA_BUCKS_logo"
         />
@@ -125,7 +134,7 @@
 .<br>
 끝.
           </article>
-<hr/>
+
           <article>
            
             아카라멜향을 머금은 애플의 달콤함과 부드러운 콜드 크레마를 조화롭게
@@ -147,7 +156,7 @@
         <aside>
           <img
             id="h_card"
-            max-width="100%"
+            
             src="https://image.istarbucks.co.kr/upload/banner/floatingbnr/9vF68i_20210218134422111.png"
             alt="스타벅스 - 현대카드 PLCC"
             class="pc-badge"
