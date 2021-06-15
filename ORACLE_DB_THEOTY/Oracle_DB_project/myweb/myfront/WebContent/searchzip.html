@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>searchzip</title>
+    <link rel="stylesheet" href="./css/basic.css" />
+    <style>
+      form.signup > label > span::after {
+        content: " : ";
+      }
+      * {
+        box-sizing: border-box;
+      }
+      div.divSearchzip {
+        width: 500px;
+      }
+      input[type="search"]:focus {
+        background-color: lightcoral;
+      }
+      div.divSearchzip > ul {
+        list-style-type: none;
+        padding: 10px 0px;
+      }
+      div#addres_no {
+        text-align: center;
+        margin-top: 10px;
+        width: 350px;
+        border-width: 1px;
+        border-style: solid;
+      }
+      div.divSearchzip > ul > li {
+        margin-bottom: 10px;
+      }
+      div.divSearchzip > ul > li:hover {
+        background-color: beige;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="signup" method="post" action="http://wwww.daum.net">
+      <label>
+        <span>도로명 주소</span>
+        <input
+          type="search"
+          name="addres"
+          required
+          placeholder="도로명주소를 입력하세요"
+        /> </label
+      ><button>조회</button><br />
+      <div class="divSearchzip">
+        <ul>
+          <li>
+            <span class="zipcode">30019</span
+            ><span class="baseaddr">세종특별시 조치원읍 세종로 2511</span>
+          </li>
+          <li>
+            <span class="zipcode">30016</span
+            ><span class="baseaddr">세종특별시 조치원읍 세종로 2639</span>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </body>
+</html>
