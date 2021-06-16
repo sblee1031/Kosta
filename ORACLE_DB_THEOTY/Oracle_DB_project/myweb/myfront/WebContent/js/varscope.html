@@ -53,9 +53,26 @@
 
       var name = '오문정';
       var f4 = function (param) {
-        var name = '김근완';
+        var name = '김근완'; //let, const로 선언시 재사용 불가
         param();
       };
+
+      var a = 10;
+      var b = '10';
+      console.log(a == b); //number == string ->number==number ->ture
+      console.log(a === b); //->false
+
+      //new A();
+      var obj = {
+        prod_no: 'C0001',
+        prod_price: 1500,
+        display: function () {
+          console.log(this.prod_no);
+        },
+      };
+      obj.display();
+
+      //JSON
 
       f4(function () {
         console.log(name);
