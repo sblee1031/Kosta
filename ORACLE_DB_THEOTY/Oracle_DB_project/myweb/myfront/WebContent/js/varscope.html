@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var a = 'GLOBAL VARIABLE';
+      console.log(window.a); // 'GLOBAL VARIABLE'
+      if (true) {
+        var ifa = 'if 플럭변수';
+        console.log('if안 ' + ifa);
+      }
+      console.log('if밖 ' + ifa);
+      for (var fora = 0; fora < 1; fora++) {
+        console.log('for안 :fora=' + fora);
+      }
+      console.log('for밖 :fora=' + fora);
+      //----------함수SCOPE-----------------------------------------------//
+      var f = function () {
+        var fa = true;
+        console.log('function안 : fa=' + fa);
+      };
+      //-------------------------------------------------//함수 안쪽에서 선언된 변수는 밖에서는 사용 불가
+      f();
+      //console.log('function밖 : fa=' + fa); //에러 발생
+
+      var f1 = function () {
+        var f1a = 'f1함수 스코프 변수';
+        var f11 = function () {
+          console.log('반환함수입니다. ' + f1a);
+          var f11b = 10;
+          return f1a;
+        };
+        //console.log(f11b); //f11b is not defined
+        return f11;
+      };
+      // var returnF = f1();
+      // console.log(returnF); //returnF();
+      var returnF11 = f1();
+      var returnF11Value = returnF11();
+      console.log(returnF11Value);
+      //-------------------------------------------------
+      var f2 = function () {
+        var f2a = 'f2a';
+        var f2f = function () {
+          var f22b = 'f22b';
+        };
+      };
+
+      var f3 = function (f) {
+        var f3a = 'f3a';
+        f();
+      };
+      f3(f2);
+
+      var name = '오문정';
+      var f4 = function (param) {
+        var name = '김근완';
+        param();
+      };
+
+      f4(function () {
+        console.log(name);
+        //alert(name); //경고창
+      });
+    </script>
+  </head>
+</html>

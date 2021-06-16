@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var num = 35;
+      if (num % 2 == 0) {
+        console.log('짝수');
+      } else {
+        console.log('홀수');
+      }
+      //******************************// 소수 알고리즘
+      var in_num = 4;
+      var cnt = 0;
+      for (var i = 1; i <= in_num; i++) {
+        if (in_num % i == 0) {
+          cnt++;
+        }
+      }
+      if (cnt == 2) {
+        console.log('소수 입니다.');
+      } else {
+        console.log('소수가 아닙니다.');
+      }
+      //************************************//
+      //1 - 가위, 2- 바위, 3-보
+
+      console.log('-------------가위,바위,보-----------');
+
+      var userNum = 2;
+      var r = parseInt(Math.random() * 3 + 1); //1.0<=r<4.0 ==> 1,2,3
+      var arr = ['가위', '바위', '보'];
+
+      console.log('사용자 :' + userNum + ' / ' + arr[userNum - 1]);
+      console.log('컴퓨터:' + r + ' / ' + arr[r - 1]);
+
+      if (
+        (userNum == 1 && r == 3) |
+        (userNum == 2 && r == 1) |
+        (userNum == 3 && r == 2)
+      ) {
+        console.log('사용자 승리');
+      } else if (userNum == r) {
+        console.log('무승부');
+      } else {
+        console.log('사용자 패배');
+      }
+
+      //********************************************//
+      var subject = 'JAVA';
+      switch (subject) {
+        case 'JAVA':
+          console.log('개발직군');
+        case 'BPM':
+          console.log('컨설팅직군');
+          break;
+        default:
+          console.log('그외직군');
+      }
+    </script>
+  </head>
+</html>
