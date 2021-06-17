@@ -1,0 +1,30 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      window.addEventListener('load', function () {
+        var btOpenObj = document.querySelector('button.popopen');
+        var win1;
+        btOpenObj.addEventListener('click', function () {
+          var url = '../searchzip.html';
+          var name = 'searchzip';
+          var opt = 'width=300 height=300';
+          win1 = window.open(url, name, opt);
+        });
+        var btCloseObj = document.querySelector('button.popclose');
+        btCloseObj.addEventListener('click', function () {
+          win1.close();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <button class="popopen">새창띄우기</button>
+    <button class="popclose">새창닫기</button>
+    <div>
+      <span class="zipcode">우편번호값</span
+      ><span class="baseaddr">기본주소값</span>
+    </div>
+  </body>
+</html>

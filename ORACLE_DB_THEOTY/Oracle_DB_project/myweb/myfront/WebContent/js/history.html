@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      window.addEventListener('load', function () {
+        var aObj = document.querySelector('a');
+        aObj.addEventListener('click', function () {
+          alert('뒤로가기 클릭');
+          history.go(-1); //back();과 같음
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a href="#">뒤로</a>
+  </body>
+</html>

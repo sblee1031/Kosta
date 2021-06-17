@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <script>
+      window.addEventListener('load', function () {
+        //DOM트리에서 button객체 찾기
+        var bt = document.querySelector('button');
+        window.setTimeout(function () {
+          location.href =
+            'http://localhost:8888/WebContent/productlist.html';
+        }, 1000 * 10);
+      });
+    </script>
+  </head>
+  <body>
+    <button>10초 후 주소바꾸기</button>
+  </body>
+</html>
