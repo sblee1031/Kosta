@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM이벤트처리</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <button><span>버튼</span>클릭</button>
+    <hr />
+    <div>DIV1. 버튼이 클릭되면 토글됩니다</div>
+    <hr />
+    <form action="#">
+      <input type="text" name="id" value="id1" required maxlength="5" /><br />
+      <input type="password" name="pwd" value="pwd1" /><br />
+      <input type="text" name="name" value="n1" /><br />
+      <button type="submit">전송</button>
+    </form>
+    <hr />
+    <select class="sido">
+      <option>시도</option>
+      <option>서울특별시</option>
+      <option>경기도</option>
+      <option>제주도</option>
+    </select>
+    <select class="sigungu" style="display: none">
+      <option>시군구</option>
+    </select>
+    <select class="dong" style="display: none">
+      <option>읍면동</option>
+    </select>
+    <hr />
+    <div class="checkbox">
+      <input type="checkbox" class="all" />ALL<br />
+      <input type="checkbox" class="one" checked />ONE&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" class="two" />TWO&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" class="three" checked />THREE
+    </div>
+    <script>
+      //DOM트리에서 button객체 찾기
+      var $btObj = $('button'); //  var btObj = window.document.querySelector('button'); //jQuery: var $btObj = $('button');
+      console.log($btObj);
+      //console.log($btObj.type());
+      console.log($btObj.html()); //<span>버튼</span>클릭 //jQuery메서드: console.log($btObj.html());
+      console.log($btObj.text()); //버튼클릭              //            : console.log($btObj.text());
+      $btObj.html('자바스크립트 클릭'); //jQuery메서드 : .html('자바스크립트 클릭');
+      $btObj.css('color', '#ff0000'); //            : .css('color', '#ff0000');
+
+      //DOM트리에서 div객체찾기
+      $divObj = $('div:first'); //var divObj = window.document.querySelector('div');
+
+      //버튼이 클릭되었을때
+      //       div영역을 toggle 한다
+      $btObj.click(function () {
+        //btObj.addEventListener('click', function () {
+        //jQuery메서드 : $btObj.click(function(){});
+        alert('클릭되었습니다');
+        var $bgArr = ['yellow', 'green', 'gray', 'white'];
+        if ($divObj.css('display') == 'none') {
+          //jQuery메서드 : $divObj.toggle()/$divObj.show(), $divObj.hide()
+          //jQuery메서드 : if($divObj.css('display') == 'none'){
+          $divObj.css('display', 'block');
+          //CSS에서는 background-color로 사용
+          //JS에서 사용가능한 특수문자는 #, _만 가능 => -사용불가
+          //divObj.style.backgroundColor = bgArr[parseInt(Math.random() * 4)]; //0<= <4
+          $divObj.css('background-color', $bgArr[parseInt(Math.random() * 4)]);
+        } else {
+          //divObj.style.display = 'none';
+          $divObj.css('display', 'none');
+        }
+      });
+
+      //전송버튼이 클릭되었을때 할일
+      //   var btSubmitObj = document.querySelector('form>button[type=submit]');
+      //   btSubmitObj.addEventListener('click', function () {
+      //     alert('전송버튼클릭됨');
+      //   });
+
+      var $formObj = $('form'); //var formObj = document.querySelector('form');
+      $formObj.submit(function () {
+        //formObj.addEventListener('submit', function (event) {
+        //jQuery메서드 :$formObj.submit(function(){
+        alert('폼전송됨');
+        //DOM에서 id입력객체 찾기
+        var $idObj = $('form>input[name=id]');
+
+        //id입력값 유효성 검사
+        //var $idValue = $idObj.val(); //jQuery메서드 : $idObj.val();
+        if ($idObj.val() == 'admin') {
+          alert('id를 다시 입력하세요');
+          $idObj.select(); //jQuery메서드 : $idObj.select();
+          $idObj.focus(); //jQuery메서드 : $idObj.focus();
+          //return false;
+          //event.preventDefault(); //                    return false;
+        }
+      });
+
+      //시도를 선택했을때 할 일
+      //시군구객체 찾기,
+      //시도객체의 value가 서울특별시인경우
+      //         시군구객체의 element body를 <option>중구</option><option>강남구</option>~~ 강북구, 강동구, 강서구로 변경
+      //시군구객체 보여주기
+      var $sidoObj = $('select.sido');
+
+      //   sidoObj.addEventListener('click', function () {
+      //     //alert('시도클릭됨');
+      //     console.log('시도클릭됨');
+      //   });
+
+      // sidoObj.addEventListener('change', function () {
+      $sidoObj.change(function () {
+        console.log($sidoObj.val() + '시도변경됨');
+        var $sigunguObj = $('select.sigungu');
+        $sigunguObj.css('display', 'none');
+        switch ($sidoObj.val()) {
+          case '서울특별시':
+            $sigunguObj.html(
+              '<option>시군구</option>' +
+                '<option>중구</option>' +
+                '<option>강남구</option>' +
+                '<option>강북구</option>' +
+                '<option>강동구</option>'
+            );
+
+            // sigunguObj.innerHTML += '<option>중구</option>';
+            // sigunguObj.innerHTML += '<option>강남구</option>';
+            // sigunguObj.innerHTML += '<option>강북구</option>';
+            // sigunguObj.innerHTML += '<option>강서구</option>';
+            // sigunguObj.innerHTML += '<option>강동구</option>';
+            break;
+          case '제주도':
+            $sigunguObj.html(
+              '<option>시군구</option>' +
+                '<option>제주시</option>' +
+                '<option>서귀포시</option>'
+            );
+
+            // sigunguObj.innerHTML = '<option>시군구</option>';
+            // sigunguObj.innerHTML += '<option>제주시</option>';
+            // sigunguObj.innerHTML += '<option>서귀포시</option>';
+            break;
+          case '경기도':
+            $sigunguObj.html(
+              '<option>시군구</option>' +
+                '<option>성남시</option>' +
+                '<option>용인시</option>'
+            );
+
+            // sigunguObj.innerHTML = '<option>시군구</option>';
+            // sigunguObj.innerHTML += '<option>성남시</option>';
+            // sigunguObj.innerHTML += '<option>용인시</option>';
+            break;
+          default:
+            return;
+        }
+        $sigunguObj.css('display', 'inline-block');
+        //sigunguObj.style.display = 'inline-block';
+      });
+
+      //checkbox checked속성값 얻기
+      //DOM트리에서 class속성값이 one인 요소 찾기
+      var $oneObj = $('div.checkbox>input.one');
+      console.log('oneCheck : ' + $oneObj.is(':checked')); //checkBox 값 가져오기
+
+      //DOM트리에서 class속성값이 all인 요소찾기
+      //allObj객체가 클릭되었을때 선택되면 one,two,three객체도 선택되도록
+      //                        선택해제되면                 선택해제되도록 한다
+
+      //var allObj = document.querySelector('div.checkbox>input.all');
+      //var twoObj = document.querySelector('div.checkbox>input.two');
+      //var threeObj = document.querySelector('div.checkbox>input.three');
+
+      //       var chkboxObjArr = document.querySelectorAll('div.checkbox>input');
+      //       chkboxObjArr[0].addEventListener('click', function () {
+      //         //all
+      //         for (var i = 1; i < chkboxObjArr.length; i++) {
+      //           chkboxObjArr[i].checked = chkboxObjArr[0].checked;
+      //         }
+      //       });
+
+      var $chkboxAllObj = $('div.checkbox>input.all');
+      var $chkboxObjArr = $('div.checkbox>input:not(.all)'); //one,two,three
+      console.log($chkboxAllObj);
+      console.log($chkboxObjArr);
+      $chkboxAllObj.click(function () {
+        $chkboxObjArr.each(function () {
+          $chkboxObjArr.attr('checked', $chkboxAllObj.is(':checked'));
+          console.log($chkboxObjArr.is(':checked'));
+        });
+        // for (var i = 0; i < $chkboxObjArr.length; i++) {
+        //   //one,two, three
+        //   console.log($chkboxObjArr.length);
+        //   console.log($chkboxObjArr[i]);
+        //   $chkboxObjArr[i].attr('checked', $chkboxAllObj.is(':checked'));
+        // }
+      });
+
+      //id입력란에서 엔터값을 누르면 FORM의 submit이벤트가 자동 발생한다
+      //엔터값을 처리
+      var $idObj = $('form>input[name=id]');
+      $idObj.keydown(function (event) {
+        console.log(event.keyCode);
+        if (event.keyCode === 13) {
+          event.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>
