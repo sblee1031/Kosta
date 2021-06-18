@@ -6,8 +6,7 @@
     <title>로그인</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-      $(function (event) {
-        // window.addEventListener('load', function () {
+      $(function () {
         //1.localStorage의 item(이름: loginInfo)찾기
         var loginInfoValue = localStorage.getItem('loginInfo');
 
@@ -23,7 +22,7 @@
           //비밀번호값 유효성검사
 
           //유효성검사가 실패된 경우에는 전송 중지
-          event.preventDefault();
+          //event.preventDefault();
 
           //localStorage의 item(이름:loginInfo)삭제
           localStorage.removeItem('loginInfo');
@@ -40,21 +39,22 @@
             //체크된 경우
             localStorage.setItem('loginInfo', idObj.value); //localStorage에 추가
           }
-          //서버로 AJAX 요청, 응답
+
+          //서버로 AJAX 요청,응답
           $.ajax({
             url: './login',
             method: 'post',
-            data: { id: 'id1', pwd: 'p1' } /*id=id1&pwd=p1*/,
+            data: { id: 'id1', pwd: 'p1' },
             success: function (responseData) {
               alert(responseData);
             },
             error: function (xhr) {
               alert(xhr.status);
-            }
+            },
           });
           event.preventDefault();
         });
-      }); // 로드 function
+      });
     </script>
   </head>
 

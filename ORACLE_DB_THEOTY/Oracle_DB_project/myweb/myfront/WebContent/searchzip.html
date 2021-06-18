@@ -44,21 +44,22 @@
             //클릭된 현재요소의 하위요소중 class속성값이 zipcode인 span값 우편번호값 얻기
             // console.log(this);
             // var zipcode = this.querySelector('span.zipcode').innerHTML;
-            var zipcode = this.childNodes[0].firstChild.nodeValue;
+            var zipcode = this.childNodes[1].innerHTML;
             console.log(zipcode);
             //                          class속성값이 baseaddr인 span값 : 기본주소값 얻기
             //var baseaddr = 'baseaddr1';
-            var baseaddr = this.childNodes[1].innerHTML;
+            var baseaddr = this.childNodes[2].innerHTML;
+            console.log(baseaddr);
             // var baseaddr = this.querySelector('span.baseaddr').innerHTML;
             //값들을 메인창의 div영역에 넣기
             var parent = window.opener;
-            console.log(parent);
-            parent.document.querySelector('div>span.zipcode').innerHTML =
+           
+            parent.document.querySelector('input[id=addrNum]').value =
               zipcode;
-            parent.document.querySelector('div>span.baseaddr').innerHTML =
+            parent.document.querySelector('input.baseaddr').value =
               baseaddr;
             // 현재창 닫기
-            // self.close();
+            self.close();
           });
         });
       });

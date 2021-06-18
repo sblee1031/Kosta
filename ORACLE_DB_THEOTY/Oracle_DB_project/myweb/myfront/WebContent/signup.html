@@ -5,15 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>가입</title>
     <link rel="stylesheet" href="./css/basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        var $idObj = $('input[name=id]');
+        var $submitObj = $('button[type=submit]');
+        $idObj.click(function () {
+          $submitObj.hide();
+        });
+        var $idchkObj = $('input[type=button]');
+        $idchkObj.click(function () {
+          if ($idObj.val() == 'id9') {
+            $submitObj.show();
+          }
+        });
+
+        var $btnAddrSearchObj = $('button[name=addrsearch]');
+        $btnAddrSearchObj.click(function () {
+          //        btOpenObj.addEventListener('click', function () {
+          var win;
+          var url = './searchzip.html';
+          var name = 'searchzip';
+          var opt = 'width=400 height=300';
+          win = window.open(url, name, opt);
+        });
+      });
+    </script>
     <style>
       /* * {
         box-sizing: border-box;
       } */
       form.signup > label > span::after {
-        content: " : ";
+        content: ' : ';
       }
-      form.signup > button[type="submit"] {
-        display: none;
+      form.signup > button[type='submit'] {
+        display: block;
       }
       input#addres_search {
         width: 70px;
@@ -25,11 +51,11 @@
         outline: none;
       }
 
-      form.signup input[name="pwd"],
+      form.signup input[name='pwd'],
       form.signup input.pwd1,
-      form.signup input[name="name"],
+      form.signup input[name='name'],
       form.signup input.baseaddr,
-      form.signup input[name="addr"] {
+      form.signup input[name='addr'] {
         width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
@@ -61,8 +87,8 @@
       ><br />
       <label>
         <span>주소</span>
-        <input type="text" readonly maxlength="5" /> </label
-      ><button type="button">우편번호검색</button><br />
+        <input id="addrNum" type="text" readonly maxlength="5" /> </label
+      ><button name="addrsearch" type="button">우편번호검색</button><br />
       <input class="baseaddr" type="text" required readonly /><br />
       <input type="text" name="addr" required /><br />
       <button type="submit">가입</button
