@@ -38,8 +38,13 @@
       <input type="checkbox" class="three" checked />THREE
     </div>
     <script>
+      $(function () {
+        var $btObj = $('button');
+      });
+    </script>
+    <script>
       //DOM트리에서 button객체 찾기
-      var $btObj = $('button'); //  var btObj = window.document.querySelector('button'); //jQuery: var $btObj = $('button');
+      var $btObj = $('button:first'); //  var btObj = window.document.querySelector('button'); //jQuery: var $btObj = $('button');
       console.log($btObj);
       //console.log($btObj.type());
       console.log($btObj.html()); //<span>버튼</span>클릭 //jQuery메서드: console.log($btObj.html());
@@ -154,7 +159,7 @@
           default:
             return;
         }
-        $sigunguObj.css('display', 'inline-block');
+        $sigunguObj.css('display', 'inline-block'); // $sigunguObj.show();
         //sigunguObj.style.display = 'inline-block';
       });
 
