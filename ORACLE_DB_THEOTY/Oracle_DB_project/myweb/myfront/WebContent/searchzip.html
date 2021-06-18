@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>searchzip</title>
     <link rel="stylesheet" href="./css/basic.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
       form.signup > label > span::after {
         content: ' : ';
@@ -37,7 +38,8 @@
       }
     </style>
     <script>
-      window.addEventListener('load', function () {
+      $(function () {
+        //window.addEventListener('load', function () {
         var liObjArr = document.querySelectorAll('div.divSearchzip>ul>li');
         liObjArr.forEach(function (e, i) {
           e.addEventListener('click', function () {
@@ -45,7 +47,9 @@
             // console.log(this);
             // var zipcode = this.querySelector('span.zipcode').innerHTML;
             var zipcode = this.childNodes[1].innerHTML;
+            //var zipcode = $(this).find('span.zipcode').text();
             console.log(zipcode);
+
             //                          class속성값이 baseaddr인 span값 : 기본주소값 얻기
             //var baseaddr = 'baseaddr1';
             var baseaddr = this.childNodes[2].innerHTML;
@@ -53,14 +57,32 @@
             // var baseaddr = this.querySelector('span.baseaddr').innerHTML;
             //값들을 메인창의 div영역에 넣기
             var parent = window.opener;
-           
-            parent.document.querySelector('input[id=addrNum]').value =
-              zipcode;
-            parent.document.querySelector('input.baseaddr').value =
-              baseaddr;
+            // var mainWindow = self.opener;
+
+            parent.document.querySelector('input[id=addrNum]').value = zipcode;
+            //$('input[id=addrNum]',mainWindow.document).val(zipcode);
+            parent.document.querySelector('input.baseaddr').value = baseaddr;
+            //$('input.baseaddr',mainWindow.document).val(baseaddr);
+
             // 현재창 닫기
             self.close();
           });
+        });
+        var $btnObj = $('button[type=search]');
+        $btnObj.click(function (event) {
+          $.ajax({
+            url: './searchzip',
+            method: 'post',
+            data: { doro: '세종캠퍼스' },
+            success: function (responseData) {
+              alert('도로명주소 검색 성공');
+              //alert(responseData);
+            },
+            error: function (xhr) {
+              alert('도로명 주소 검색 실패' + xhr.status);
+            },
+          });
+          event.preventDefault();
         });
       });
     </script>
@@ -71,11 +93,11 @@
         <span>도로명 주소</span>
         <input
           type="search"
-          name="addres"
+          name="doro"
           required
           placeholder="도로명주소를 입력하세요"
         /> </label
-      ><button>조회</button><br />
+      ><button type="search">조회</button><br />
       <div class="divSearchzip">
         <ul>
           <li>
