@@ -48,13 +48,9 @@ public class CustomerService {
 	public void login(String id, String pwd) throws FindException{
 		Customer c = dao.selectById(id);
 		if(!c.getPwd().equals(pwd)) {
-			System.out.println("입력 : "+ pwd);
-			System.out.println("DB pwd : " + c.getPwd().equals(pwd));
+//			System.out.println("입력 : "+ pwd);
+//			System.out.println("DB pwd : " + c.getPwd().equals(pwd));
 			throw new FindException("로그인 실패");
-		}else {
-			System.out.println("로그인 성공");
-			System.out.println("입력 : "+ pwd);
-			System.out.println("DB pwd : "+c.getPwd()+" // " + c.getPwd().equals(pwd));
 		}
 	}
 	/**
