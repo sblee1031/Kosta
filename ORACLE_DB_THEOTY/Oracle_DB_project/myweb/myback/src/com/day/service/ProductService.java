@@ -12,9 +12,13 @@ import com.day.exception.FindException;
 public class ProductService {
 
 	private ProductDAO dao;
-	private static ProductService service = new ProductService();
-	
+	public static String envProp;//
+//	private static ProductService service = new ProductService();
+	private static ProductService service;
 	public static ProductService getInstance() {
+		if(service == null) {
+			service = new ProductService();
+		}
 		return service;
 	}
 	
@@ -22,7 +26,8 @@ public class ProductService {
 //		dao = new ProductDAOFile();
 		Properties env = new Properties();
 		try {
-			env.load(new FileInputStream("classes.prop"));
+//			env.load(new FileInputStream("classes.prop"));
+			env.load(new FileInputStream(envProp));
 			String className = env.getProperty("productDAO");
 			Class c = Class.forName(className);//JVM에 로드됨.
 			dao = (ProductDAO)c.newInstance();//자동객체생성
@@ -43,6 +48,7 @@ public class ProductService {
 		}
 		
 	}
+
 	public List<Product> findAll() throws FindException{
 		return dao.selectAll();
 //		List<Product> list = dao.selectAll();

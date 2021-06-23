@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>상품목록</title>
+    <link rel="stylesheet" href="./css/basic.css" />
+    <style>
+      /* * {
+        box-sizing: border-box;
+      } */
+      table.productlist {
+        width: 500px;
+        height: 300px;
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+      table.productlist tr > td {
+        width: 20%;
+        margin: 5px;
+        border: 1px solid;
+      }
+      table.productlist tr > td > ul {
+        list-style-type: none;
+        padding: 0px;
+        text-align: center;
+      }
+      table.productlist tr > td > ul > li > img {
+        max-width: 100%;
+         max-height: 127px;
+      }
+    </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+    	  var $tableObj = $('table.productlist');
+    	  var trHtml = "";
+    	  var url = "http://localhost:8888/mybackjson/productlist";
+    	  $.ajax({
+    		  url : url,
+    		  method : 'get',
+    		  success:function(responseData){
+    			  $(responseData).each(function(i, e){
+    				  console.log(i + "," + e);
+    				  if(i % 4 == 0){
+    					  if(i>0){
+    						  trHtml += '</tr>';
+    					  }
+    					  trHtml += '<tr>';
+    				  }
+    				  var prod_no = e.prod_no;
+    				  var prod_name = e.prod_name;
+    				  trHtml += '<td><ul>';
+    				  trHtml += '<li>';
+    				  trHtml += '<img src="images/'+ prod_no +'.jpg" />';
+    				  trHtml += '</li>';
+    				  trHtml += '<li>';
+    				  trHtml += prod_name;
+    				  trHtml += '</li>';
+    				  trHtml += '</ul>';
+    				  trHtml += '</td>';
+    			  });
+    			  trHtml += '</tr>';
+    			  $tableObj.html(trHtml);
+    		  }
+    		  
+    	  });
+      });
+    </script>
+  </head>
+  <body>
+    <table class="productlist">
+    </table>
+  </body>
+</html>
