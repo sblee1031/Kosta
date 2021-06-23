@@ -34,11 +34,11 @@ public class LoginServlet extends HttpServlet {
 		try {
 			service.login(id, pwd);
 			//3. 성공
-			path = "success";
+			path = "success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			//4. 실패
-			path = "fail";
+			path = "fail.jsp";
 		}
 		//5. 페이지 이동
 		RequestDispatcher rd = request.getRequestDispatcher(path);

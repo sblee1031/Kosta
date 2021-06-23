@@ -38,6 +38,7 @@ public class MoveServlet extends HttpServlet {
 		//응답출력스트림 얻기
 		PrintWriter out = response.getWriter();
 		out.print("before forward");
+		request.setAttribute("reqAttr1", "reqAttr1Value");
 		String path = "first";
 		RequestDispatcher rd = request.getRequestDispatcher(path); // first 객체가 있는지 확인한다.
 		rd.forward(request, response); //완전 이동

@@ -91,11 +91,16 @@ public class FirstServlet extends HttpServlet {
 		String servletPath = request.getServletPath();
 		System.out.println("servletPath : "+servletPath);  // servletPath: /first
 		
+		Object obj = request.getAttribute("reqAttr1");
+		String attrValue = (String)obj;
+		
+		
 	   response.setContentType("text/html;charset=utf-8");// 응답형식은 MIME 표준방식을 따른다
 	   PrintWriter out = response.getWriter();//응답 출력스트림을 얻기
 	   out.print("<html>");
 	   out.print("<body>");
-	   out.print("<h1>응답결과입니다<h1/>");
+	   out.print("<h1>응답결과입니다</h1>");
+	   out.print("요청 속성reqAttr1값 : "+ attrValue);
 	   out.print("</body>");
 	   out.print("</html>");
 

@@ -42,11 +42,11 @@
           }
           //서버로 AJAX 요청, 응답
           $.ajax({
-            url:'http://localhost:8888/myback/login',
+            url:'/myback/login',
             //url:'http://192.168.0.5:8888/myback/login',
         	 //url: 'login',
             method: 'post',
-            data: { id: 'id1', pwd: 'p1' } /*id=id1&pwd=p1*/,
+            data: { id:$('form.login input[name=id]').val(), pwd: $('form.login input[name=pwd]').val() } /*id=id1&pwd=p1*/,
             success: function (responseData) {
               alert(responseData);
             },
