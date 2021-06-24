@@ -37,10 +37,11 @@ public class ProductListServlet extends HttpServlet {
 //			request.setAttribute("productList", list);
 			
 			String list = mapper.writeValueAsString(p_list);
-			System.out.println(list);
+//			System.out.println(list);
 			response.setContentType("application/json;charset=utf-8"); //응답형식지정
-			PrintWriter out = response.getWriter();
-			out.print(list);
+//			PrintWriter out = response.getWriter();
+//			out.print(list);
+			response.getWriter().print(list);
 //			path = "/productlist.jsp"; 
 		} catch (FindException e) {
 			e.printStackTrace();
