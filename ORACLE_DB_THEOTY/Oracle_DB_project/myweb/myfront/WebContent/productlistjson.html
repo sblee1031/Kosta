@@ -36,6 +36,7 @@
     	  var $tableObj = $('table.productlist');
     	  var trHtml = "";
     	  var url = "http://localhost:8888/mybackjson/productlist";
+
     	  $.ajax({
     		  url : url,
     		  method : 'get',
@@ -50,7 +51,7 @@
     				  }
     				  var prod_no = e.prod_no;
     				  var prod_name = e.prod_name;
-    				  trHtml += '<td><ul>';
+    				  trHtml += '<td class="'+prod_no+'"><ul>';
     				  trHtml += '<li>';
     				  trHtml += '<img src="images/'+ prod_no +'.jpg" />';
     				  trHtml += '</li>';
@@ -63,13 +64,32 @@
     			  trHtml += '</tr>';
     			  $tableObj.html(trHtml);
     		  }
-    		  
+    	  
     	  });
+    	  
+    	  $('table.productlist').click(function(){
+    		  var $tableObj = this;
+  			console.log($tableObj);
+  			var prod_no = $(this).attr('class');
+  			$.ajax({
+  				url: '/mybackjson/productinfo',
+  				data : {prod_no:prod_no},
+  				success:function(responseData){
+  					$('section').empty();
+  					$('section').html(responseData);
+  				}
+  			}); 
+  		});  
       });
+    </script>
+    <script>
+
     </script>
   </head>
   <body>
+  <section>
     <table class="productlist">
     </table>
+    </section>
   </body>
 </html>

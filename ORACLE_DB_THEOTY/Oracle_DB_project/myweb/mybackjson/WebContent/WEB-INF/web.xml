@@ -91,4 +91,14 @@
     <servlet-name>JacksonServlet</servlet-name>
     <url-pattern>/jackson</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductInfoServlet</display-name>
+    <servlet-name>ProductInfoServlet</servlet-name>
+    <servlet-class>com.day.control.ProductInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductInfoServlet</servlet-name>
+    <url-pattern>/productinfo</url-pattern>
+  </servlet-mapping>
 </web-app>

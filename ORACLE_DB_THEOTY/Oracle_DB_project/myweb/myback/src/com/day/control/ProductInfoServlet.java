@@ -1,7 +1,6 @@
 package com.day.control;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -15,37 +14,29 @@ import com.day.exception.FindException;
 import com.day.service.ProductService;
 
 /**
- * Servlet implementation class ProductListServlet
+ * Servlet implementation class ProductInfoServlet
  */
-public class ProductListServlet extends HttpServlet {
+public class ProductInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-     
-
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1.요청데이터 얻기
-		//2.비지니스로직 호출
+		String prod_no = request.getParameter("prod_no");
 		ProductService service;
+
+		//2.비지니스로직 호출
 		ServletContext sc = getServletContext();
 		ProductService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		 service = ProductService.getInstance();
-			try {
-				List<Product> productList = service.findAll();
-				request.setAttribute("productList", productList);
-			} catch (FindException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		String path ="";
-		
-		if(request.getAttribute("productList")!=null) {
-			path = "/productlist.jsp";
-		}else {
-			path = "/fail.jsp";
+		 String path = "";
+		 try {
+			Product p = service.findByNo(prod_no);
+			request.setAttribute("p", p);
+			path = "productinfo.jsp";
+		} catch (FindException e) {
+			e.printStackTrace();
 		}
-		
-		RequestDispatcher rd = request.getRequestDispatcher(path); // first 객체가 있는지 확인한다.
-		rd.forward(request, response); //완전 이동
+		 RequestDispatcher rd = request.getRequestDispatcher(path);
+		 rd.forward(request, response);
 	}
-
 }

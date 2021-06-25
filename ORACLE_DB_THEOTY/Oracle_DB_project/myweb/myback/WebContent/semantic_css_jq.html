@@ -61,7 +61,7 @@
       max-width: 85%;
       height: 100%;
 
-      font-size: 15pt;
+      font-size: 12pt;
       font-weight: 700;
     }
 
@@ -117,11 +117,9 @@
         switch (href) {
           case './login.html':
           case './signup.html':
-          case './productlistjson.html':
-          case '/myback/productlist':
+          case './productlist':
+          case './viewcart':
             $section.load(href, function (responseTxt, statusTxt, xhr) {
-              //if (statusTxt == "success")
-               // alert("External content loaded successfully!");
               if (statusTxt == "error")
                 alert("Error: " + xhr.status + ": " + xhr.statusText);
             });   //요청경로 파일을 찾지 못할시 404 에러 코드 발생
@@ -148,8 +146,8 @@
     <nav>
       <a href="./login.html">로그인</a>
       <a href="./signup.html">가입</a>
-      <a href="./productlistjson.html">상품목록(mybackjson-json)</a>
-      <a href="/myback/productlist">상품목록(myback-mvc)</a>
+      <a href="./productlist">상품목록(myback-mvc)</a>
+      <a href="./viewcart">장바구니보기</a>
     </nav>
 
     <div id="section">
