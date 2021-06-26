@@ -14,8 +14,26 @@
   				method:'get',
   				success:function(responseData){
   					alert(responseData.trim());
-  					//상품목록보기메뉴 click이벤트를 강제 발생
-  					//$('#body > nav > a[href="./productlist"]').trigger('click');
+  						var status = responseData.trim();
+  				        switch (status) {
+  				        case '주문추가 성공':
+  				        	console.log('status : '+status);
+  				        	//$('a.orderlist').trigger('click');
+  				        	var nav = document.querySelector('a.orderlist');
+  				        	nav.click();
+  				        	
+  				        	break;
+  				        case '주문추가 실패':
+  				        	console.log('status : '+status);
+  				        	break;
+  				        case '로그인 하세요':
+  				        	console.log('status : '+status);
+  				        	break;
+  				        case '추가실패':
+  				        	console.log('status : '+status);
+  				          break;
+  				      	  
+  				      }
   				}
   			});
   		});
@@ -53,7 +71,6 @@ for(Product p : products){
 <tr>
 <td>${r.prod_no}</td>
 <td>${r.prod_name}</td>
-
 </tr>
 <tr><td>${p.prod_no}</td>
 <td>${p.prod_name}</td>

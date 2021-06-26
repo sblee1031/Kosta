@@ -121,6 +121,7 @@
           case './signup.html':
           case './productlist':
           case './viewcart':
+          case './orderlist':
             $section.load(href, function (responseTxt, statusTxt, xhr) {
               if (statusTxt == "error")
                 alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -151,20 +152,20 @@
       KOSTA_BUCKS
     </header>
 
-    <nav>
+    <nav class="nav">
     	<c:choose>
     	<c:when test= "${empty sessionScope.loginInfo}">
       <a href="./login.html">로그인</a>
       <a href="./signup.html">가입</a>
       </c:when>
       <c:otherwise>
-      	${loginInfo.id}님 반갑습니다.<a href="./logout">로그아웃</a>
+      	${loginInfo.id} 님 반갑습니다.<a href="./logout">로그아웃</a>
       </c:otherwise>
       </c:choose>
       <a type="productlist" href="./productlist">상품목록</a>
       <a type="viewcart" href="./viewcart">장바구니보기</a>
       <c:if test="${!empty sessionScope.loginInfo}">
-      	<a href="./orderlist">주문목록</a>
+      	<a class ="orderlist" type="orderlist" href="./orderlist">주문목록</a>
       </c:if>
     </nav>
 
@@ -221,6 +222,7 @@
         사업자등록번호 : 201-81-21515 (주)스타벅스커피 코리아 대표이사 : 송
         데이비드 호섭 TEL : 1522-3232 개인정보 책임자 : 하익성
       </footer>
+    </div>
     </div>
     <!-- <div>
       DIV

@@ -2,11 +2,13 @@ package com.day.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import com.day.dao.OrderDAO;
 import com.day.dto.OrderInfo;
 import com.day.exception.AddException;
+import com.day.exception.FindException;
 
 public class OrderService {
 
@@ -51,5 +53,7 @@ public class OrderService {
 	public void add(OrderInfo info) throws AddException {
 		dao.insert(info);
 	}
-
+	public List<OrderInfo> orderList(String id) throws FindException{
+		return dao.selectById(id);
+	}
 }
