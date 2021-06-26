@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<!-- 메인페이지에 포함될때 삭제할 영역시작 -->
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>로그인</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!-- 메인페이지에 포함될때 삭제할 영역끝 -->
     <script>
       $(function (event) {
@@ -43,8 +36,8 @@
             localStorage.setItem('loginInfo', idObj.value); //localStorage에 추가
           }
         
-        //var url = 'http://192.168.0.5:8888/myback/login';
-        var url = 'http://localhost:8888/mybackjson/login';
+        var url = 'http://localhost:8888/myback/login';
+        //var url = 'http://localhost:8888/mybackjson/login';
           //서버로 AJAX 요청, 응답
           $.ajax({
             url : url,
@@ -54,12 +47,13 @@
             method: 'post',
             data: { id:$('form.login input[name=id]').val(), pwd: $('form.login input[name=pwd]').val() } /*id=id1&pwd=p1*/,
             success: function (responseData) {
-              //alert(responseData.status);
-              if(responseData.status ==1){//성공
-            	  alert(responseData.msg);
-	              }else{//실패인경우
-	            	  alert(responseData.msg);
-	              }
+              alert(responseData);
+              location.href="./semantic_css_jq.jsp";
+              //if(responseData.status ==1){//성공
+            	//  alert(responseData.msg);
+	            //  }else{//실패인경우
+	            //	  alert(responseData.msg);
+	             // }
             },
             error: function (xhr) {
               alert(xhr.status);
@@ -70,8 +64,7 @@
       }); // 로드 function
     </script>
     <!-- 메인페이지에 포함될때 삭제할 영역시작 -->
-  </head>
-  <body>
+
   <!-- 메인페이지에 포함될때 삭제할 영역끝-->
     <form class="login" method="post" action="http://www.daum.net">
       <label>아이디:<input type="text" name="id" required /></label><br />
@@ -81,6 +74,5 @@
       <button type="submit">로그인</button>
     </form>
     <!-- 메인페이지에 포함될때 삭제할 영역시작 -->
-  </body>
-</html>
+
 <!-- 메인페이지에 포함될때 삭제할 영역끝 -->

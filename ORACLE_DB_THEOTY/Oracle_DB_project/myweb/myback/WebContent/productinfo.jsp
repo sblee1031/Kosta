@@ -26,8 +26,15 @@
 		//계속하기 버튼이 클릭 이벤트 처리
 		$('div.productinfo>div.modal>button.productlist').click(function(){
 			console.log(this);
-			//상품목록보기메뉴 click이벤트를 강제 발생
-			$('#body > nav > a[href="./productlist"]').trigger('click');
+			//상품목록보기메뉴 click이벤트를 강제 발생 #body > nav > a:nth-child(4)
+			$('div > nav > a[type="productlist"]').trigger('click');
+		});
+		
+		//장바구니 버튼 클릭이벤트처리
+		$('div.productinfo>div.modal>button.viewcart').click(function(){
+			console.log(this);
+			//장바구니메뉴 click이벤트를 강제 발생
+			$('div > nav > a[type="viewcart"]').trigger('click');
 		});
 		
 	});
@@ -48,7 +55,7 @@
 	</ol>
 </div>
 <div class="modal" style="clear:both; display:none;">
-<button class="">장바구니 보기</button>
+<button class="viewcart">장바구니 보기</button>
 <button class="productlist">계속하기</button>
 </div>
 </div>

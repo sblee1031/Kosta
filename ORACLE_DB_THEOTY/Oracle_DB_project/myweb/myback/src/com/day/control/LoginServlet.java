@@ -8,7 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.day.dto.Customer;
 import com.day.exception.FindException;
 import com.day.service.CustomerService;
 
@@ -31,8 +33,13 @@ public class LoginServlet extends HttpServlet {
 		CustomerService service = CustomerService.getInstance();
 		//2. 비지니스로직 호출
 		String path = "";
+		HttpSession session = request.getSession();
+		session.removeAttribute("loginInfo");
 		try {
-			service.login(id, pwd);
+			Customer loginInfo = service.login(id, pwd);
+			//로그인 정보를 세션에 추가
+			
+			session.setAttribute("loginInfo", loginInfo);
 			//3. 성공
 			path = "success.jsp";
 		} catch (FindException e) {
