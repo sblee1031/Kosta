@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var num = 4;
+      if (num % 2 == 0) {
+        console.log('짝수');
+      } else {
+        console.log('홀수');
+      }
+      //*******************************//
+      //소수입니다, 소수가 아닙니다 for(var i=0; i<~~~~~;){}
+      var max = num / 2;
+      var isPrime = true;
+      var i = 2;
+      for (; i <= max; i++) {
+        if (num % i == 0) {
+          isPrime = false;
+          break;
+        }
+      }
+      //if (i == max) {
+      //  console.log('소수입니다');
+      //} else {
+      // console.log('소수가 아닙니다');
+      //}
+      if (isPrime) {
+        console.log('소수입니다');
+      } else {
+        console.log('소수가 아닙니다');
+      }
+      //*******************************//
+      //1-가위, 2-바위, 3-보
+      var arr = ['가위', '바위', '보'];
+      var userNum = 1; //사용자 가위
+      var r = parseInt(Math.random() * 3 + 1); //컴퓨터 1<= r <4  ==>1, 2, 3
+
+      console.log('사용자값: ' + arr[userNum - 1] + ', 컴퓨터값: ' + arr[r - 1]);
+      //            사용자컴퓨터  사용자컴퓨터  사용자컴퓨터
+      //비기는 경우     1  1        2   2       3   3
+      //이기는 경우     1  3        2   1       3   2
+      //지는 경우       1  2        2   3       3   1
+
+      if (userNum == r) {
+        console.log('비겼습니다');
+      } else if (userNum - 1 == r % 3) {
+        console.log('이겼습니다');
+      } else {
+        console.log('졌습니다');
+      }
+
+      //*******************************//
+      var subject = 'JAVA';
+      switch (subject) {
+        case 'JAVA':
+          console.log('개발직군');
+        case 'BPM':
+          console.log('컨설팅직군');
+          break;
+        default:
+          console.log('그외의 직군');
+      }
+    </script>
+  </head>
+</html>

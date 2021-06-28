@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      //배열 : 동일자료형의 데이터 묶음
+      var arr = ['사과', '포도', '귤'];
+      console.log(arr[0]); //사과
+      console.log(arr.length);
+
+      arr = [];
+      arr[0] = '바나나';
+      arr[1] = '파인애플';
+
+      arr.push('오렌지'); //배열 끝에 추가
+      var orange = arr.pop(); //배열끝요소 제거
+
+      arr.unshift('딸기'); //배열 앞에 추가
+      var str = arr.shift(); //배열 앞요소 제거
+      console.log(arr);
+
+      var index = arr.indexOf('파인애플');
+      console.log(index); //1
+
+      index = arr.indexOf('딸기');
+      console.log(index); //-1
+
+      var ban = arr.splice(0, 1); //위치에 해당하는 요소를 제거 (startindex, deletecount)
+      console.log(arr);
+
+      arr.push('수박'); //
+      arr.push('체리'); //
+      for (var i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+      }
+      arr.forEach(function (value, index) {
+        console.log(index + ':' + value);
+      });
+
+      arr.sort();
+      console.log(arr);
+    </script>
+  </head>
+</html>

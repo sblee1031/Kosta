@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div style="background-color: yellow; width: 500px; height: 300px; border: 1px solid">
+      <a href="http://www.daum.net">다음카카오</a>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      var $aObj = $('div>a');
+      $aObj.click(function (event) {
+        $aObj.css('background-color', 'gray');
+        // event.preventDefault();
+        // event.stopPropagation(); //이벤트 버블링 중지
+        return false;
+      });
+
+      var divObj = document.querySelector('div');
+      divObj.addEventListener('click', function () {
+        divObj.style.backgroundColor = 'pink';
+      });
+    </script>
+  </body>
+</html>

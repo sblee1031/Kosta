@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function f1() {}
+      var f2 = function () {
+        console.log('이름없는 함수입니다1');
+      };
+
+      f1();
+      f2();
+      (function () {
+        console.log('이름없는 함수입니다2');
+      })();
+
+      var f3 = function (greeting) {
+        console.log(greeting);
+      };
+      f3('HELLO');
+      f3(999);
+      f3(true);
+      f3([1, 2, 3]);
+
+      var f4 = function (a, b, c) {
+        console.log(a + ':' + b + ':' + c);
+      };
+      f4('hello', 999, true); //매개변수개수에 일치하는 인자개수->hello:999:true
+      f4('hello', 999); //매개변수개수보다 작은 인자개수->hello:999:undefined
+      f4('hello', 999, true, [1, 2, 3]); //매개변수개수보다 많은 인자개수 ->hello:999:true
+
+      var f5 = function (a, b, c) {
+        if (typeof a == 'undefined' || typeof b == 'undefined' || typeof c == 'undefined') {
+          console.log('인자개수가 모자릅니다');
+        }
+      };
+      f5('hello', 999);
+      var f6 = function (a, b, c) {
+        if (typeof c == 'undefined') {
+          c = 0;
+        }
+        if (typeof b == 'undefined') {
+          b = 0;
+        }
+        if (typeof a == 'undefined') {
+          a = 0;
+        }
+        console.log(a + b + c);
+      };
+
+      f6(2, 3, 4); //->9
+      f6(2, 3); //->5
+      f6(2); //2
+      f6(); //0
+
+      var f7 = function () {
+        return 'hello';
+      };
+
+      var returnValue = f7();
+      console.log(returnValue); //hello
+
+      returnValue = f6();
+      console.log(returnValue); //undefined
+
+      //---------------------------------------//
+      var f8 = function (f, count) {
+        for (var i = 1; i <= count; i++) {
+          f();
+        }
+      };
+      f8(function () {
+        console.log('callback....');
+      }, 3);
+
+      var f9 = function (msg) {
+        for (var i = 0; i < 3; i++) {
+          console.log(msg);
+        }
+      };
+      f9('hello'); //--> hello가 3번 출력
+      f9('bonjour'); //-->bonjour가 3번 출력
+      f9('안녕하세요'); //-->'안녕하세요'가 3번출력
+
+      var f10 = function (f, msg) {
+        f(msg);
+      };
+      f10(f9, 'hello'); //--> hello가 3번 출력
+      f10(f9, 'bonjour'); //-->bonjour가 3번 출력
+    </script>
+  </head>
+</html>

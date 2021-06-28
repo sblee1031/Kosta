@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      var a = 'GLOBAL VARIABLE';
+      console.log(window.a); //'GLOBAL VARIABLE'
+      if (true) {
+        var ifa = 'if 블럭변수';
+        console.log('if안 :ifa=' + ifa);
+      }
+      console.log('if밖 :ifa=' + ifa);
+
+      for (var fora = 0; fora < 1; fora++) {
+        console.log('for안 :fora=' + fora);
+      }
+      console.log('for밖 :fora=' + fora);
+      //-------함수SCOPE-------------------
+      var f = function () {
+        var fa = true;
+        console.log('function안 :fa=' + fa); //true
+      };
+      //-----------------------------------
+      f();
+      //console.log('function밖 :fa=' + fa); //fa is not defined
+
+      var f1 = function () {
+        var f1a = 'f1함수 스코프 변수';
+        var f11 = function () {
+          console.log('반환함수입니다' + f1a);
+          var f11b = 10;
+          return f1a;
+        };
+        //console.log(f11b); //f11b is not defined
+        return f11;
+      };
+      //var returnF = f1();
+      //console.log(returnF); //returnF();
+
+      var returnF11 = f1();
+      var returnF11Value = returnF11();
+      console.log(returnF11Value);
+      //---------------------------
+      var f2 = function () {
+        var f2a = 'f2a';
+        var f22 = function () {
+          var f22b = 'f22b';
+        };
+      };
+
+      var f3 = function (f) {
+        var f3a = 'f3a';
+        f();
+      };
+
+      f3(f2);
+
+      var name = '오문정';
+      var f4 = function (param) {
+        var name = '김근완';
+        param();
+      };
+      var a = 10;
+      var b = '10';
+      console.log(a == b); //number==string -> number==number ->true
+      console.log(a === b); //->false
+
+      //new A();
+      var obj = {
+        prod_no: 'C0001',
+        prod_price: 1500,
+        display: function () {
+          console.log(this.prod_no);
+        },
+      };
+
+      obj.display();
+      //JSON
+
+      f4(function () {
+        //console.log(name);
+        alert(name);
+      });
+    </script>
+  </head>
+</html>

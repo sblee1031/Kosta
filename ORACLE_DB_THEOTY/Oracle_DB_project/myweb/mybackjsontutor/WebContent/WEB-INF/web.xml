@@ -11,7 +11,7 @@
   </welcome-file-list>
   <context-param>
     <param-name>Developer</param-name>
-    <param-value>Lee Soek Bong</param-value>
+    <param-value>Oh MoonJeong</param-value>
   </context-param>
   <context-param>
     <param-name>env</param-name>
@@ -73,12 +73,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>ProductListServlet</display-name>
-    <servlet-name>ProductListServlet</servlet-name>
-    <servlet-class>com.day.control.ProductListServlet</servlet-class>
+    <display-name>ProductLstServlet</display-name>
+    <servlet-name>ProductLstServlet</servlet-name>
+    <servlet-class>com.day.control.ProductLstServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ProductListServlet</servlet-name>
+    <servlet-name>ProductLstServlet</servlet-name>
     <url-pattern>/productlist</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -100,6 +100,56 @@
   <servlet-mapping>
     <servlet-name>ProductInfoServlet</servlet-name>
     <url-pattern>/productinfo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PutCartServlet</display-name>
+    <servlet-name>PutCartServlet</servlet-name>
+    <servlet-class>com.day.control.PutCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PutCartServlet</servlet-name>
+    <url-pattern>/putcart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewCartServlet</display-name>
+    <servlet-name>ViewCartServlet</servlet-name>
+    <servlet-class>com.day.control.ViewCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewCartServlet</servlet-name>
+    <url-pattern>/viewcart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddOrderServlet</display-name>
+    <servlet-name>AddOrderServlet</servlet-name>
+    <servlet-class>com.day.control.AddOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddOrderServlet</servlet-name>
+    <url-pattern>/addorder</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogoutServlet</display-name>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.day.control.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckloginedServlet</display-name>
+    <servlet-name>CheckloginedServlet</servlet-name>
+    <servlet-class>com.day.control.CheckloginedServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckloginedServlet</servlet-name>
+    <url-pattern>/checklogined</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

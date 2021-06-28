@@ -1,0 +1,92 @@
+<script>
+  $(function () {
+    /*--장바구니버튼 클릭 시작--*/
+    $('div.productinfo>div>ol>li>button').click(function () {
+      var prod_no = $(this).parents('ol').find('li>span.prod_no').html();
+      var quantity = $(this).parents('ol').find('li>input[type=number]').val();
+      var backurl = '/mybackjsontutor/putcart';
+      $.ajax({
+        url: backurl,
+        method: 'get',
+        data: { prod_no: prod_no, quantity: quantity },
+        success: function (responseData) {
+          //div영역보여주기
+          $('div.productinfo>div.bg').show();
+        },
+      });
+    });
+    /*--장바구니버튼 클릭 끝--*/
+
+    /*--계속하기 버튼 클릭 시작--*/
+    $('div.productinfo>div.bg>div.modal>button.productlist').click(function () {
+      $('div.productinfo>div.bg').hide();
+      //상품목록보기메뉴에 click이벤트를 강제발생
+      $('body > nav > ol > li > a[href="./productlistjson.html"]').trigger('click');
+    });
+    /*--계속하기 버튼 클릭 끝--*/
+
+    /*--장바구니보기 버튼 클릭 시작--*/
+    $('div.productinfo>div.bg>div.modal>button.viewcart').click(function () {
+      $('div.productinfo>div.bg').hide();
+      $('body > nav > ol > li > a[href="./viewcart.html"]').trigger('click');
+    });
+    /*--장바구니보기 버튼 클릭 끝--*/
+  });
+</script>
+<style>
+  div.bg {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    border: 1px solid;
+    left: 0px;
+    top: 100px;
+    width: 100%;
+    height: 100%;
+    margin: 10px;
+    overflow: auto;
+    /* 레이어 색깔 */
+    background-color: rgba(199, 196, 196, 0.4);
+    clear: both;
+  }
+  div.modal {
+    display: block;
+    position: relative;
+    border: 1px solid orange;
+    border-radius: 10px;
+    background-color: papayawhip;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+
+    /* 배경레이어 보다 앞에 보이기*/
+    z-index: 10000;
+    width: 40%;
+    height: 100px;
+    /* div center 정렬*/
+    top: 40%;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+</style>
+<div class="productinfo" style="width: 50%; display: none">
+  <div style="float: left; width: 40%">
+    <img src="" alt="" style="max-width: 100%" />
+  </div>
+  <div style="float: right; width: 50%">
+    <ol style="list-style-type: none; padding: 0px">
+      <li>상품번호:<span class="prod_no"></span></li>
+      <li>상품명:<span class="prod_name"></span></li>
+      <li>가격:<span class="prod_price"></span></li>
+      <li>수량:<input type="number" value="1" max="99" /></li>
+      <li><button>장바구니 넣기</button></li>
+    </ol>
+  </div>
+  <div class="bg">
+    <div class="modal">
+      <button class="viewcart">장바구니 보기</button>
+      <button class="productlist">계속하기</button>
+    </div>
+  </div>
+</div>

@@ -53,7 +53,7 @@ public class OrderService {
 	public void add(OrderInfo info) throws AddException {
 		dao.insert(info);
 	}
-	public List<OrderInfo> findById(String id) throws FindException{
+	public List<OrderInfo> orderList(String id) throws FindException{
 		return dao.selectById(id);
 	}
 }

@@ -1,0 +1,90 @@
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+-->
+<script>
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+</script>
+<script>
+  $(function () {
+    /*--장바구니보기 시작--*/
+    var backurl = '/mybackjsontutor/viewcart';
+    $.ajax({
+      url: backurl,
+      method: 'get',
+      success: function (responseObj) {
+        if (responseObj.length == 0) {
+          $('section').html('장바구니가 비었습니다');
+        } else {
+        	/*
+        	
+        	*/
+          var $trObj = $('div.viewcart table tr.data'); //tr 원본객체
+          $(responseObj).each(function (i, map) {
+            var $trCopyObj = $trObj.clone(); //tr 복제본객체
+            $trCopyObj.show();
+            $trCopyObj.find('td.prod_no').html(map.product.prod_no);
+            $trCopyObj.find('td.prod_name').html(map.product.prod_name);
+            $trCopyObj.find('td.prod_price').html(map.product.prod_price);
+            $trCopyObj.find('td.quantity').html(map.quantity);
+            $trCopyObj
+              .find('td.amount')
+              .html(numberWithCommas(map.product.prod_price * map.quantity));
+            $trObj.parent().append($trCopyObj); //tr의 부모인 table에 tr복제본을 마지막자식요소로 추가한다
+          });
+        }
+      },
+    });
+    /*--장바구니보기 끝--*/
+
+    /*--주문하기 버튼 클릭 시작--*/
+    $('div.viewcart>button.addorder').click(function () {
+      var backurl = '/mybackjsontutor/addorder';
+      $.ajax({
+        url: backurl,
+        method: 'get',
+        success: function (responseObj) {
+          switch (responseObj.status) {
+            case 1:
+              alert('주문 성공');
+              //상품목록보기메뉴에 click이벤트를 강제발생
+              $('body > nav > ol > li > a[href="./productlistjson.html"]').trigger('click');
+              break;
+            case 0:
+              alert('로그인하세요');
+              //로그인메뉴에 click이벤트를 강제발생
+              $('body > nav > ol > li > a[href="./login.html"]').trigger('click');
+              break;
+            case -1:
+              alert('장바구니가 비었습니다');
+              break;
+            case -2:
+              alert('주문 실패:' + responseObj.msg.trim());
+          }
+        },
+      });
+    });
+    /*--주문하기 버튼 클릭 끝--*/
+  });
+</script>
+
+<div class="viewcart">
+  <h3>장바구니</h3>
+  <table>
+    <tr>
+      <th>상품번호</th>
+      <th>상품명</th>
+      <th>가격</th>
+      <th>수량</th>
+      <th>금액</th>
+    </tr>
+    <tr class="data" style="display: none">
+      <td class="prod_no"></td>
+      <td class="prod_name"></td>
+      <td class="prod_price"></td>
+      <td class="quantity"></td>
+      <td class="amount"></td>
+    </tr>
+  </table>
+  <button class="addorder">주문하기</button>
+</div>

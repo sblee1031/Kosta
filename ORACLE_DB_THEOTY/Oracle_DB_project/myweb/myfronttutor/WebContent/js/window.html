@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>window객체</title>
+ 
+    <script>
+      window.addEventListener('load', function () {
+        var btOpenObj = document.querySelector('button.popopen');
+        var win1;
+        btOpenObj.addEventListener('click', function () {
+          var url = '../searchzip.html';
+          var name = 'searchzip';
+          var opt = 'width=300 height=300';
+          win1 = window.open(url, name, opt);
+        });
+        var btCloseObj = document.querySelector('button.popclose');
+        btCloseObj.addEventListener('click', function () {
+          win1.close();
+        });
+
+        var btIntervalObj = document.querySelector('button.interval');
+        var intervalID;
+        btIntervalObj.addEventListener('click', function () {
+        	intervalID = window.setInterval(function () {
+            var now = new Date();
+            var nowStr =
+              now.getFullYear() +
+              '/' +
+              (now.getMonth() + 1) +
+              '/' +
+              now.getDate() +
+              ' ' +
+              now.getHours() +
+              ':' +
+              now.getMinutes() +
+              ':' +
+              now.getSeconds();
+            document.querySelector('div>div.interval').innerHTML = nowStr;
+          }, 1000 * 1);
+        });
+      
+        var btClearIntervalObj = document.querySelector('button.clearInterval');
+        btClearIntervalObj.addEventListener('click', function(){
+        	window.clearInterval(intervalID);
+        });
+        
+        var btTimeoutObj = document.querySelector("button.timeout");
+        var timerID;
+        btTimeoutObj.addEventListener('click', function(){
+            timerID = window.setTimeout(function(){
+                window.alert("10초가 지났습니다");
+            }, 10*1000);
+        });
+
+        var btClearTimeoutObj = document.querySelector("button.clearTimeout");
+        btClearTimeoutObj.addEventListener('click', function(){
+            window.clearTimeout(timerID);
+        });
+        
+      });      
+    </script>
+  </head>
+  <body>
+    <button class="popopen">새창띄우기</button>
+    <button class="popclose">새창닫기</button>
+    <button class="interval">1초간격</button>
+    <button class="clearInterval">1초간격 해제</button>
+    <button class="timeout">10초후 경고창띄우기(타이머)</button>
+    <button class="clearTimeout">타이머해제</button>
+    
+    <div>
+      <span class="zipcode">우편번호값</span><span class="baseaddr">기본주소값</span>
+      <div class="interval"></div>
+    </div>
+  </body>
+</html>

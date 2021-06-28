@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      window.addEventListener('load', function () {
+        var btArr = document.querySelectorAll('button');
+        // for (var i = 0; i < btArr.length; i++) {
+        //   btArr[i].addEventListener('click', function () {
+        //     console.log(i + 1 + '버튼 클릭됨');
+        //   });
+        // }
+
+        // for (var i = 0; i < btArr.length; i++) {
+        //   (function (i) {
+        //     btArr[i].addEventListener('click', function () {
+        //       console.log(i + 1 + '버튼 클릭됨');
+        //     });
+        //   })(i);
+        // }
+
+        btArr.forEach(function (value, index) {
+          value.addEventListener('click', function () {
+            console.log(index + 1 + '버튼 클릭됨');
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+  </body>
+</html>

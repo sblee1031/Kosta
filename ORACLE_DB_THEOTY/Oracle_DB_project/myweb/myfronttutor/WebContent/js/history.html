@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+window.addEventListener('load', function(){
+    var aObj = document.querySelector('a');
+    aObj.addEventListener('click', function(){
+        alert('뒤로가기가 클릭되었습니다');
+        history.go(-1);//back();과 같음
+    });
+});
+</script>
+</head>
+<body>
+  <a href="#">뒤로</a>
+</body>
+</html>

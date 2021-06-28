@@ -27,69 +27,84 @@
       }
       table.productlist tr > td > ul > li > img {
         max-width: 100%;
-         max-height: 127px;
+        max-height: 127px;
       }
     </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(function () {
-    	  var $tableObj = $('table.productlist');
-    	  var trHtml = "";
-    	  var url = "http://localhost:8888/mybackjson/productlist";
+        var $tableObj = $("table.productlist");
+        var trHtml = "";
+        var url = "http://localhost:8888/mybackjson/productlist";
 
-    	  $.ajax({
-    		  url : url,
-    		  method : 'get',
-    		  success:function(responseData){
-    			  $(responseData).each(function(i, e){
-    				  console.log(i + "," + e);
-    				  if(i % 4 == 0){
-    					  if(i>0){
-    						  trHtml += '</tr>';
-    					  }
-    					  trHtml += '<tr>';
-    				  }
-    				  var prod_no = e.prod_no;
-    				  var prod_name = e.prod_name;
-    				  trHtml += '<td class="'+prod_no+'"><ul>';
-    				  trHtml += '<li>';
-    				  trHtml += '<img src="images/'+ prod_no +'.jpg" />';
-    				  trHtml += '</li>';
-    				  trHtml += '<li>';
-    				  trHtml += prod_name;
-    				  trHtml += '</li>';
-    				  trHtml += '</ul>';
-    				  trHtml += '</td>';
-    			  });
-    			  trHtml += '</tr>';
-    			  $tableObj.html(trHtml);
-    		  }
-    	  
-    	  });
-    	  
-    	  $('table.productlist').click(function(){
-    		  var $tableObj = this;
-  			console.log($tableObj);
-  			var prod_no = $(this).attr('class');
-  			$.ajax({
-  				url: '/mybackjson/productinfo',
-  				data : {prod_no:prod_no},
-  				success:function(responseData){
-  					$('section').empty();
-  					$('section').html(responseData);
-  				}
-  			}); 
-  		});  
+        $.ajax({
+          url: url,
+          method: "get",
+          success: function (responseData) {
+            $(responseData).each(function (i, e) {
+              console.log(i + "," + e);
+              if (i % 4 == 0) {
+                if (i > 0) {
+                  trHtml += "</tr>";
+                }
+                trHtml += "<tr>";
+              }
+              var prod_no = e.prod_no;
+              var prod_name = e.prod_name;
+              trHtml += '<td class="' + prod_no + '"><ul>';
+              trHtml += "<li>";
+              trHtml += '<img src="images/' + prod_no + '.jpg" />';
+              trHtml += "</li>";
+              trHtml += "<li>";
+              trHtml += prod_name;
+              trHtml += "</li>";
+              trHtml += "</ul>";
+              trHtml += "</td>";
+            });
+            trHtml += "</tr>";
+            $tableObj.html(trHtml);
+          },
+        });
+        
+        $(document).on("click", "td", function () {
+            var prod_no = $(this).attr("class");
+            console.log(prod_no);
+            var sectionObj = $("section");
+           $.ajax({
+              url: "/mybackjson/productinfo",
+              data: { prod_no: prod_no },
+              success: function (responseData) {
+            	  console.log(responseData);
+                $("section").empty();
+                var divObj = "";
+                divObj += responseData.prod_no;
+                divObj += responseData.prod_name;
+                divObj += responseData.prod_price;
+                
+                sectionObj.html(divObj);
+/*                 $.each(response,function (i,e) {
+                    console.log(i+e);
+             	divObj += "<div>";
+             	divObj += e.prod_no;
+             	divObj += e.prod_name;
+             	divObj += e.prod_price;
+             	divObj += new Date(e.prod_mf_dt);
+             	divObj +="</div>";
+                //$("section").html(responseData);
+                });
+                $("section").append(divObj); */
+              },
+            }); 
+          });
       });
     </script>
-    <script>
 
-    </script>
   </head>
   <body>
-  <section>
-    <table class="productlist">
-    </table>
+    <section>
+      <table class="productlist">
+      </table>
+      <div></div>
     </section>
   </body>
 </html>

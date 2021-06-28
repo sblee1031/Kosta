@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      //   var jsonStr = '{"prod_no":"C0001", "prod_name":"아메리카노", "prod_price":1500}';
+      //   var jsonObj = JSON.parse(jsonStr);
+      //   console.log(jsonObj.prod_no + '=' + jsonObj.prod_price);
+
+      var jsonArrStr =
+        '[{"prod_no":"C0001", "prod_name":"아메리카노", "prod_price":1500},{"prod_no":"C0002", "prod_name":"ICE아메리카노", "prod_price":1500},{"prod_no":"C0003", "prod_name":"라테", "prod_price":2000}]';
+      var jsonArrObj = JSON.parse(jsonArrStr);
+      jsonArrObj.forEach(function (e, i) {
+        console.log(i + '=' + e.prod_no + '=' + e.prod_price);
+      });
+    </script>
+  </head>
+</html>
