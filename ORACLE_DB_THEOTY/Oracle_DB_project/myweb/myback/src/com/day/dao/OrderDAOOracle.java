@@ -99,12 +99,11 @@ public class OrderDAOOracle implements OrderDAO{
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
-			
 		}catch(SQLException e){
 			e.printStackTrace();
 			throw new FindException("");
 		}
-		String selectBySQL = "SELECT oi.order_no, order_dt, order_prod_no,  prod_name, prod_price, order_quantity " + 
+		String selectByIdSQL = "SELECT oi.order_no, order_dt, order_prod_no,  prod_name, prod_price, order_quantity " + 
 				"FROM order_info oi JOIN order_line ol ON(oi.order_no = ol.order_no)\r\n" + 
 				"JOIN product p  ON (ol.order_prod_no = p.prod_no)\r\n" + 
 				"WHERE order_id = ? \r\n" + 
@@ -114,27 +113,43 @@ public class OrderDAOOracle implements OrderDAO{
 		ResultSet rs = null;
 		List<OrderInfo> list = new ArrayList<>();
 		try {
-			pstmt = con.prepareStatement(selectBySQL);
+			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
+			int oldOrder_no = 0;
+			List<OrderLine> lines = null;
 			while(rs.next()) {
-				OrderInfo oi = new OrderInfo();
-				oi.setOrder_no(rs.getInt("order_no"));
-				oi.setOrder_dt(rs.getDate("order_dt"));
-				List<OrderLine> lines = new ArrayList<>();
-				
-				Product p = new Product(rs.getString("order_prod_no"), rs.getString("prod_name"), rs.getInt("prod_price"));
-				OrderLine ol = new OrderLine(p, rs.getInt("order_quantity"));
-				lines.add(ol);
-				
-				oi.setLines(lines);
-				list.add(oi);
-//				String order_prod_no = rs.getString("order_prod_no");
-//				String prod_name = rs.getString("prod_name");
-//				int prod_price = rs.getInt("prod_price");
-//				int prod_quantity = rs.getInt("prod_quantity");
-				
+				//기존주문번호와 현재행의 주문번호가 다르면 
+				// OrderInfo객체생성,list에 추가 OrderInfo info = new OrderInfo(); list.add(info)
+				// order_no값과 order_dt값을 info객체에 설정
+				// lines생성후 OrderInfo객체에 설정  lines = new ArrayList<>(); info.setLines(lines);
+				// 현재행의 주문번호를 기존주문번호로 대입
+				int order_no = rs.getInt("order_no");
+				if(oldOrder_no != order_no) {
+					OrderInfo info = new OrderInfo(); 
+					list.add(info);
+//					Customer order_c = new Customer(); order_c.setId("order_id");
+//					info.setOrder_c(order_c);
+					info.setOrder_no(order_no);
+					info.setOrder_dt(rs.getDate("order_dt"));
+					lines = new ArrayList<>();
+					info.setLines(lines);
+					oldOrder_no = order_no;
+				}
+				//OrderLine객체생성, lines에 추가 OrderLine line = new OrderLine(); lines.add(line);
+				OrderLine line = new OrderLine();
+				line.setOrder_no(order_no);
+				Product order_p = new Product();
+				order_p.setProd_no(rs.getString("order_prod_no"));
+				order_p.setProd_name(rs.getString("prod_name"));
+				order_p.setProd_price(rs.getInt("prod_price"));
+				line.setOrder_p(order_p);
+				line.setOrder_quantity(rs.getInt("order_quantity"));
+				lines.add(line);
 			}
+			System.out.println("총주문 횟수 : " + list.size());
+			System.out.println(list.get(0));
+			System.out.println(list.get(1));
 			if(list.size() ==0) {
 				throw new FindException("주문내역이 없습니다.");
 			}

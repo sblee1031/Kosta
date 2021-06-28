@@ -28,7 +28,7 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		//로그인된 사용자만 주문가능
-		String path = "orderlist.jsp";
+		String path = "orderlist1.jsp";
 		Customer c = (Customer)session.getAttribute("loginInfo");
 		
 		if(c == null) {
@@ -42,14 +42,15 @@ public class OrderListServlet extends HttpServlet {
 			OrderService service;
 			service = OrderService.getInstance();
 			try {
-				List<OrderInfo> list = service.orderList(c.getId());
+				List<OrderInfo> list = service.findNyId(c.getId());
 				if(list.size()==0) {
 					request.setAttribute("status", -1);
 				}else {
 					request.setAttribute("status", 1);
 					request.setAttribute("orderList", list);
 				}
-				
+				System.out.println(list.get(0));
+				System.out.println(list.get(1));
 			} catch (FindException e1) {
 				e1.printStackTrace();
 			}
