@@ -5,28 +5,30 @@ import java.util.List;
 public class PageBean<T> {
 	private int currentPage = 1;
 	private int totalPage;
-/**
- * 	페이지별 보여줄 목록수
- */
-	private static final int CNT_PER_PAGE = 10;
-	private List<T> list;
 	/**
-	 * 페이지 그룹의 페이지 수
+	 * 페이지별 보여줄 목록 수
 	 */
-	public static int CNT_PER_GROUP =4;
+	public static final int CNT_PER_PAGE = 10; 
+	private List<T> list;
+
+	/**
+	 * 페이지그룹의 페이지수
+	 */
+	public static final int CNT_PER_PAGE_GROUP = 4;
 	private int startPage = 1;
 	private int endPage;
 	
 	private String url;
+	
 	public PageBean() {}
-	public PageBean(int curretPage, int totalPage ,List<T>list, String url) {
-		this.currentPage = curretPage;
+	public PageBean(int currentPage, int totalPage, List<T>list, String url) {
+		this.currentPage = currentPage;
 		this.totalPage = totalPage;
 		this.list = list;
 		this.url = url;
 		
-		this.startPage = curretPage;
-		this.endPage = CNT_PER_GROUP * curretPage;
+		this.startPage = 1;
+		this.endPage = CNT_PER_PAGE_GROUP * currentPage;
 	}
 
 	public int getCurrentPage() {
@@ -53,14 +55,6 @@ public class PageBean<T> {
 		this.list = list;
 	}
 
-	public static int getCNT_PER_GROUP() {
-		return CNT_PER_GROUP;
-	}
-
-	public static void setCNT_PER_GROUP(int cNT_PER_GROUP) {
-		CNT_PER_GROUP = cNT_PER_GROUP;
-	}
-
 	public int getStartPage() {
 		return startPage;
 	}
@@ -84,9 +78,9 @@ public class PageBean<T> {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
-	public static int getCntPerPage() {
-		return CNT_PER_PAGE;
-	}
+	
+	
+	
+	
 
 }

@@ -2,13 +2,12 @@
 <%@page import="com.day.dto.PageBean"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% PageBean<Board> pb = (PageBean)request.getAttribute("pb");
-pb.getCurrentPage();
-pb.getTotalPage();
-pb.getList();
-pb.getStartPage();
-pb.getEndPage();
-pb.getUrl();
-
-%>
-
+<%--boardlist.jsp--%>
+<%-- PageBean<Board> pb = (PageBean)request.getAttribute("pb");
+   pb.getCurrentPage();
+   pb.getTotalPage();
+   pb.getList();
+   pb.getStartPage();
+   pb.getEndPage();
+   pb.getUrl();
+--%>   
