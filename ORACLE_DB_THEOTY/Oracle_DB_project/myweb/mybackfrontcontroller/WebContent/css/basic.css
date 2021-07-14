@@ -1,0 +1,6 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: lavender; /* !important를 사용시 html에서 덮어쓰기 불가한 상태*/
+}

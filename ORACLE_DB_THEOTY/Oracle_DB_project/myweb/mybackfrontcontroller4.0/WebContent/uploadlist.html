@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>uploadlist.html</title>
+<!--jquery사용-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script>
+$(function(){
+	/* $.ajax({
+		url: "./uploadlist", //업로드된 파일목록들을 요청
+		success: function(){ 
+			//응답된 파일목록을 section>article에 내용 보여주기
+		}
+	}); */
+});
+</script>
+</head>
+<body>
+<section>
+  <article>
+    <div class="uploadlist">
+       <ul>
+           <li><a href="download?name=id1_캡처.PNG">id1_캡처.PNG</a></li>
+           <li><a href="file://d:/upload/id1_캡처.PNG">id1_캡처.PNG</a></li>
+           <li><img src="./upload/id1_캡처.PNG" width="100px"></li>
+           <li><img src="file://E://JAVA_WORK//myweb//myback//upload//id1_캡처.PNG" alt="id1_캡처.PNG"></li>
+           <li>우편번호테이블생성.txt</li>
+       </ul>
+    </div>
+  </article>
+</section>
+</body>
+</html>
