@@ -12,7 +12,7 @@
 	<property name="pwd" value="p1"/>
 	<property name="name" value="이석봉"/>
 </bean>
-<bean name="customerDAO" class="com.day.dao.CustomerDAOOracle"></bean> 
+<!-- <bean name="customerDAO" class="com.day.dao.CustomerDAOOracle"></bean>  -->
 
 <bean name="p" class="com.day.dto.Product">
 	<constructor-arg index="0" value="C0001"></constructor-arg>
@@ -22,12 +22,17 @@
 	<constructor-arg index="4" value=""></constructor-arg>
 </bean>
 
-<bean name="productDAO" class="com.day.dao.ProductDAOOracle"></bean> 
-
-<bean name="productService" class="com.day.service.ProductService">
+<!-- bean태그를 component-scan태그로 대신한다 -->
+<!-- <bean name="productService" class="com.day.service.ProductService"> -->
 	 <!-- <property name="dao" ref="productDAO"></property> --><!-- setter injection -->
 	 <!-- <constructor-arg index="0" ref="productDAO"></constructor-arg> --><!-- constructor injection -->
-</bean>
-<context:annotation-config></context:annotation-config>
+<!-- </bean> -->
 
+<!-- <bean name="productDAO1" class="com.day.dao.ProductDAOOracle"></bean> 
+<bean name="productDAO2" class="com.day.dao.ProductDAOFile"></bean> 
+ -->
+ 
+<!-- <context:annotation-config></context:annotation-config> -->
+	<context:component-scan base-package="com.day.dao"></context:component-scan><!-- @component 사용하가 위함 -->
+	<context:component-scan base-package="com.day.service"></context:component-scan><!-- @component 사용하가 위함 -->
 </beans>

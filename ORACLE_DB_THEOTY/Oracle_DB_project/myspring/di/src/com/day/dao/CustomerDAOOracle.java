@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.day.dto.Customer;
 import com.day.dto.Product;
 import com.day.exception.AddException;
 import com.day.exception.FindException;
 import com.day.exception.ModifyException;
 import com.day.sql.MyConnection;
-
+@Repository("customerDAO")
 public class CustomerDAOOracle implements CustomerDAO {
 	
 	public CustomerDAOOracle() throws Exception {

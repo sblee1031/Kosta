@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.day.dto.Product;
 import com.day.exception.FindException;
 import com.day.sql.MyConnection;
 
+@Repository("productDAO1")
 public class ProductDAOOracle implements ProductDAO {
 	
 	public ProductDAOOracle() throws Exception {//throws를 사용해 떠넘기기.
