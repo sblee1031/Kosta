@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.io.Resources;
@@ -9,6 +10,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.day.dto.Customer;
+import com.day.dto.OrderInfo;
+import com.day.dto.OrderLine;
 import com.day.dto.Product;
 
 public class Test {
@@ -26,29 +29,29 @@ public class Test {
 			System.out.println(p);
 			
 			//-----------
-			List<Product> list = session.selectList("com.day.dto.ProductMapper.selectAll");
-			System.out.println(list);
+//			List<Product> list = session.selectList("com.day.dto.ProductMapper.selectAll");
+//			System.out.println(list);
 			
 			//-----------
-			HashMap<String, Integer> map = new HashMap<>();
-			map.put("currentPage",2);//보여줄 페이지
-			map.put("cnt_per_page",4);//페이지별 보여줄 목록
-			List<Product> listCurrentPage = session.selectList("com.day.dto.ProductMapper.selectAllPage",map);
-			System.out.println(listCurrentPage);
-			for (Product product : listCurrentPage) {
-				System.out.println(product);
-			}
+//			HashMap<String, Integer> map = new HashMap<>();
+//			map.put("currentPage",2);//보여줄 페이지
+//			map.put("cnt_per_page",4);//페이지별 보여줄 목록
+//			List<Product> listCurrentPage = session.selectList("com.day.dto.ProductMapper.selectAllPage",map);
+//			System.out.println(listCurrentPage);
+//			for (Product product : listCurrentPage) {
+//				System.out.println(product);
+//			}
 			//-----------------
 //			List<Product> listName = session.selectList("com.day.dto.ProductMapper.selectByName", "%아%");
 //			List<Product> listName = session.selectList("com.day.dto.ProductMapper.selectByName", "아");
-			HashMap<String, String> map1 = new HashMap<>();
-			map1.put("word", "아");
-			map1.put("ordermethod", "prod_name DESC");
-			List<Product> listName = session.selectList("com.day.dto.ProductMapper.selectByName", map1);
-			System.out.println(listName);
+//			HashMap<String, String> map1 = new HashMap<>();
+//			map1.put("word", "아");
+//			map1.put("ordermethod", "prod_name DESC");
+//			List<Product> listName = session.selectList("com.day.dto.ProductMapper.selectByName", map1);
+//			System.out.println(listName);
 			
 			//-------------
-			System.out.println("고객추가");
+//			System.out.println("고객추가");
 //			HashMap<String, Object> mapCustomer = new HashMap<>();
 //			mapCustomer.put("id", "id11");
 //			mapCustomer.put("pwd", "pwd10");
@@ -72,15 +75,56 @@ public class Test {
 //			session.commit();
 			
 			//--------------
-			System.out.println("고객정보 삭제");
-			String id = "id11";
-			int rowcnt = session.delete("com.day.dto.CustomerMapper.delete", id);
-			if(rowcnt==1) {
-				System.out.println(id+"삭제 완료");
-			}else if(rowcnt <1) {
-				System.out.println(id+"가 없어 삭제 불가");
-			}
-			session.commit();
+//			System.out.println("고객정보 삭제");
+//			String id = "id11";
+//			int rowcnt = session.delete("com.day.dto.CustomerMapper.delete", id);
+//			if(rowcnt==1) {
+//				System.out.println(id+"삭제 완료");
+//			}else if(rowcnt <1) {
+//				System.out.println(id+"가 없어 삭제 불가");
+//			}
+//			session.commit();
+			
+//			Customer c2 = session.selectOne("com.day.dto.CustomerMapper.selectById","id1");
+//			System.out.println(c2);
+
+			OrderInfo info = new OrderInfo();
+			Customer order_c = new Customer();
+			order_c.setId("id1");
+			info.setOrder_c(order_c);
+			
+			List<OrderLine> lines = new ArrayList<>();
+			OrderLine line = new OrderLine();
+			Product order_p = new Product();
+			order_p.setProd_no("G0001");
+			line.setOrder_p(order_p);
+			line.setOrder_quantity(10);
+			lines.add(line);
+			
+			OrderLine line2 = new OrderLine();
+			Product order_p2 = new Product();
+			order_p.setProd_no("G0001");
+			line.setOrder_p(order_p2);
+			line.setOrder_quantity(20);
+			lines.add(line);
+			info.setLines(lines);
+			
+			
+//			List<OrderInfo> list = session.selectList("com.day.dto.OrderMapper.selectById", "id1");
+//			System.out.println("id1고객의 주문목록");
+//			for (OrderInfo orderInfo : list) {
+//				int order_no = orderInfo.getOrder_no();
+//				Date order_dt = orderInfo.getOrder_dt();
+//				List<OrderLine> lines = orderInfo.getLines();
+//				for (OrderLine line : lines) {
+//					Product p1 = line.getOrder_p();
+//					int quantity = line.getOrder_quantity();
+//					System.out.println("상품번호 : " + p1.getProd_no()+", 상품명 : " + p1.getProd_name()+"가격 : "+p1.getProd_price()+", 주문수량 :"+quantity);
+//					}
+//			}
+//			System.out.println("=================");
+		
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
