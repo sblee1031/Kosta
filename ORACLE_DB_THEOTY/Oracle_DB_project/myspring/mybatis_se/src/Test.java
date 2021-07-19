@@ -93,36 +93,43 @@ public class Test {
 			order_c.setId("id1");
 			info.setOrder_c(order_c);
 			
-			List<OrderLine> lines = new ArrayList<>();
-			OrderLine line = new OrderLine();
+			List<OrderLine> lines1 = new ArrayList<>();
+			OrderLine line1 = new OrderLine();
 			Product order_p = new Product();
 			order_p.setProd_no("G0001");
-			line.setOrder_p(order_p);
-			line.setOrder_quantity(10);
-			lines.add(line);
+			line1.setOrder_p(order_p);
+			line1.setOrder_quantity(10);
+			lines1.add(line1);
 			
 			OrderLine line2 = new OrderLine();
 			Product order_p2 = new Product();
-			order_p.setProd_no("G0001");
-			line.setOrder_p(order_p2);
-			line.setOrder_quantity(20);
-			lines.add(line);
-			info.setLines(lines);
+			order_p2.setProd_no("G0002");
+			line2.setOrder_p(order_p2);
+			line2.setOrder_quantity(20);
+			lines1.add(line2);
+			info.setLines(lines1);
+			
+			session.insert("com.day.dto.OrderMapper.insertInfo", info);
+			
+			for (OrderLine Line3 : info.getLines()) {
+				session.insert("com.day.dto.OrderMapper.insertLine", Line3);
+			}
+			session.commit();
 			
 			
-//			List<OrderInfo> list = session.selectList("com.day.dto.OrderMapper.selectById", "id1");
-//			System.out.println("id1고객의 주문목록");
-//			for (OrderInfo orderInfo : list) {
-//				int order_no = orderInfo.getOrder_no();
-//				Date order_dt = orderInfo.getOrder_dt();
-//				List<OrderLine> lines = orderInfo.getLines();
-//				for (OrderLine line : lines) {
-//					Product p1 = line.getOrder_p();
-//					int quantity = line.getOrder_quantity();
-//					System.out.println("상품번호 : " + p1.getProd_no()+", 상품명 : " + p1.getProd_name()+"가격 : "+p1.getProd_price()+", 주문수량 :"+quantity);
-//					}
-//			}
-//			System.out.println("=================");
+			List<OrderInfo> list = session.selectList("com.day.dto.OrderMapper.selectById", "id1");
+			System.out.println("id1고객의 주문목록");
+			for (OrderInfo orderInfo : list) {
+				int order_no = orderInfo.getOrder_no();
+				Date order_dt = orderInfo.getOrder_dt();
+				List<OrderLine> lines = orderInfo.getLines();
+				for (OrderLine line : lines) {
+					Product p1 = line.getOrder_p();
+					int quantity = line.getOrder_quantity();
+					System.out.println("상품번호 : " + p1.getProd_no()+", 상품명 : " + p1.getProd_name()+"가격 : "+p1.getProd_price()+", 주문수량 :"+quantity);
+					}
+			}
+			System.out.println("=================");
 		
 			
 		} catch (IOException e) {

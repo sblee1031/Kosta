@@ -27,7 +27,7 @@ INSERT INTO order_info(order_no, order_id)
 
 <insert id="insertLine" parameterType="orderline">
 INSERT INTO order_line(order_no, order_prod_no, order_quantity)
- VALUES (ORDER_SEQ.CURRVAL, #{order_}, )
+ VALUES (ORDER_SEQ.CURRVAL, #{order_p.prod_no}, #{order_quantity} )
 </insert>
 
 </mapper>
