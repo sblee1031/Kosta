@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+<!-- 		<bean id="dataSource"
+	   	class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	      <property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+	     <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+	     <property name="username" value="hr"/>
+	     <property name="password" value="hr"/>
+	  	</bean> -->
+		
+
+		
+		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> 
+<!-- 	  <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>   -->
+	      <property name="driverClassName" 	value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> 
+	      <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+		  <property name="username" value="hr"/> 
+		  <property name="password" value="hr"/> 
+		  <property name="minimumIdle" value="1" /> 
+<!--       <property name="maximumPoolSize" value="10" /> -->
+<!--       <property name="connectionTestQuery" value="select 1 from sys.dual" /> -->
+<!--       <property name="connectionTimeout"  value="300000" /> -->    	
+		</bean>
+		<bean id="dataSource2" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close"> 
+		      <qualifier value="hikarids"/>
+		      <constructor-arg ref="hikariConfig" />      
+		</bean>
+		
+		<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		  id="sqlSessionFactory">
+<!-- 			<property name="dataSource"      ref="dataSource"></property> -->
+			<property name="dataSource"      ref="dataSource2"></property> 
+			<property name="configLocation"  value="classpath:mybatis-config.xml"/>
+		</bean>
+		
+		<context:annotation-config/>
+		<context:component-scan base-package="com.day.dao"/>
+		<context:component-scan base-package="com.day.service"/>
+		
+</beans>
+
+
