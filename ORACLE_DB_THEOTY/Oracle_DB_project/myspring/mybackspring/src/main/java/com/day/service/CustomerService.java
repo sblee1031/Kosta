@@ -14,7 +14,7 @@ public class CustomerService {
 	private CustomerDAO dao;
 	
 	/**
-	 * 
+	 * 고객을 저장소에 가입한다
 	 * @param c
 	 * @throws AddException
 	 */
@@ -65,6 +65,15 @@ public class CustomerService {
 	public void leave(Customer c) throws ModifyException{
 		c.setEnabled(0);
 		dao.update(c);
+	}
+	/**
+	 * 아이디에 해당하는 고객객체를 찾는다.
+	 * @param id 아이디
+	 * @return고객객체
+	 * @throws FindException 아이디에 해당고객이 없거나 Network문제가 나면 예외가 발생된다.
+	 */
+	public Customer findById(String id) throws FindException{
+		return dao.selectById(id);
 	}
 	
 }

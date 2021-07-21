@@ -1,5 +1,7 @@
 package com.day.control;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,6 +88,21 @@ public class ProductController {
 			viewName = "fail";
 		}
 		return viewName;
+	}
+	@GetMapping("/productlist")
+	public String productList(Model model) {
+		List<Product> productList;
+		try {
+			productList = service.findAll();
+			model.addAttribute("productList", productList);
+			return "productlist";
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("msg", e.getMessage());
+			return "fail";
+		}
+		
 	}
 	
 }

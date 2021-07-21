@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.day.dto.OrderInfo;
@@ -15,33 +19,30 @@ import com.day.dto.Product;
 import com.day.exception.AddException;
 import com.day.exception.FindException;
 import com.day.sql.MyConnection;
-@Repository
+@Repository("orderDAO")
 public class OrderDAOOracle implements OrderDAO{
-
+	private Logger log = Logger.getLogger(OrderDAOOracle.class);
+	@Autowired
+	private SqlSessionFactory sessionFactory;
 	@Override
 	public void insert(OrderInfo info) throws AddException {
-		Connection con = null;
+		log.info(info);
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-		} catch (SQLException e) {
+			session = sessionFactory.openSession();
+			session.insert("com.day.dto.OrderMapper.insertInfo",info); //?
+			for (OrderLine line : info.getLines()) {
+				session.insert("com.day.dto.OrderMapper.insertLine",line);
+			}
+			
+		}catch(Exception e) {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());
-		}
-		try {
-			insertInfo(con, info);
-			insertLines(con, info.getLines());
-			con.commit(); //커밋
-		}catch(Exception e) {
-			try {
-				con.rollback(); //롤백
-			}catch (SQLException se) {
-				se.printStackTrace();
+			
+		}finally {
+			if(session !=null) {
+				session.close();
 			}
-			throw new AddException(e.getMessage());
-		}
-		finally {
-			MyConnection.close(con, null, null);
 		}
 	}
 	/**
@@ -50,20 +51,19 @@ public class OrderDAOOracle implements OrderDAO{
 	 * @param info 주문기본정보
 	 * @throws AddException
 	 */
-	private void insertInfo(Connection con, OrderInfo info) throws AddException{
-		//SQL송신
-		PreparedStatement pstmt = null;
-		String insertInfoSQL = "INSERT INTO order_info(order_no, order_id)"
-				+ " VALUES (ORDER_SEQ.NEXTVAL, ?)";
+	private void insertInfo(OrderInfo info) throws AddException{
+		SqlSession session = null;
 		try {
-			pstmt = con.prepareStatement(insertInfoSQL);
-			pstmt.setString(1, info.getOrder_c().getId());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
+			session = sessionFactory.openSession();
+			session.insert("com.day.dto.OrderMapper.insertInfo", info);
+		}catch(Exception e) {
 			e.printStackTrace();
-			throw new AddException("주문기본추가실패 :"+e.getMessage());
+			throw new AddException(e.getMessage());
+			
 		}finally {
-			MyConnection.close(null, pstmt, null);
+			if(session !=null) {
+				session.close();
+			}
 		}
 		
 	}
@@ -74,23 +74,19 @@ public class OrderDAOOracle implements OrderDAO{
 	 * @param lines 주문상세정보들
 	 * @throws AddException
 	 */
-	private void insertLines(Connection con, List<OrderLine> lines) throws AddException {
-		PreparedStatement pstmt = null;
-		String insertLineSQL = "INSERT INTO order_line(order_no, order_prod_no, order_quantity)"
-				+" VALUES (ORDER_SEQ.CURRVAL, ?,            ?)";
+	private void insertLines(OrderLine lines) throws AddException {
+		SqlSession session = null;
 		try {
-			pstmt = con.prepareStatement(insertLineSQL);
-			for(OrderLine line : lines) {
-				pstmt.setString(1, line.getOrder_p().getProd_no());
-				pstmt.setInt(2, line.getOrder_quantity());
-				pstmt.executeUpdate();
-			}
-			
-		} catch (SQLException e) {
+			session = sessionFactory.openSession();
+			session.insert("com.day.dto.OrderMapper.insertLine", lines);
+		}catch(Exception e) {
 			e.printStackTrace();
-			throw new AddException("주문상세 추가실패 : "+e.getMessage());
+			throw new AddException(e.getMessage());
+			
 		}finally {
-			MyConnection.close(null, pstmt, null);
+			if(session !=null) {
+				session.close();
+			}
 		}
 		
 	}

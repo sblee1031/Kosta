@@ -1,12 +1,7 @@
 package com.day.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,210 +9,63 @@ import com.day.dto.Customer;
 import com.day.exception.AddException;
 import com.day.exception.FindException;
 import com.day.exception.ModifyException;
-import com.day.sql.MyConnection;
 @Repository("customerDAO")
 public class CustomerDAOOracle implements CustomerDAO {
+//	@Autowired
+//	private DataSource ds;
+	
 	@Autowired
-	private DataSource ds;
+	private SqlSessionFactory sessionFactory;
+	
 	@Override
 	public void insert(Customer c) throws AddException {
-		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new AddException(e.getMessage());
+			SqlSession session = null;
+			try {
+				session = sessionFactory.openSession();
+				session.insert("com.day.dto.CustomerMapper.insert",c);
+			}catch(Exception e) {
+				e.printStackTrace();
+				throw new AddException(e.getMessage());
+				
+			}finally {
+				if(session !=null) {
+					session.close();
 				}
-				String InsertSQL = "INSERT INTO customer(id,pwd,name) VALUES (?,?,?)";
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				try {
-					pstmt = con.prepareStatement(InsertSQL);
-					pstmt.setString(1, c.getId());
-					pstmt.setString(2, c.getPwd());
-					pstmt.setString(3, c.getName());
-					pstmt.executeQuery();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new AddException(e.getMessage());
-				}finally{
-					//DB연결 해제
-					MyConnection.close(con, pstmt, rs);
-				}
+			}
 				
 	}
 
 	@Override
 	public Customer selectById(String id) throws FindException {//로그인, 자기정보조회
-			Connection con = null;
-			try {
-//				con = MyConnection.getConnection();
-				con = ds.getConnection();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new FindException(e.getMessage());
+		SqlSession session = null;
+		try {
+			session = sessionFactory.openSession();
+			Customer c = session.selectOne("com.day.dto.CustomerMapper.selectById", id);
+			return c;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session !=null) {
+				session.close();
 			}
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String selectById = "SELECT * FROM customer WHERE id = ? ";
-			Customer c = null;
-			try {
-				pstmt = con.prepareStatement(selectById);
-				pstmt.setString(1, id);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					//행의 컬럼값 얻기
-					String Str_id = rs.getString("id");
-					String pwd = rs.getString("pwd");
-					String name = rs.getString("name");
-					String buildingno = rs.getString("buildingno");
-					if(buildingno!=null) {
-					buildingno = buildingno.trim();//char 자리수 트림
-					}
-					c = new Customer(Str_id, pwd, name, buildingno); //DB값 읽어와 DTO에 담기
-				}
-				if(c == null) {
-					throw new FindException("조회된 id가 없습니다.");
-				}return c;
-			}catch (SQLException e) {
-				e.printStackTrace();
-				throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
-			}finally{
-				MyConnection.close(con, pstmt, rs);
-			}
-			
+		}
 		
 	}
 
 	@Override
 	public void update(Customer c) throws ModifyException {
-		if(c.getName()==null
-				&&c.getPwd()==null
-				&&c.getBuildingno()==null) {
-			Connection con = null;
-			try {
-				con = MyConnection.getConnection();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new ModifyException(e.getMessage());
-			}
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String updateSQL = "UPDATE customer \r\n" + 
-								"SET enabled = 0 \r\n" + 
-								"WHERE id = ?";
-			try {
-				pstmt = con.prepareStatement(updateSQL);
-				pstmt.setString(1, c.getId());
-				pstmt.executeQuery();
-				System.out.println(c.getId() +" 탈퇴 완료 ");
-			}catch (SQLException e) {
-				e.printStackTrace();
-				throw new ModifyException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
-			}finally{
-				MyConnection.close(con, pstmt, rs);
-			}
-			
-		} else {
-			//강사님 구현 코드
-//			String updateSQL = "UPDATE customer SET ";
-//			String updateSQL1 = " WHERE ID='"+c.getId()+"'";
-//			String pwd=c.getPwd();
-//			boolean flag = false;
-//			if(pwd!=null&&!pwd.equals("")) {
-//				updateSQL +="pwd='"+c.getPwd()+"' ";
-//				flag=true;
-//			}
-//			
-//			String name=c.getName();
-//			if(name!=null&&!name.equals("")) {
-//				if(flag) {
-//					updateSQL +=",";
-//				}
-//				updateSQL +="name='"+c.getName()+"' ";
-//				flag=true;
-//			}
-//			String buildingno=c.getBuildingno();
-//			if(buildingno!=null&&!buildingno.equals("")) {
-//				if(flag) {
-//					updateSQL +=",";
-//				}
-//				updateSQL +="buildingno='"+c.getBuildingno()+"' ";
-//				flag=true;
-//			}
-//			int enabled=c.getEnabled();
-//			if(enabled>-1) { // 0 탈퇴, 1 활동
-//				if(flag) {
-//					updateSQL +=",";
-//				}
-//				updateSQL +="enabled='"+c.getEnabled()+"' ";
-//				flag=true;
-//			}
-//			if(flag=false) {
-//				throw new ModifyException("실패");
-//			}
-//			updateSQL+=updateSQL1;
-//   강사님 코드 끝
-			
-		Customer db_c = null;//DB 기존 정보
-		Customer new_c = new Customer(null, null, null, null);//바뀔 정보
-		
-		try {//selectById를 통해 DB 회원정보 가져오기
-			db_c = selectById(c.getId());
-//			System.out.println(c.getId()+" 조회 완료");
-		} catch (FindException e1) {
-			e1.printStackTrace();
-		}
-		new_c.setId(c.getId());//ID 입력
-		new_c.setPwd(c.getPwd());
-		new_c.setName(c.getName());
-		new_c.setBuildingno(c.getBuildingno());
-		
-		if(!c.getPwd().equals(db_c.getPwd())) {
-			new_c.setPwd(c.getPwd());
-			System.out.println("* 비밀번호 변경");
-		}if(!c.getName().equals(db_c.getName())) {
-			new_c.setName(c.getName());
-			System.out.println("* 이름 변경");
-		}if(!c.getBuildingno().equals(db_c.getBuildingno())) {
-			new_c.setBuildingno(c.getBuildingno());
-			System.out.println("* buildingno 변경");
-		}if(c.getPwd().equals(db_c.getPwd())&&
-				c.getName().equals(db_c.getName())&&
-						c.getBuildingno().equals(db_c.getBuildingno())) {
-			System.out.println("* 변경사항 없습니다.");
-		}
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
+			session = sessionFactory.openSession();
+			session.update("com.day.dto.CustomerMapper.update", c);
+		}catch(Exception e) {
 			e.printStackTrace();
 			throw new ModifyException(e.getMessage());
-		}
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String updateSQL = "UPDATE customer \r\n" + 
-				"			SET pwd = ? ,\r\n" + 
-				"			     name = ?, \r\n" + 
-				"			     buildingno = ? \r\n" + 
-				"			WHERE id = ? ";
-		try {
-			pstmt = con.prepareStatement(updateSQL);
-			pstmt.setString(1, new_c.getPwd());
-			pstmt.setString(2, new_c.getName());
-			pstmt.setString(3, new_c.getBuildingno());
-			pstmt.setString(4, new_c.getId());
-			pstmt.executeQuery();
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-			throw new ModifyException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
-		}finally{
-			MyConnection.close(con, pstmt, rs);
-		}
-		
+		}finally {
+			if(session !=null) {
+				session.close();
+			}
 		}
 	}
 
