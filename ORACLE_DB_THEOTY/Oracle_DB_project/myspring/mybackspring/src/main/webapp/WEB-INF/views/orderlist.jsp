@@ -3,11 +3,15 @@
 <%@page import="java.util.Date"%>
 <%@page import="com.day.dto.OrderInfo"%>
 <%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
   Integer status = (Integer)request.getAttribute("status");
   if(status != null && status == 0){
 %>로그인하세요
+	<%}else if(status ==-1){
+	%>${requestScope.msg}
 <%}else{
 	List<OrderInfo> infos = (List)request.getAttribute("orderList");
 %>
@@ -19,11 +23,12 @@
 <tr>	
 <%		int order_no = info.getOrder_no();//주문번호
 		Date order_dt = info.getOrder_dt();//주문일자
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm ");
 		List<OrderLine> lines = info.getLines();
 		int lineSize = lines.size();
 %>	
     <td rowspan="<%=lineSize%>"><%=order_no%></td>
-    <td rowspan="<%=lineSize%>"><%=order_dt%></td>	
+    <td rowspan="<%=lineSize%>"><%=format1.format(order_dt)%></td>	
 <%		for(int i=0; i<lineSize; i++){//주문상세
 			OrderLine line = lines.get(i);
 			Product p = line.getOrder_p(); //주문상품

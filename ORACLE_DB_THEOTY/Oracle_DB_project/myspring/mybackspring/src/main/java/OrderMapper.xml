@@ -13,7 +13,7 @@
 </resultMap>
 
 <select id="selectById" parameterType="string" resultMap="orderResultMap">
-SELECT oi.order_no, order_dt, order_prod_no,  prod_name, prod_price, order_quantity 
+SELECT oi.order_no, order_dt, order_prod_no,  prod_name, prod_price, order_quantity
 FROM order_info oi JOIN order_line ol ON(oi.order_no = ol.order_no)
 JOIN product p  ON (ol.order_prod_no = p.prod_no)
 WHERE order_id = #{id}

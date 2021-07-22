@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import com.day.service.OrderService;
 
 @Controller
 public class OrderController {
+	private Logger log = Logger.getLogger(OrderController.class);
 	@Autowired
 	OrderService service;
 	@GetMapping("/addorder")
@@ -78,15 +80,14 @@ public class OrderController {
 			model.addAttribute("status", 0);
 		}else {
 			try {
-				List<OrderInfo> list = service.findById(c.getId());
-				if(list.size()==0) {
-					model.addAttribute("status", -1);
-				}else {
+				List<OrderInfo> infos = service.findById(c.getId());
+					log.error(infos.get(0).getLines().get(0).getOrder_p());
 					model.addAttribute("status", 1);
-					model.addAttribute("orderList", list);
-				}
-			} catch (FindException e1) {
-				e1.printStackTrace();
+					model.addAttribute("orderList", infos);
+			} catch (FindException e) {
+					//e1.printStackTrace();
+					model.addAttribute("status", -1);
+					model.addAttribute("msg", e.getMessage());
 			}
 		}
 		String path = "orderlist";
