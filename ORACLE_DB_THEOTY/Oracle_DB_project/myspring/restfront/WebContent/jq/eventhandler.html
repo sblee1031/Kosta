@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM이벤트처리</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        //DOM트리에서 button객체 찾기
+        var $btObj = $('button:first'); //document.querySelectorAll();
+        console.log($btObj.html());
+        console.log($btObj.text());
+        $btObj.html('자바스크립트 클릭');
+        $btObj.css('color', '#ff0000');
+
+        //DOM트리에서 div객체찾기
+        var $divObj = $('div:first');
+
+        //버튼이 클릭되었을때
+        //       div영역을 toggle 한다
+        $btObj.click(function () {
+          alert('클릭되었습니다');
+          var bgArr = ['yellow', 'green', 'gray', 'white'];
+          if ($divObj.css('display') == 'none') {
+            $divObj.show();
+            $divObj.css('background-color', bgArr[parseInt(Math.random() * 4)]);
+          } else {
+            $divObj.hide();
+          }
+        });
+
+        var $formObj = $('form');
+        $formObj.submit(function () {
+          alert('폼전송됨');
+          //DOM에서 id입력객체 찾기
+          var $idObj = $('form>input[name=id]');
+
+          //id입력값 유효성 검사
+          var idValue = $idObj.val();
+          if (idValue == 'admin') {
+            alert('id를 다시 입력하세요');
+            $idObj.select(); //jQuery메서드 : $idObj.select();
+            $idObj.focus(); //jQuery메서드 : $idObj.focus();
+            return false;
+          }
+        });
+
+        //시도를 선택했을때 할 일
+        //시군구객체 찾기,
+        //시도객체의 value가 서울특별시인경우
+        //         시군구객체의 element body를 <option>중구</option><option>강남구</option>~~ 강북구, 강동구, 강서구로 변경
+        //시군구객체 보여주기
+        var $sidoObj = $('select.sido');
+
+        $sidoObj.change(function () {
+          console.log($sidoObj.val() + '시도변경됨');
+          var $sigunguObj = $('select.sigungu');
+          $sigunguObj.hide();
+          switch ($sidoObj.val()) {
+            case '서울특별시':
+              $sigunguObj.html('<option>시군구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>중구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>강남구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>강북구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>강서구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>강동구</option>');
+              break;
+            case '제주도':
+              $sigunguObj.html('<option>시군구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>제주시</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>서귀포시</option>');
+              break;
+            case '경기도':
+              $sigunguObj.html('<option>시군구</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>성남시</option>');
+              $sigunguObj.html($sigunguObj.html() + '<option>용인시</option>');
+              break;
+            default:
+              return;
+          }
+          $sigunguObj.show();
+        });
+
+        //checkbox checked속성값 얻기
+        //DOM트리에서 class속성값이 one인 요소 찾기
+        var $oneObj = $('div.checkbox>input.one');
+        console.log($oneObj.prop('checked')); //$oneObj.attr('checked') ->false
+
+        //DOM트리에서 class속성값이 all인 요소찾기
+        //allObj객체가 클릭되었을때 선택되면 one,two,three객체도 선택되도록
+        //                        선택해제되면                 선택해제되도록 한다
+        var $chkboxAllObj = $('div.checkbox>input.all');
+        var $chkboxObjArr = $('div.checkbox>input:not(.all)'); //one,two,three
+        $chkboxAllObj.click(function () {
+          $chkboxObjArr.prop('checked', $chkboxAllObj.prop('checked')); //????
+        });
+
+        //id입력란에서 엔터값을 누르면 FORM의 submit이벤트가 자동 발생한다
+        //엔터값을 처리
+        var $idObj = $('form>input[name=id]');
+        $idObj.keydown(function (event) {
+          console.log(event.keyCode);
+          if (event.keyCode === 13) {
+            return false;
+          }
+        });
+      }); //end of $(function(){
+    </script>
+  </head>
+  <body>
+    <button><span>버튼</span>클릭</button>
+    <hr />
+    <div>DIV1. 버튼이 클릭되면 토글됩니다</div>
+    <hr />
+    <form action="http://www.daum.net">
+      <input type="text" name="id" value="id1" required maxlength="5" /><br />
+      <input type="password" name="pwd" value="pwd1" /><br />
+      <input type="text" name="name" value="n1" /><br />
+      <button type="submit">전송</button>
+    </form>
+    <hr />
+    <select class="sido">
+      <option>시도</option>
+      <option>서울특별시</option>
+      <option>경기도</option>
+      <option>제주도</option>
+    </select>
+    <select class="sigungu" style="display: none">
+      <option>시군구</option>
+    </select>
+    <select class="dong" style="display: none">
+      <option>읍면동</option>
+    </select>
+    <hr />
+    <div class="checkbox">
+      <input type="checkbox" class="all" />ALL<br />
+      <input type="checkbox" class="one" checked />ONE&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" class="two" />TWO&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" class="three" checked />THREE
+    </div>
+  </body>
+</html>

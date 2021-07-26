@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(function(){
+    	$('button.post').click(function(){
+    		var dataStr = $('form').serialize();
+    		console.log(dataStr);
+    		//form serialize값 -->js객체로 변환 --> json문자열로 변환
+    		//var title = $('form>input[name=title]').val();
+    		//var content = $('form>textarea[name=content]').val();
+    		
+    		var formSerializeArray =  $('form').serializeArray();
+    		var formSerialize = $('form').serialize();
+    		console.log('--formSerializeArray--');
+    		console.log(formSerializeArray);
+    		console.log('---------------------');
+      		console.log('--formSerialize--');
+    		console.log(formSerialize);
+    		console.log('---------------------');
+    		
+    		var object = {};
+    		for (var i = 0; i < formSerializeArray.length; i++){
+    		    object[formSerializeArray[i]['name']] = formSerializeArray[i]['value'];
+    		}		 
+    		var data = JSON.stringify(object);
+
+    		$.ajax({
+    				  "method": "POST",
+    				  "transformRequest": [
+    				    null
+    				  ],
+    				  "transformResponse": [
+    				    null
+    				  ],
+    				  "jsonpCallbackParam": "callback",
+    				  "url": "http://localhost:8888/restspring/board",
+    				  "headers": {
+    				    "Accept": "application/json, text/plain, */*",
+    				    "Content-Type": "application/json;charset=utf-8"
+    				  },
+    				  "data": data,
+    				  "timeout": {},
+    				  "success":function(responseObj){
+					 		 if(responseObj.status ==1){
+					    		alert(responseObj.msg);	
+					    		}
+    				  }
+    		});
+    	});
+    	
+    	$('button.get.all').click(function(){
+    		$.ajax({
+    				  "method": "GET",
+    				  "transformRequest": [
+    				    null
+    				  ],
+    				  "transformResponse": [
+    				    null
+    				  ],
+    				  "jsonpCallbackParam": "callback",
+    				  "url": "http://localhost:8888/restspring/board/list",
+    				  "headers": {
+    				    "Accept": "application/json, text/plain, */*"
+    				  },
+    				  "timeout": {},
+    				  success:function(responseObj){
+    					  console.log(responseObj);
+    					  var sectionHtml = '';
+    					  $(responseObj).each(function(i, e){
+    						  sectionHtml += e.no + ":" + e.title + ":" + e.content;
+    						  sectionHtml += '<br>';
+    					  });
+    					  $('section').empty();
+    					  $('section').html(sectionHtml);
+    				  }
+    			});
+    		});
+    	
+    	$('button.get.info').click(function(){
+    		var no = 123;
+    		$.ajax({
+    				  "method": "GET",
+    				  "transformRequest": [
+    				    null
+    				  ],
+    				  "transformResponse": [
+    				    null
+    				  ],
+    				  "jsonpCallbackParam": "callback",
+    				  "url": "http://localhost:8888/restspring/board/"+no,
+    				  "headers": {
+    				    "Accept": "application/json, text/plain, */*"
+    				  },
+    				  "data": "",
+    				  "timeout": {},
+    				  success:function(responseObj){
+    					  console.log(responseObj);
+    					  var sectionHtml = '';
+    						  sectionHtml += responseObj.no + ":" + responseObj.title + ":" + responseObj.content;
+    						  sectionHtml += '<br>';
+    					  $('section').empty();
+    					  $('section').html(sectionHtml);
+    				  }
+    			});
+    		});
+    	$('button.get.word').click(function(){
+    		var word = 'word';
+    		$.ajax({
+    				  "method": "GET",
+    				  "transformRequest": [
+    				    null
+    				  ],
+    				  "transformResponse": [
+    				    null
+    				  ],
+    				  "jsonpCallbackParam": "callback",
+    				  "url": "http://localhost:8888/restspring/board/list/"+word,
+    				  "headers": {
+    				    "Accept": "application/json, text/plain, */*"
+    				  },
+    				  "data": "",
+    				  "timeout": {},
+    				  success:function(responseObj){
+    					  console.log(responseObj);
+    					  var sectionHtml = '';
+    					  $(responseObj).each(function(i, e){
+    						  sectionHtml += e.no + ":" + e.title + ":" + e.content;
+    						  sectionHtml += '<br>';
+    					  });
+    					  $('section').empty();
+    					  $('section').html(sectionHtml);
+    				  }
+    			});
+    		});
+    	
+    	$('button.put').click(function(){
+    		$.ajax({
+    			  "method": "PUT",
+    			  "transformRequest": [
+    			    null
+    			  ],
+    			  "transformResponse": [
+    			    null
+    			  ],
+    			  "jsonpCallbackParam": "callback",
+    			  "url": "http://localhost:8888/restspring/board/123",
+    			  "headers": {
+    			    "Accept": "application/json, text/plain, */*",
+    			    "Content-Type": "application/json;charset=utf-8"
+    			  },
+    			  "data": "{\n\"title\":\"제목수정\",\n\"content\":\"내용수정\"\n}",
+    			  "timeout": {},
+    			  success:function(){
+    				  alert("수정성공");
+    			  },error:function(){
+    				  alert("수정실패");
+    			  }
+    		});
+    	});
+    	$('button.delete').click(function(){
+    		$.ajax({
+    			  "method": "DELETE",
+    			  "transformRequest": [
+    			    null
+    			  ],
+    			  "transformResponse": [
+    			    null
+    			  ],
+    			  "jsonpCallbackParam": "callback",
+    			  "url": "http://localhost:8888/restspring/board/123",
+    			  "headers": {
+    			    "Accept": "application/json, text/plain, */*"
+    			  },
+    			  "data": "{\n\"title\":\"제목수정\",\n\"content\":\"내용수정\"\n}",
+    			  "timeout": {},
+    			  success:function(){
+    				  alert("삭제 성공");
+    			  },error:function(xhr){
+    				  alert("삭제 실패 : "+xhr.status);
+    			  }
+    		});
+    	});
+    	
+    	$('button.post.reply').click(function(){
+    		$.ajax({
+    			  "method": "POST",
+    			  "transformRequest": [
+    			    null
+    			  ],
+    			  "transformResponse": [
+    			    null
+    			  ],
+    			  "jsonpCallbackParam": "callback",
+    			  "url": "http://localhost:8888/restspring/board/reply/123",
+    			  "headers": {
+    			    "Accept": "application/json, text/plain, */*",
+    			    "Content-Type": "application/json;charset=utf-8"
+    			  },
+    			  "data": "{\n\"title\":\"답글제목\"\n}",
+    			  "timeout": {},
+    			  success:function(responseObj){
+    				  console.log(responseObj);
+    				  alert(responseObj.msg);
+    			  }
+    		});
+    	});
+    	
+    });
+    </script>
+</head>
+<body>
+<button class="post">게시글 추가</button>
+<button class="post reply">답글추가</button>
+<button class="get all">게시글 전체 목록</button>
+<button class="get info">게시글 상세</button>
+<button class="get word">단어로 검색</button>
+<button class="put">게시글 수정</button>
+<button class="delete">게시글 삭제</button>
+<form>
+	<input type="text" name="title" value="제목1">
+	<textarea name="content">내용1</textarea>
+	
+</form>
+<section>
+</section>
+</body>
+</html>

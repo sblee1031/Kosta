@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>상품목록(productlistjson.html)</title>
+    <link rel="stylesheet" href="./css/basic.css" />
+    <style>
+      /* * {
+        box-sizing: border-box;
+      } */
+      table.productlist {
+        width: 500px;
+        height: 300px;
+        border: 1px solid;
+        border-collapse: collapse;
+      }
+      table.productlist tr > td {
+        width: 20%;
+        margin: 5px;
+        border: 1px solid;
+      }
+      table.productlist tr > td > ul {
+        list-style-type: none;
+        padding: 0px;
+        text-align: center;
+      }
+      table.productlist tr > td > ul > li > img {
+        max-width: 100%;
+        max-height: 127px;
+      }
+    </style>
+
+    <script>
+      $(function () {
+        /*--상품목록 시작--*/
+        var $tableObj = $('table.productlist');
+        var trHtml = '';
+        var backurl = backContextPath+'/productlist';
+        $.ajax({
+          url: backurl,
+          method: 'get',
+          success: function (responseData) {
+            $(responseData).each(function (i,e) {
+              //console.log( i+',' + e);
+              if (i % 4 == 0) {
+                if (i > 0) {
+                  trHtml += '</tr>';
+                }
+                trHtml += '<tr>';
+              }
+              var prod_no = e.prod_no;
+              var prod_name = e.prod_name;
+              trHtml += '<td class="' + prod_no + '"><ul>';
+              trHtml += '<li>';
+              trHtml += '<img src="images/' + prod_no + '.jpg" />';
+              trHtml += '</li>';
+              trHtml += '<li>';
+              trHtml += prod_name;
+              trHtml += '</li>';
+              trHtml += '</ul>';
+              trHtml += '</td>';
+            });
+            trHtml += '</tr>';
+            $tableObj.html(trHtml);
+          },
+        });
+        /*--상품목록 끝--*/
+
+        /*--상품클릭 시작--*/
+        $('table.productlist').on('click', 'td', function () {
+        	//$('table.productlist td').click(function(){
+          var prod_no = $(this).attr('class');
+
+          var htmlurl = './productinfo.html';
+          var backurl = backContextPath+'/productinfo';
+          $('section').load(htmlurl, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == 'error') alert('Error: ' + xhr.status + ': ' + xhr.statusText);
+            else {
+              $.ajax({
+                url: backurl,
+                data: { prod_no: prod_no },
+                success: function (responseData) {
+                  //json
+                  var prod_no = responseData.prod_no;
+                  var prod_name = responseData.prod_name;
+                  var prod_price = responseData.prod_price;
+                  console.log(prod_no);
+                  $('div.productinfo>div>img').attr('src', './images/' + prod_no + '.jpg');
+                  $('div.productinfo>div>img').attr('alt', prod_name);
+                  $('div.productinfo>div>ol>li>span.prod_no').html(prod_no);
+                  $('div.productinfo>div>ol>li>span.prod_name').html(prod_name);
+                  $('div.productinfo>div>ol>li>span.prod_price').html(prod_price);
+                  $('div.productinfo').show();
+                },
+                error: function (xhr) {
+                  alert('상품상세 오류:' + xhr.status);
+                },
+              });
+            }
+          });
+        });
+        /*--상품클릭끝--*/
+      });
+    </script>
+  </head>
+  <body>
+    <table class="productlist"></table>
+  </body>
+</html>

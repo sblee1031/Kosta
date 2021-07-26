@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<script>
+$(function(){
+	$.ajax({
+		url:backContextPath+'/orderlist',
+		success:function(responseObj){
+			//이곳을 완성해서 주문목록이 나타나도록 해봅시다~
+			//console.log(responseObj);
+			if(responseObj.status==0){
+				alert("로그인 하세요");
+				return;
+			}else{		
+			var $tr1Obj = $('table tr.data1');//주문번호,일자,주문상품번호~수량
+			var $tr2Obj = $('table tr.data2');//주문상품번호~수량
+			$(responseObj.orderList).each(function(i, e){
+				var lines = e.lines;//주문상세
+				var lineSize = lines.length;
+				//console.log(lineSize);
+				$(lines).each(function(line_i, line){
+					var $copyObj;
+					if(line_i == 0){//주문상세1
+						$copyObj = $tr1Obj.clone();
+						$copyObj.find('td.order_no').html(e.order_no).attr('rowspan', lineSize);
+						$copyObj.find('td.order_dt').html(e.order_dt).attr('rowspan', lineSize);
+					}else{//주문상세2~
+						$copyObj = $tr2Obj.clone();
+					}
+					$copyObj.find('td.prod_no').html(line.order_p.prod_no);
+					$copyObj.find('td.prod_name').html(line.order_p.prod_name);
+					$copyObj.find('td.prod_price').html(line.order_p.prod_price);
+					$copyObj.find('td.quantity').html(line.order_quantity);
+					$copyObj.show();
+					$tr1Obj.parent().append($copyObj);
+				});
+			});
+		}
+		}
+	});	
+});
+</script>
+<table border="1">	
+<tr><th>주문번호</th><th>주문일자</th>
+            <th>상품번호</th><th>상품명</th><th>가격</th><th>수량</th></tr>
+
+<tr class="data1" style="display:none">
+ <td class="order_no" rowspan=""></td>
+ <td class="order_dt" rowspan=""></td>	
+
+ <td class="prod_no"></td>
+ <td class="prod_name"></td>
+ <td class="prod_price"></td>
+ <td class="quantity"></td>
+</tr>
+<tr class="data2" style="display:none">		
+<td class="prod_no"></td>
+<td class="prod_name"></td>
+<td class="prod_price"></td>
+<td class="quantity"></td>
+</tr>
+</table>

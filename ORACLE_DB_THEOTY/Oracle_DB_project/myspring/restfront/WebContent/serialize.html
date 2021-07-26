@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script> // 폼태그내에 여러 input요소들을 나열하여, 직렬화 하여
+$("form").submit(function(){
+	var url = './signup';
+	var method = 'post';
+	var data = $('form').serialize();
+	alert(data);
+	$.ajax({
+		url: url,
+		method: method,
+		data : data,
+		success: function(responseObj){
+			if(responseObj.status == 1){
+				alert("가입성공");
+			}else{
+				alert("가입실패");
+			}
+		},
+		error: function(jqXHR){
+			alert(jqXHR.status); //404, 403, 500
+		}
+	});
+	return false;
+	
+});
+</script>
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

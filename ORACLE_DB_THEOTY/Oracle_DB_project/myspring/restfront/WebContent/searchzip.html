@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>우편번호검색</title>
+    <link rel="stylesheet" href="./css/basic.css" />
+    <style>
+      /* * {
+        box-sizing: border-box;
+      } 
+      body {
+        background-color: yellow;
+      }*/
+      div.divSearchzip {
+        width: 500px;
+      }
+      div.divSearchzip > ul {
+        list-style-type: none;
+        padding: 10px 0px;
+      }
+      div.divSearchzip > ul > li {
+        margin-bottom: 10px;
+      }
+      div.divSearchzip > ul > li:hover {
+        background-color: beige;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        var $liObj = $('div.divSearchzip>ul>li');
+        $liObj.click(function () {
+          var zipcode = $(this).children('span.zipcode').text();
+          var baseaddr = $(this).find('span.baseaddr').text();
+          
+          //값들을 메인창의 div영역에 넣기
+          var mainWindow = self.opener;
+          $('form.signup input.zipcode', mainWindow.document).val(zipcode);
+          $('form.signup input.baseaddr', mainWindow.document).val(baseaddr);          
+          //현재창닫기
+          self.close();          
+        });
+        
+        var doroValue = $('form>input[type=search]').val();
+        $('form').submit(function(){
+        	$.ajax({
+        		url: './searchzip'
+        		,method: 'post'
+        		,data : {doro:doroValue}
+        	    ,success:function(){
+        	    	alert('도로명주소 검색성공');
+        	    },error: function(xhr){
+        	    	alert('도로명주소 검색 실패 :' + xhr.status);
+        	    }
+        	});
+        	return false;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form>
+      <input type="search" placeholder="도로명주소를 입력하세요. 세종캠퍼스" />
+      <button>조회</button>
+    </form>
+    <div class="divSearchzip">
+      <ul>
+        <li>
+          <span class="zipcode">30019</span
+          ><span class="baseaddr">세종특별시 조치원읍 세종로 2511</span>
+        </li>
+        <li>
+          <span class="zipcode">30016</span
+          ><span class="baseaddr">세종특별시 조치원읍 세종로 2639</span>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
