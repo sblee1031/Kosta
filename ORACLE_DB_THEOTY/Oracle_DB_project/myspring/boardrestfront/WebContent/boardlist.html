@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      body {
+      }
+      .board_list_wrap {
+        margin: 10px auto;
+      }
+      .board_list > .top > div {
+        display: inline-block;
+        float: left;
+        text-align: center;
+        font-size: 1.6em;
+        border-bottom: 2px solid #000;
+        font-weight: 600;
+      }
+      #list {
+        width: 100%;
+        font-size: 0pt;
+      }
+      #listContent {
+        width: 100%;
+        border-bottom: 1px solid #000;
+        text-align: center;
+      }
+      #listContent > div {
+        display: inline-block;
+        font-size: 15pt;
+      }
+    </style>
+    <script>
+      $(function () {
+        $.ajax({
+          method: "GET",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: "http://localhost:8888/boardrestspring/board/list",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          timeout: {},
+          success: function (responseObj) {
+            console.log(responseObj);
+            var sectionHtml = "";
+            var contents = $("#listContent").clone();
+            $(responseObj.list).each(function (i, e) {
+              if (e.parentNo != 0) {
+                var copyObj = contents.clone();
+
+                copyObj.find("#board_no").text(e.boardNo);
+                copyObj.find("#board_no").prepend("<span> ↳ </span>");
+                //copyObj.find("#board_no").css('padding','10px');
+                copyObj.find("#board_title").text(e.boardTitle);
+                copyObj.find("#board_content").text(e.boardContent);
+                copyObj.find("#board_writer").text(e.boardC.id);
+                //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                copyObj.find("#board_date").text(e.boardDt);
+                copyObj.find("#board_views").text(e.boardViewcount);
+                copyObj.css("background-color", "lavender");
+                copyObj.show();
+                $("#list").append(copyObj);
+
+                //sectionHtml += '<br>'; ↳
+              } else {
+                var copyObj = contents.clone();
+                copyObj.find("#board_no").text(e.boardNo);
+                copyObj.find("#board_title").text(e.boardTitle);
+                copyObj.find("#board_content").text(e.boardContent);
+                copyObj.find("#board_writer").text(e.boardC.id);
+                //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                copyObj.find("#board_date").text(e.boardDt);
+                copyObj.find("#board_views").text(e.boardViewcount);
+                copyObj.show();
+                $("#list").append(copyObj);
+              }
+            });
+            //$('section').empty();
+          },
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div style="text-align: center; font-size: 30px; margin-bottom: 30px">
+      답글형 게시판
+    </div>
+    <div class="board_list_wrap">
+      <div class="board_list" style="width: 100%">
+        <div class="top">
+          <div class="board_no" style="width: 10%">번호</div>
+          <div class="board_title" style="width: 30%">제목</div>
+          <div class="board_content" style="width: 30%">내용</div>
+          <div class="board_writer" style="width: 10%">작성자</div>
+          <div class="board_date" style="width: 10%">작성시간</div>
+          <div class="board_views" style="width: 10%">조회수</div>
+        </div>
+        <div id="list"></div>
+      </div>
+    </div>
+
+    <div class="wirte" style="margin-top:100px;display: inline-block">
+      <label>작성자 : <input type="text" name="boardC.id" /></label><br>
+      <label>제목 :  <input type="text" name="boardTitle" /></label><br>
+      <label>내용 : <textarea name="boardContent" ></textarea></label><br>
+    </div>
+
+    <div id="listContent" style="display: none">
+      <div id="board_no" style="width: 10%"></div>
+      <div id="board_title" style="width: 30%">제목</div>
+      <div id="board_content" style="width: 30%">내용</div>
+      <div id="board_writer" style="width: 10%">작성자</div>
+      <div id="board_date" style="width: 10%">작성시간</div>
+      <div id="board_views" style="width: 10%">조회수</div>
+    </div>
+  </body>
+</html>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.day.dto.Product;
@@ -14,6 +15,7 @@ import com.day.exception.FindException;
 @Repository("productDAO1")
 public class ProductDAOOracle implements ProductDAO {
 	@Autowired
+	@Qualifier("Underscore")
 	private SqlSessionFactory sqlSessionFactory;
 	
 //	public ProductDAOOracle() {

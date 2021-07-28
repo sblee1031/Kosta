@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import com.day.exception.RemoveException;
 @Repository
 public class RepBoardDAOOracle implements RepBoardDAO {
 	@Autowired
+	@Qualifier("UnderscoreToCamelCase")
 	private SqlSessionFactory sessionFactory;
 	@Override
 	public void insert(RepBoard repBoard) throws AddException {

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>Insert title here</title>
+<script>
+$(function(){
+	$("div.ajax>form>input[type=button]").click(function(){
+		//form태그의 enctype="multipart/form-data"인 경우
+		//요청전달데이터와 업로드될 파일데이터들은 모두 FormData객체에 저장되어있다
+		var formData = new FormData($("div.ajax>form")[0]);
+		console.log(formData);
+			
+		formData.forEach(function(value, key){
+	        console.log(key + ":" + value);
+	    });
+		
+		$.ajax({
+			url : "/boardrestspring/uploadajax",
+			method: "post",
+			processData:false,
+			contentType:false,
+			data: formData, //요청전달데이터 
+			success:function(responseObj){
+				conole.log(responseObj);
+			},error:function(jqXHR){
+				alert("에러:" + jqXHR.status);
+			}
+		}); 
+		return false;
+	});
+	
+	$("div.dto>form>input[type=button]").click(function () {				
+		var formData = new FormData($("div.dto>form")[0]);
+		formData.append("repBoard.boardC.id", "id1");
+		var products = [{ "prod_no": "C0001" ,"prod_name":"아메리카노"},
+						{ "prod_no": "C0002" , "prod_name":"ICE아메리카노"}];
+
+		products.forEach(function (product, i) {
+			Object.keys(product).forEach(function (key) {
+				formData.append("products[" + i + "]." + key, product[key]);
+			});
+		});
+
+		//formData.append("products[0].prod_no", "C0001");
+		//formData.append("products[1].prod_no", "C0002");
+
+
+		formData.forEach(function (value, key) {
+			console.log(key + ":" + value);
+		});
+		//console.log(formData.get("drinkFile"));
+		$.ajax({
+			url: "/boardrestspring/uploaddto",
+			method: "post",
+			processData: false,
+			contentType: false,
+			data: formData, //요청전달데이터 
+			success: function (responseObj) {
+				console.log(responseObj);
+				$("img.drinkFile").attr("src", "/boardrestspring/upload/" + responseObj.drinkFileName);
+			}, error: function (jqXHR) {
+				alert("에러:" + jqXHR.status);
+			}
+		});
+		return false;
+	});
+
+	
+});
+</script>
+</head>
+<body>
+<div class="ajax">
+<h2>FORMDATA ajax전송</h2>
+    <form method="post"  enctype="multipart/form-data">
+	   <input type="text" name="boardC.id" value="id1"><br>
+	   <input type="text" name="boardTitle" value="글제목"><br>
+	   <textarea name="boardContent">내용</textarea><br>
+	   <label>푸드첨부</label><input type="file" name="foodFiles" multiple><br>
+	   <label>음료첨부</label><input type="file" name="drinkFile"><br>
+	   <input type="button" value="form-data전송">
+	</form>
+</div>
+<div class="dto">
+		<form method="post" enctype="multipart/form-data">
+			<input type="text" name="repBoard.boardTitle" value="글제목"><br>
+			<textarea name="repBoard.boardContent">내용</textarea><br>
+			<label>푸드첨부</label><input type="file" name="foodFiles" multiple><br>
+			<label>음료첨부</label><input type="file" name="drinkFile"><br>
+			<img class="drinkFile" src=""/> 
+			<input type="button" value="form-data전송 dto매핑">
+		</form>
+	</div>
+
+</body>
+</html>

@@ -4,13 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 <settings>
+	<setting name="mapUnderscoreToCamelCase" value="true"/>
 	<setting name="jdbcTypeForNull" value="NULL"/>
 </settings>
 <typeAliases>
-	<typeAlias type="com.day.dto.Customer" alias="customer"/>
-	<typeAlias type="com.day.dto.Product" alias="product"/>
-	<typeAlias type="com.day.dto.OrderInfo" alias="orderinfo"/>
-	<typeAlias type="com.day.dto.OrderLine" alias="orderline"/>
+	<typeAlias type="com.day.dto.RepBoard" alias="repboard"/>
 </typeAliases>
  <!--  <environments default="development">
     <environment id="development">
@@ -29,8 +27,6 @@
   </environments> -->
   <mappers>
     <!-- <mapper resource="org/mybatis/example/BlogMapper.xml"/> -->
-    <mapper resource="ProductMapper.xml"/>
-    <mapper resource="CustomerMapper.xml"/>
-    <mapper resource="OrderMapper.xml"/>
+    <mapper resource="RepBoardMapper.xml"/>
   </mappers>
 </configuration>

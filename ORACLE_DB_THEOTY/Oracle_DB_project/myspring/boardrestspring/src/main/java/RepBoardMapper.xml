@@ -11,7 +11,7 @@ values(board_seq.NEXTVAL, #{parentNo}, #{boardC.id}, #{boardTitle}, #{boardConte
 
 <!-- 검색 -->
 <select id="selectAll"  resultType="repboard">
-select level, repboard.* 
+select level, repboard.* ,board_id "boardC.id"
 from repboard
 start with parent_no = 0
 CONNECT BY PRIOR board_no =parent_no
@@ -34,7 +34,7 @@ where board_no = #{board_no}
 </update>
 <update id="modify" parameterType="repboard">
 update repboard
-set BOARD_CONTENT = #{boardContent}
+set BOARD_CONTENT = #{boardContent}, BOARD_TITLE = #{boardTitle}
 where board_no = #{boardNo} AND board_id = #{boardC.id}
 </update>
 

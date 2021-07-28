@@ -43,7 +43,15 @@
 	</bean> 
     
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
-		  id="sqlSessionFactory">
+		  id="sqlSessionFactory1">
+		  <qualifier value="UnderscoreToCamelCase"></qualifier>
+<!-- 		<property name="dataSource"      ref="dataSource"></property> -->
+		<property name="dataSource"      ref="dataSource2"></property>
+		<property name="configLocation"  value="classpath:mybatis-board-config.xml"/>
+	</bean>	
+		<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		  id="sqlSessionFactory2">
+		  <qualifier value="Underscore"></qualifier>
 <!-- 		<property name="dataSource"      ref="dataSource"></property> -->
 		<property name="dataSource"      ref="dataSource2"></property>
 		<property name="configLocation"  value="classpath:mybatis-config.xml"/>

@@ -2,6 +2,8 @@ package com.day.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RepBoard {
 
 	private int level;
@@ -11,6 +13,7 @@ public class RepBoard {
 	private String boardTitle;
 	private String boardContent;
 	private int boardViewcount;
+	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Date boardDt;
 	//Lombok 라이브러리를 사용하면 생성자, setter/getter/toString메서드 제공
 	public RepBoard() {
