@@ -108,13 +108,20 @@ public class RepBoardDAOOracle implements RepBoardDAO {
 			session = sessionFactory.openSession();		
 			deleteReply(session,repBoard.getBoardNo());
 			deleteWrite(session,repBoard);
+		}catch(Exception e) {
+			throw new RemoveException(e.getMessage());
 		}finally {
 			session.close();
 		}
 	}
 	private void deleteWrite(SqlSession session, RepBoard repBoard) throws RemoveException {
 		try {
-			session.delete("com.day.dto.RepBoardMapper.deleteWrite", repBoard);
+			int count = session.delete("com.day.dto.RepBoardMapper.deleteWrite", repBoard);
+			System.out.println("===========");
+			System.out.println(count);
+			if(count==0) {
+				throw new RemoveException("삭제할 글이 없습니다.");
+			}
 		}catch(Exception e) {
 			throw new RemoveException(e.getMessage());
 		}

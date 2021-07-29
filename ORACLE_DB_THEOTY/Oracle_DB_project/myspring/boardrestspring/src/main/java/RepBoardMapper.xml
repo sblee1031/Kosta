@@ -18,7 +18,7 @@ CONNECT BY PRIOR board_no =parent_no
 order SIBLINGS by board_no desc
 </select>
 <select id="selectByWord" resultType="repboard">
-select repboard.* 
+select repboard.* ,board_id "boardC.id"
 from repboard
 where board_title like '%${word}%' OR board_content like '%${word}%'
 </select>
@@ -44,9 +44,22 @@ where board_no = #{boardNo} AND BOARD_ID = #{boardC.id}
 </delete>
 
 <delete id="deleteReply" parameterType="int">
-DELETE from repboard
-where parent_no = #{boardNo}
-
+<!-- DELETE from repboard
+where parent_no = #{boardNo} -->
+DELETE FROM repboard
+WHERE board_no IN(
+  SELECT board_no
+  FROM ( 
+    SELECT rownum r, a.*
+    FROM (
+       SELECT *
+       FROM repboard
+       ORDER BY board_no desc
+     ) a  
+  START WITH parent_no = #{boardNo} 
+  CONNECT BY PRIOR board_no = parent_no
+)
+)
 
 </delete>
 

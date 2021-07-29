@@ -68,7 +68,7 @@ public class RepBoardService {
 		try {
 			dao.delete(repBoard);
 			
-		} catch (Exception e) {
+		} catch (RemoveException e) {
 			throw new RemoveException("삭제할 게시물이 없습니다."+e.getMessage());
 		}
 	}

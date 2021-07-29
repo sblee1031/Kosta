@@ -7,9 +7,11 @@
     <style>
       body {
       }
+
       .board_list_wrap {
         margin: 10px auto;
       }
+
       .board_list > .top > div {
         display: inline-block;
         float: left;
@@ -18,18 +20,70 @@
         border-bottom: 2px solid #000;
         font-weight: 600;
       }
+
       #list {
         width: 100%;
         font-size: 0pt;
       }
+
       #listContent {
         width: 100%;
         border-bottom: 1px solid #000;
         text-align: center;
       }
+
       #listContent > div {
         display: inline-block;
         font-size: 15pt;
+      }
+
+      .button-group > button {
+        display: none;
+      }
+
+      .edit > form > label > span {
+        display: inline-block;
+        width: 150px;
+        text-align: center;
+      }
+
+      input {
+        width: 30%;
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        width: 30%;
+        height: 100px;
+        border: 1;
+        overflow: visible;
+      }
+
+      .label_boardno {
+        display: none;
+      }
+      div.search {
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+      }
+      .btn_search {
+        margin-left: 10px;
+      }
+      input.input_search {
+        margin-left: 10px;
+        width: 20%;
+      }
+      div.detail {
+        border-bottom: 1px solid #000;
+        text-align: center;
+        background-color: rgba(233, 230, 195, 0.781);
+      }
+      div.detail > div {
+        display: inline-block;
+      }
+      div.detail > div > span {
+        margin-top: 100px;
       }
     </style>
     <script>
@@ -53,15 +107,19 @@
                 var copyObj = contents.clone();
 
                 copyObj.find("#board_no").text(e.boardNo);
-                copyObj.find("#board_no").prepend("<span> ↳ </span>");
-                //copyObj.find("#board_no").css('padding','10px');
+                copyObj.find("#board_no").attr("class", e.boardNo);
+                for (i = 1; i < e.level; i++) {
+                  copyObj.find("#board_no").prepend("<span>↳</span>");
+                }
+                copyObj.find("#board_no").css("text-align", "center");
                 copyObj.find("#board_title").text(e.boardTitle);
+                //copyObj.find("#board_title").attr('href','');
                 copyObj.find("#board_content").text(e.boardContent);
                 copyObj.find("#board_writer").text(e.boardC.id);
                 //  copyObj.find("#board_writer").attr("class", list.notice_no);
                 copyObj.find("#board_date").text(e.boardDt);
                 copyObj.find("#board_views").text(e.boardViewcount);
-                copyObj.css("background-color", "lavender");
+                copyObj.css("background-color", "rgba(139, 139, 139, 0.282)");
                 copyObj.show();
                 $("#list").append(copyObj);
 
@@ -69,6 +127,7 @@
               } else {
                 var copyObj = contents.clone();
                 copyObj.find("#board_no").text(e.boardNo);
+                copyObj.find("#board_no").attr("class", e.boardNo);
                 copyObj.find("#board_title").text(e.boardTitle);
                 copyObj.find("#board_content").text(e.boardContent);
                 copyObj.find("#board_writer").text(e.boardC.id);
@@ -82,40 +141,534 @@
             //$('section').empty();
           },
         });
-      });
+
+        $("button.btn_search").click(function () {
+          var word = $("input.input_search").val();
+
+          $.ajax({
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/list/" + word,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+            },
+            timeout: {},
+            success: function (responseObj) {
+              console.log(responseObj);
+              var sectionHtml = "";
+              var contents = $("#listContent").clone();
+              var list = $("#list").empty();
+              $(responseObj.list).each(function (i, e) {
+                if (e.parentNo != 0) {
+                  var copyObj = contents.clone();
+                  copyObj.find("#board_no").text(e.boardNo);
+                  copyObj.find("#board_no").attr("class", e.boardNo);
+                  copyObj.find("#board_no").prepend("<span>    ↳ </span>");
+                  copyObj.find("#board_no").css("text-align", "right");
+                  copyObj.find("#div_board_title").text(e.boardTitle);
+                  //copyObj.find("#board_title").attr('href','');
+                  copyObj.find("#board_content").text(e.boardContent);
+                  copyObj.find("#board_writer").text(e.boardC.id);
+                  //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                  copyObj.find("#board_date").text(e.boardDt);
+                  copyObj.find("#board_views").text(e.boardViewcount);
+                  copyObj.css("background-color", "lavender");
+                  copyObj.show();
+                  $("#list").append(copyObj);
+                  //sectionHtml += '<br>'; ↳
+                } else {
+                  var copyObj = contents.clone();
+                  copyObj.find("#board_no").text(e.boardNo);
+                  copyObj.find("#board_no").attr("class", e.boardNo);
+                  copyObj.find("#board_title").text(e.boardTitle);
+                  copyObj.find("#board_content").text(e.boardContent);
+                  copyObj.find("#board_writer").text(e.boardC.id);
+                  //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                  copyObj.find("#board_date").text(e.boardDt);
+                  copyObj.find("#board_views").text(e.boardViewcount);
+                  copyObj.show();
+                  $("#list").append(copyObj);
+                }
+              });
+              //$('section').empty();
+            },
+          });
+        });
+
+        $("button.view_write").click(function () {
+          $("div.board_list_wrap").hide();
+          $("div.viewedit").remove();
+          $("div.edit").show();
+          $("body > div.edit > form > div > button.write").show();
+        });
+        $(document).on("click", "button.view_reply", function () {
+          $("div.viewedit").remove();
+          var viewedit = $("div.edit").clone();
+          viewedit.find("form").attr("id", "form");
+          viewedit.find("label.label_boardno").show();
+          viewedit.find("label.label_boardtitle").show();
+          viewedit.find("label.label_boardcontent").show();
+          viewedit.find("button.write").hide();
+          viewedit.find("button.delete").hide();
+          viewedit.find("button.update").hide();
+          viewedit.find("button.reply").hide();
+          viewedit.show();
+          viewedit.attr("class", "viewedit");
+          $("#view").append(viewedit);
+          $("#form > div > button.reply").show();
+        });
+        $(document).on("click", "button.view_update", function () {
+          var boardNo = $("#input_boardNO").val();
+          $("div.viewedit").remove();
+          var viewedit = $("div.edit").clone();
+          viewedit.find("form").attr("id", "form");
+          viewedit.find("label.label_boardno").show();
+          viewedit.find("label.label_boardtitle").show();
+          viewedit.find("label.label_boardcontent").show();
+          viewedit.find("button.write").hide();
+          viewedit.find("button.delete").hide();
+          viewedit.find("button.update").show();
+          viewedit.find("button.reply").hide();
+          viewedit.show();
+          viewedit.attr("class", "viewedit");
+          $("#view").append(viewedit);
+          // $("div.edit").show();
+          //$("label.label_boardno").show();
+          // $("label.label_boardtitle").show();
+          // $("label.label_boardcontent").show();
+          $("button.write").hide();
+          $("button.reply").hide();
+          $("button.delete").hide();
+          $("#form > div > button.update").show();
+
+          $.ajax({
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/" + boardNo,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: {},
+            timeout: {},
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                // console.log(responseObj);
+
+                $("#input_boardid").val(responseObj.board.boardC.id);
+                $("#input_boardtitle").val(responseObj.board.boardTitle);
+                $("#textarea").val(responseObj.board.boardContent);
+              } else {
+                alert(responseObj.status);
+              }
+              //window.location.href = "./boardlist.html";
+            },
+          });
+        });
+        $(document).on("click", "button.view_delete", function () {
+          $("div.viewedit").remove();
+          var viewedit = $("div.edit").clone();
+          viewedit.find("form").attr("id", "form");
+          viewedit.find("label.label_boardno").show();
+          viewedit.find("label.label_boardtitle").hide();
+          viewedit.find("label.label_boardcontent").hide();
+          viewedit.find("button.write").hide();
+          viewedit.find("button.update").hide();
+          viewedit.find("button.reply").hide();
+          viewedit.find("button.delete").hide();
+          viewedit.show();
+          viewedit.attr("class", "viewedit");
+          $("#view").append(viewedit);
+          $("#form > div > button.delete").show();
+        });
+
+        $(document).on("click", "button.write", function (e) {
+          //e.preventDefault();
+          //작성하기
+          var id = $("#input_boardid").val();
+          console.log(id);
+          if (id == "" || typeof id == "undefined") {
+            $("#input_boardid").focus();
+            alert("작성자를 입력해주세요");
+            //return false;
+          } else {
+            //function write1(){
+            console.log("클릭");
+
+            var dataStr = $("form").serialize();
+            console.log(dataStr);
+            //form serialize값 -->js객체로 변환 --> json문자열로 변환
+            //var title = $('form>input[name=title]').val();
+            //var content = $('form>textarea[name=content]').val();
+
+            var formSerializeArray = $("form").serializeArray();
+            var formSerialize = $("form").serialize();
+            console.log("--formSerializeArray--");
+            console.log(formSerializeArray);
+            console.log("---------------------");
+            console.log("--formSerialize--");
+            console.log(formSerialize);
+            console.log("---------------------");
+            var boardC = {};
+            var object = {};
+
+            for (var i = 0; i < formSerializeArray.length; i++) {
+              if (i == 1) {
+                boardC[formSerializeArray[1]["name"]] =
+                  formSerializeArray[1]["value"];
+                object["boardC"] = boardC;
+              } else {
+                object[formSerializeArray[i]["name"]] =
+                  formSerializeArray[i]["value"];
+              }
+            }
+            var data = JSON.stringify(object);
+            console.log("=====");
+            console.log(data);
+            $.ajax({
+              method: "POST",
+              transformRequest: [null],
+              transformResponse: [null],
+              jsonpCallbackParam: "callback",
+              url: "http://localhost:8888/boardrestspring/board/write",
+              headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json;charset=utf-8",
+              },
+              data: data,
+              timeout: {},
+              success: function (responseObj) {
+                if (responseObj.status == 1) {
+                  alert("작성 성공");
+                } else {
+                  alert(responseObj.status);
+                }
+                window.location.href = "./boardlist.html";
+              },
+            });
+          }
+        });
+        // }
+
+        $(document).on("click", "button.reply", function () {
+          console.log("클릭");
+          var boardNo = $("#input_boardNO").val();
+          var dataStr = $("#form").serialize();
+          console.log(dataStr);
+          //form serialize값 -->js객체로 변환 --> json문자열로 변환
+          //var title = $('form>input[name=title]').val();
+          //var content = $('form>textarea[name=content]').val();
+
+          var formSerializeArray = $("#form").serializeArray();
+          var formSerialize = $("#form").serialize();
+          console.log("--formSerializeArray--");
+          console.log(formSerializeArray);
+          console.log("---------------------");
+          console.log("--formSerialize--");
+          console.log(formSerialize);
+          console.log("---------------------");
+          var boardC = {};
+          var object = {};
+
+          for (var i = 0; i < formSerializeArray.length; i++) {
+            if (i == 1) {
+              boardC[formSerializeArray[1]["name"]] =
+                formSerializeArray[1]["value"];
+              object["boardC"] = boardC;
+            } else {
+              object[formSerializeArray[i]["name"]] =
+                formSerializeArray[i]["value"];
+            }
+          }
+          var data = JSON.stringify(object);
+          //console.log('=====');
+          //console.log(data);
+          $.ajax({
+            method: "POST",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/reply/" + boardNo,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: data,
+            timeout: {},
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                alert("작성 성공");
+              } else {
+                alert(responseObj.status);
+              }
+              window.location.href = "./boardlist.html";
+            },
+          });
+        });
+
+        $(document).on("click", "button.update", function () {
+          var boardNo = $("#input_boardNO").val();
+          var dataStr = $("#form").serialize();
+          console.log(dataStr);
+          //form serialize값 -->js객체로 변환 --> json문자열로 변환
+          //var title = $('form>input[name=title]').val();
+          //var content = $('form>textarea[name=content]').val();
+
+          var formSerializeArray = $("#form").serializeArray();
+          var formSerialize = $("#form").serialize();
+          console.log("--formSerializeArray--");
+          console.log(formSerializeArray);
+          console.log("---------------------");
+          console.log("--formSerialize--");
+          console.log(formSerialize);
+          console.log("---------------------");
+          var boardC = {};
+          var object = {};
+
+          for (var i = 0; i < formSerializeArray.length; i++) {
+            if (i == 1) {
+              boardC[formSerializeArray[1]["name"]] =
+                formSerializeArray[1]["value"];
+              object["boardC"] = boardC;
+            } else {
+              object[formSerializeArray[i]["name"]] =
+                formSerializeArray[i]["value"];
+            }
+          }
+          var data = JSON.stringify(object);
+          console.log("=====");
+          console.log(data);
+
+          $.ajax({
+            method: "PUT",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/" + boardNo,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: data,
+            timeout: {},
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                alert("수정 성공");
+              } else {
+                //alert(responseObj.status);
+              }
+              window.location.href = "./boardlist.html";
+            },
+          });
+        });
+
+        $(document).on("click", "button.delete", function () {
+          //console.log('클릭');
+          var boardNo = $("#input_boardNO").val();
+          var id = $("#input_boardid").val();
+          var dataStr = $("#form").serialize();
+          console.log(dataStr);
+          //form serialize값 -->js객체로 변환 --> json문자열로 변환
+          //var title = $('form>input[name=title]').val();
+          //var content = $('form>textarea[name=content]').val();
+
+          var formSerializeArray = $("form").serializeArray();
+          var formSerialize = $("form").serialize();
+          console.log("--formSerializeArray--");
+          console.log(formSerializeArray);
+          console.log("---------------------");
+          console.log("--formSerialize--");
+          console.log(formSerialize);
+          console.log("---------------------");
+          var boardC = {};
+          var object = {};
+
+          for (var i = 0; i < formSerializeArray.length; i++) {
+            if (i == 1) {
+              boardC[formSerializeArray[1]["name"]] =
+                formSerializeArray[1]["value"];
+              object["boardC"] = boardC;
+            } else {
+              object[formSerializeArray[i]["name"]] =
+                formSerializeArray[i]["value"];
+            }
+          }
+          var data = JSON.stringify(object);
+          console.log("=====");
+          console.log(data);
+
+          $.ajax({
+            method: "DELETE",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/" + boardNo,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: data,
+            timeout: {},
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                alert(boardNo + "번 삭제 성공");
+              } else {
+                alert("삭제 실패");
+              }
+              window.location.href = "./boardlist.html";
+            },
+          });
+        });
+        $(document).on("click", "#board_title", function (e) {
+          e.preventDefault();
+          var click = $(this);
+          var boardNo = $(this).parent().prev().attr("class");
+          var view = $("#view").remove();
+          // console.log(boardNo);
+          //$("div.edit").show();
+          $("button.view_delete").show();
+          $("button.view_update").show();
+          $("label.label_boardno").show();
+          $("button.write").hide();
+          $("button.delete").hide();
+          $("button.update").hide();
+          $("button.reply").show();
+          $("label.label_boardtitle").show();
+          $("label.label_boardcontent").show();
+          $("#input_boardNO").val(boardNo);
+          var span = $(this).parent().prev().find("span");
+          //console.log(span.text());
+          if (span.text() != "") {
+            //console.log("댓글임");
+            $("button.view_delete").hide();
+            $("button.view_update").hide();
+          }
+          $.ajax({
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/board/" + boardNo,
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: { boardNo: boardNo },
+            timeout: {},
+            success: function (responseObj) {
+              // console.log(responseObj);
+              if (responseObj.status == 1) {
+                var listContent = click.parent().parent();
+                //console.log(listContent);
+                var detail = $("#detail").clone();
+                detail
+                  .find("#detail_content")
+                  .text(responseObj.board.boardContent);
+                detail.show();
+                detail.attr("id", "view");
+                listContent.append("<br>");
+                listContent.append(detail);
+                //alert('작성 성공');
+              } else {
+                //alert(responseObj.status);
+              }
+              //window.location.href = "./boardlist.html";
+            },
+          });
+        });
+      }); //DOM 끝
     </script>
   </head>
   <body>
     <div style="text-align: center; font-size: 30px; margin-bottom: 30px">
       답글형 게시판
     </div>
+    <div style="margin-top: 30px; display: block">
+      <button class="view_write">게시글 작성</button>
+    </div>
+    <div class="search">
+      <input class="input_search" type="text" placeholder="통합검색" /><button
+        class="btn_search"
+      >
+        검색
+      </button>
+    </div>
     <div class="board_list_wrap">
       <div class="board_list" style="width: 100%">
         <div class="top">
           <div class="board_no" style="width: 10%">번호</div>
-          <div class="board_title" style="width: 30%">제목</div>
-          <div class="board_content" style="width: 30%">내용</div>
+          <div class="board_title" style="width: 50%">제목</div>
           <div class="board_writer" style="width: 10%">작성자</div>
-          <div class="board_date" style="width: 10%">작성시간</div>
+          <div class="board_date" style="width: 20%">작성시간</div>
           <div class="board_views" style="width: 10%">조회수</div>
         </div>
         <div id="list"></div>
       </div>
     </div>
 
-    <div class="wirte" style="margin-top:100px;display: inline-block">
-      <label>작성자 : <input type="text" name="boardC.id" /></label><br>
-      <label>제목 :  <input type="text" name="boardTitle" /></label><br>
-      <label>내용 : <textarea name="boardContent" ></textarea></label><br>
+    <div class="edit" style="margin-top: 10px; display: none">
+      <form>
+        <label class="label_boardno"
+          ><span>원글 번호 : </span
+          ><input
+            type="text"
+            id="input_boardNO"
+            name="boardNo"
+            readonly /></label
+        ><br />
+        <label
+          ><span>작성자 : </span
+          ><input id="input_boardid" type="text" name="id" required /></label
+        ><br />
+        <label class="label_boardtitle"
+          ><span>제목 : </span
+          ><input id="input_boardtitle" type="text" name="boardTitle" /></label
+        ><br />
+        <label class="label_boardcontent"
+          ><span>내용 : </span>
+          <textarea id="textarea" name="boardContent"></textarea></label
+        ><br />
+
+        <div class="button-group" style="margin-top: 10px">
+          <button class="write">게시글 작성</button>
+          <button class="update">게시글 수정</button>
+          <button class="reply">답글 작성</button>
+          <button class="delete">게시글 삭제</button>
+        </div>
+      </form>
     </div>
 
     <div id="listContent" style="display: none">
       <div id="board_no" style="width: 10%"></div>
-      <div id="board_title" style="width: 30%">제목</div>
-      <div id="board_content" style="width: 30%">내용</div>
+      <div id="div_board_title" style="width: 50%">
+        <a id="board_title" href="#"></a>
+      </div>
       <div id="board_writer" style="width: 10%">작성자</div>
-      <div id="board_date" style="width: 10%">작성시간</div>
+      <div id="board_date" style="width: 20%">작성시간</div>
       <div id="board_views" style="width: 10%">조회수</div>
+    </div>
+
+    <div
+      id="detail"
+      style="
+        display: none;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(233, 230, 195, 0.781);
+      "
+    >
+      <div id="div_board_title" style="margin-top: 10px">
+        <pre id="detail_content"></pre>
+      </div>
+      <div id="viewBtn" style="float: buttom">
+        <button class="view_reply">답글 작성하기</button>
+        <button class="view_update">원글 수정하기</button>
+        <button class="view_delete">원글 삭제하기</button>
+      </div>
     </div>
   </body>
 </html>

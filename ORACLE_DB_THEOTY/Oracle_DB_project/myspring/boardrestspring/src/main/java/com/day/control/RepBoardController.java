@@ -36,6 +36,7 @@ public class RepBoardController {
 		Map<String, Object> result = new HashMap<>();
 		try {
 			log.error(repBoard);
+			//System.out.println(repBoard.getBoardC());
 			service.write(repBoard);
 			result.put("status",1);
 		} catch (AddException e) {
@@ -104,11 +105,11 @@ public class RepBoardController {
 			) {
 		Map<String, Object> result =new HashMap<>();
 		log.error(repBoard);
-		Customer boardC = new Customer();
-		boardC.setId("id1");
+		//Customer boardC = new Customer();
+		//boardC.setId("id1");
 		try {
 			repBoard.setBoardNo(no);
-			repBoard.setBoardC(boardC);
+			//repBoard.setBoardC(boardC);
 			service.modify(repBoard);
 			result.put("status", 1);
 		} catch (AddException e) {
@@ -120,15 +121,17 @@ public class RepBoardController {
 		}
 	
 		@DeleteMapping("/{no}")
-	   public Map<String, Object> remove(@PathVariable int no) {
-	      
+	   public Map<String, Object> remove(@PathVariable int no, @RequestBody RepBoard repBoard) {
+//			System.out.println("=========");
+//	     System.out.println(repBoard);
 	       Map<String, Object> result = new HashMap<String, Object>();
 	      //---->session의 loginInfo속성으로 차후 변경
-	      Customer boardC = new Customer();
-	      boardC.setId("id1");
-	      RepBoard repBoard = new RepBoard();
+	      //Customer boardC = new Customer();
+	      //boardC.setId(id);
+	      //RepBoard repBoard = new RepBoard();
 	      repBoard.setBoardNo(no);
-	      repBoard.setBoardC(boardC);
+	      repBoard.setParentNo(no);
+	      //repBoard.setBoardC(boardC);
 	      try {
 	      service.remove(repBoard);
 	      result.put("status",1);
