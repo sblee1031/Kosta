@@ -88,6 +88,7 @@
     </style>
     <script>
       $(function () {
+    	 
         $.ajax({
           method: "GET",
           transformRequest: [null],
@@ -99,7 +100,7 @@
           },
           timeout: {},
           success: function (responseObj) {
-            console.log(responseObj);
+            //console.log(responseObj);
             var sectionHtml = "";
             var contents = $("#listContent").clone();
             $(responseObj.list).each(function (i, e) {
@@ -143,6 +144,8 @@
         });
 
         $("button.btn_search").click(function () {
+        	$('div.board_list_wrap').show();
+        	$('div.edit').hide();
           var word = $("input.input_search").val();
 
           $.ajax({
@@ -162,34 +165,37 @@
               var list = $("#list").empty();
               $(responseObj.list).each(function (i, e) {
                 if (e.parentNo != 0) {
-                  var copyObj = contents.clone();
-                  copyObj.find("#board_no").text(e.boardNo);
-                  copyObj.find("#board_no").attr("class", e.boardNo);
-                  copyObj.find("#board_no").prepend("<span>    ↳ </span>");
-                  copyObj.find("#board_no").css("text-align", "right");
-                  copyObj.find("#div_board_title").text(e.boardTitle);
-                  //copyObj.find("#board_title").attr('href','');
-                  copyObj.find("#board_content").text(e.boardContent);
-                  copyObj.find("#board_writer").text(e.boardC.id);
-                  //  copyObj.find("#board_writer").attr("class", list.notice_no);
-                  copyObj.find("#board_date").text(e.boardDt);
-                  copyObj.find("#board_views").text(e.boardViewcount);
-                  copyObj.css("background-color", "lavender");
-                  copyObj.show();
-                  $("#list").append(copyObj);
+                    var copyObj = contents.clone();
+
+                    copyObj.find("#board_no").text(e.boardNo);
+                    copyObj.find("#board_no").attr("class", e.boardNo);
+                    for (i = 1; i < e.level; i++) {
+                      copyObj.find("#board_no").prepend("<span>↳</span>");
+                    }
+                    copyObj.find("#board_no").css("text-align", "center");
+                    copyObj.find("#board_title").text(e.boardTitle);
+                    //copyObj.find("#board_title").attr('href','');
+                    copyObj.find("#board_content").text(e.boardContent);
+                    copyObj.find("#board_writer").text(e.boardC.id);
+                    //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                    copyObj.find("#board_date").text(e.boardDt);
+                    copyObj.find("#board_views").text(e.boardViewcount);
+                    copyObj.css("background-color", "rgba(139, 139, 139, 0.282)");
+                    copyObj.show();
+                    $("#list").append(copyObj);
                   //sectionHtml += '<br>'; ↳
                 } else {
-                  var copyObj = contents.clone();
-                  copyObj.find("#board_no").text(e.boardNo);
-                  copyObj.find("#board_no").attr("class", e.boardNo);
-                  copyObj.find("#board_title").text(e.boardTitle);
-                  copyObj.find("#board_content").text(e.boardContent);
-                  copyObj.find("#board_writer").text(e.boardC.id);
-                  //  copyObj.find("#board_writer").attr("class", list.notice_no);
-                  copyObj.find("#board_date").text(e.boardDt);
-                  copyObj.find("#board_views").text(e.boardViewcount);
-                  copyObj.show();
-                  $("#list").append(copyObj);
+                	var copyObj = contents.clone();
+                    copyObj.find("#board_no").text(e.boardNo);
+                    copyObj.find("#board_no").attr("class", e.boardNo);
+                    copyObj.find("#board_title").text(e.boardTitle);
+                    copyObj.find("#board_content").text(e.boardContent);
+                    copyObj.find("#board_writer").text(e.boardC.id);
+                    //  copyObj.find("#board_writer").attr("class", list.notice_no);
+                    copyObj.find("#board_date").text(e.boardDt);
+                    copyObj.find("#board_views").text(e.boardViewcount);
+                    copyObj.show();
+                    $("#list").append(copyObj);
                 }
               });
               //$('section').empty();
@@ -201,7 +207,7 @@
           $("div.board_list_wrap").hide();
           $("div.viewedit").remove();
           $("div.edit").show();
-          $("body > div.edit > form > div > button.write").show();
+          $("button.write").show();
         });
         $(document).on("click", "button.view_reply", function () {
           $("div.viewedit").remove();
@@ -259,13 +265,13 @@
               if (responseObj.status == 1) {
                 // console.log(responseObj);
 
-                $("#input_boardid").val(responseObj.board.boardC.id);
+               //$("#input_boardid").val(responseObj.board.boardC.id);
                 $("#input_boardtitle").val(responseObj.board.boardTitle);
                 $("#textarea").val(responseObj.board.boardContent);
               } else {
                 alert(responseObj.status);
               }
-              //window.location.href = "./boardlist.html";
+              //location.reload();
             },
           });
         });
@@ -347,7 +353,7 @@
                 } else {
                   alert(responseObj.status);
                 }
-                window.location.href = "./boardlist.html";
+                location.reload();
               },
             });
           }
@@ -405,7 +411,7 @@
               } else {
                 alert(responseObj.status);
               }
-              window.location.href = "./boardlist.html";
+              location.reload();
             },
           });
         });
@@ -461,7 +467,7 @@
               } else {
                 //alert(responseObj.status);
               }
-              window.location.href = "./boardlist.html";
+              location.reload();
             },
           });
         });
@@ -519,19 +525,29 @@
               } else {
                 alert("삭제 실패");
               }
-              window.location.href = "./boardlist.html";
+              location.reload();
             },
           });
         });
         $(document).on("click", "#board_title", function (e) {
           e.preventDefault();
           var click = $(this);
+          var writer = click.parent().next().text();
+          var user = $('#input_boardid').val();
+          //console.log();
           var boardNo = $(this).parent().prev().attr("class");
           var view = $("#view").remove();
           // console.log(boardNo);
           //$("div.edit").show();
+          //console.log(user +'/'+ writer);
+          if(user==writer){
+        	  //console.log('작성자 동일');
           $("button.view_delete").show();
           $("button.view_update").show();
+          }else{
+              $("button.view_delete").hide();
+              $("button.view_update").hide();
+          }
           $("label.label_boardno").show();
           $("button.write").hide();
           $("button.delete").hide();
@@ -576,7 +592,7 @@
               } else {
                 //alert(responseObj.status);
               }
-              //window.location.href = "./boardlist.html";
+              //location.reload();
             },
           });
         });
@@ -622,7 +638,7 @@
         ><br />
         <label
           ><span>작성자 : </span
-          ><input id="input_boardid" type="text" name="id" required /></label
+          ><input id="input_boardid" type="text" name="id" readonly /></label
         ><br />
         <label class="label_boardtitle"
           ><span>제목 : </span

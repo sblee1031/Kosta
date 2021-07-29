@@ -44,7 +44,10 @@ public class CustomerController {
 		return result;
 	}
 	@PostMapping("/logout")
-	public void login(HttpSession request){
+	public Map<String, Object> login(HttpSession request){
+		Map<String, Object> result = new HashMap<>();
 		request.invalidate();
+		result.put("status",0);
+		return result;
 	}
 }
