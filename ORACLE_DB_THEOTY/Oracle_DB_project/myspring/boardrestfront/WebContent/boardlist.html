@@ -208,6 +208,8 @@
           $("div.viewedit").remove();
           $("div.edit").show();
           $("button.write").show();
+          $('div.edit>form>label.label_boardcontent').append('<hr/>');
+          $('div.edit>form>label.label_boardcontent').append('<br><label>첨부 : </label><input type="file" name="foodFiles">');
         });
         $(document).on("click", "button.view_reply", function () {
           $("div.viewedit").remove();
@@ -291,8 +293,47 @@
           $("#view").append(viewedit);
           $("#form > div > button.delete").show();
         });
-
+        //새로운 작성하기 버튼
         $(document).on("click", "button.write", function (e) {
+        	e.preventDefault();
+        	var formData = new FormData($("div.edit>form")[0]);
+        
+        	
+        	  var dataStr = $("form").serialize();
+        	  console.log('==serialize');
+              console.log(dataStr);
+
+              var id =$("#input_boardid").val();
+              var title =$("#input_boardtitle").val();
+              var content =$("#textarea").val();
+              //console.log(id);
+              formData.append("repBoard.boardC.id", id);
+              formData.append("repBoard.boardTitle", title);
+              formData.append("repBoard.boardContent", content);
+              
+              /* formData.forEach(function (value, key) {
+      			console.log(key + ":" + value);
+      		}); */
+    		$.ajax({
+    			url: "/boardrestspring/upload",
+    			method: "post",
+    			processData: false,
+    			contentType: false,
+    			data: formData, //요청전달데이터 
+    			success: function (responseObj) {
+    				console.log(responseObj);
+    				location.reload();
+    				//$("img.drinkFile").attr("src", "/boardrestspring/upload/" + responseObj.drinkFileName);
+    			}, error: function (jqXHR) {
+    				alert("에러:" + jqXHR.status);
+    			}
+    		});
+    		return false;
+        	//console.log(formData);
+        	//if()
+        });
+        $(document).on("click", "button.write1", function (e) {
+        	
           //e.preventDefault();
           //작성하기
           var id = $("#input_boardid").val();
@@ -576,7 +617,7 @@
             data: { boardNo: boardNo },
             timeout: {},
             success: function (responseObj) {
-              // console.log(responseObj);
+             // console.log(responseObj);
               if (responseObj.status == 1) {
                 var listContent = click.parent().parent();
                 //console.log(listContent);
@@ -588,6 +629,31 @@
                 detail.attr("id", "view");
                 listContent.append("<br>");
                 listContent.append(detail);
+                var title = responseObj.board.boardTitle;
+                var link = './upload/'+title+'.jpg';
+                var fileable ;
+                $.ajax({
+                    url: link,
+                    type: 'HEAD',
+                    async: false,
+                    success: function () {
+                    //	console.log('파일있음1');
+                    	fileable = 'y';//파일 있음.
+                    },
+                  
+               });
+                //console.log(fileable);
+                if(fileable=='y'){
+                		//console.log('a태그');
+                	 $('#viewBtn').before('<hr/><p>미리보기</p>');
+                	 $('#viewBtn').before('<img id="imgdown"><br>');
+                	 $('#viewBtn').before('<a id="down" download>다운로드</a>');
+                	 $('#down').attr('href',link);
+                	 $('#imgdown').attr('src',link);
+                	 $('#imgdown').css('width','150px');
+                	 
+                }
+               
                 //alert('작성 성공');
               } else {
                 //alert(responseObj.status);
@@ -680,7 +746,7 @@
       <div id="div_board_title" style="margin-top: 10px">
         <pre id="detail_content"></pre>
       </div>
-      <div id="viewBtn" style="float: buttom">
+      <div id="viewBtn" style="text-align:right; margin:15px;">
         <button class="view_reply">답글 작성하기</button>
         <button class="view_update">원글 수정하기</button>
         <button class="view_delete">원글 삭제하기</button>
