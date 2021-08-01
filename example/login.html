@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(function () {
+    	  
+        $.ajax({
+          method: "POST",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: "http://localhost:8888/boardrestspring/customer/login",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          timeout: {},
+          data: {
+            id: "a",
+            pwd: "a",
+          },
+          success: function (responseObj) {
+            if (responseObj.status == 1) {
+              console.log(responseObj);
+              $("div.div_login").hide();
+              $("div.div_loginInfo").text(
+                responseObj.loginInfo.id + " 님 환영 합니다."
+              );
+              $("div.div_loginInfo").show();
+              $('section.section').load('boardlist.html', function(){
+            	  $('#input_boardid').val(responseObj.loginInfo.id);
+              });
+            } else if (responseObj.status == 0) {
+            	$("button.btn_logout").hide();
+            }
+          },
+        });
+
+        $("button.btn_login").click(function () {
+          var id = $("input.id").val();
+          var pwd = $("input.pwd").val();
+          if (id == "" || typeof id == "undefined") {
+            $("input.id").focus();
+            alert("ID를 입력해주세요");
+            //return false;
+          } else if (pwd == "" || typeof pwd == "undefined") {
+            $("input.pwd").focus();
+            alert("패스워드를 입력해주세요");
+            //return false;
+          }
+
+          $.ajax({
+            method: "POST",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/customer/login",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+            },
+            timeout: {},
+            data: {
+              id: $("input.id").val(),
+              pwd: $("input.pwd").val(),
+            },
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                console.log(responseObj);
+                window.location.href = "./login.html";
+              } else if (responseObj.status == 0) {
+                alert("로그인 실패");
+              }
+            },
+          });
+        });
+
+        $(document).on("click", "button.btn_logout", function () {
+        	console.log('클릭');
+          $.ajax({
+            method: "POST",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            url: "http://localhost:8888/boardrestspring/customer/logout",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+            },
+            timeout: {},
+            data: {
+              id: "a",
+              pwd: "a",
+            },
+            success: function (responseObj) {
+              if (responseObj.status == 1) {
+                window.location.href = "./login.html";
+                console.log(responseObj);
+                $("div.div_login").show();
+                $("div.div_loginInfo").hide();
+              } else if (responseObj.status == 0) {
+                window.location.href = "./login.html";
+              }
+            },error: function(e){
+            	console.log(e);
+            }
+            
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="div_login" style="text-align: center;">
+      <div><h1>로그인 해주세요....</h1></div>
+      <label> 아이디 : <input class="id" type="text" required /></label>
+      <label> 비밀번호 : <input class="pwd" type="password" required /></label>
+      <button class="btn_login">로그인</button>
+    </div>
+    <br />
+    <div class="div_loginInfo" style="display: none"></div>
+
+    <button class="btn_logout" id="btn_logout">로그아웃</button>
+	<hr>
+    <section class="section"></section>
+  </body>
+</html>
