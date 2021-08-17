@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.day.dto.OrderMapper">
+<!-- <resultMap id="orderResultMap" type="orderinfo" >
+	<id column="order_no" property="order_no"/>
+	<result column="order_dt"  property="order_dt"/>
+	<collection property="lines" ofType="orderline">
+		<result column="order_no" property="order_no"/>
+		<result column="order_quantity" property="order_quantity"/>
+		<association javaType="product" property="order_p">
+		  <result column="order_prod_no"  property="prod_no"/>
+		  <result column="prod_name"  property="prod_name"/>
+		  <result column="prod_price" property="prod_price"/>
+		</association>
+	</collection>
+</resultMap> -->
+<resultMap id="orderResultMap" type="orderinfo" autoMapping="true" >
+	<id column="order_no" property="order_no"/>
+	<collection property="lines" ofType="orderline" autoMapping="true">
+		<association javaType="product" property="order_p" autoMapping="true">
+		  <result column="order_prod_no"  property="prod_no"/>		  
+		</association>
+	</collection>
+</resultMap>
+
+
+
+<select id="selectById" parameterType="string" resultMap="orderResultMap">
+SELECT oi.order_no, order_dt, order_prod_no,  prod_name, prod_price, order_quantity 
+FROM order_info oi JOIN order_line ol ON(oi.order_no = ol.order_no)
+JOIN product p  ON (ol.order_prod_no = p.prod_no)
+WHERE order_id = #{id}
+ORDER BY oi.order_no DESC, order_prod_no
+</select>
+
+
+<insert id="insertInfo" parameterType="orderinfo">
+INSERT INTO order_info(order_no, order_id)
+ VALUES (ORDER_SEQ.NEXTVAL, #{order_c.id})
+</insert>
+
+<insert id="insertLine" parameterType="orderline">
+INSERT INTO order_line(order_no, order_prod_no, order_quantity)
+VALUES (ORDER_SEQ.CURRVAL, #{order_p.prod_no},  #{order_quantity})
+</insert>
+
+
+</mapper>  

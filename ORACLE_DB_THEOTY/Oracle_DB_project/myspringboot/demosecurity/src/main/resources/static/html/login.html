@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+    <script>
+      $(function () {
+    	
+        //1.localStorage의 item(이름: loginInfo)찾기
+        var loginInfoValue = localStorage.getItem('loginInfo');
+        
+        //2. 1의 결과가 null이거나 ''이 아니면 1의결과를 아이디입력란에 설정한다
+        var idObj = document.querySelector('form.login input[name=id]');
+        if(loginInfoValue != null && loginInfoValue != ''){
+        	idObj.value = loginInfoValue;
+        }
+
+        var formObj = document.querySelector('form.login');
+        formObj.addEventListener('submit', function (event) {
+        	
+        	//아이디값 유효성검사
+        	//비밀번호값 유효성검사
+        	
+        	//유효성검사가 실패된 경우에는 전송 중지
+        	//event.preventDefault();
+        	
+        	//localStorage의 item(이름:loginInfo)삭제
+        	localStorage.removeItem('loginInfo');
+        	
+        	//아이디저장 체크된 경우 localStorage의 item(이름:loginInfo, 값:입력한아이디값)추가
+        	//var idObj = documnt.querySelector('form.login input[name=id]');
+        	//1)DOM트리에서 체크박스객체 찾기        	
+        	var chkboxObj = document.querySelector('form.login input[type=checkbox]');
+        	
+        	//2)체크여부확인
+        	if(chkboxObj.checked){//체크된 경우
+        		localStorage.setItem('loginInfo', idObj.value); //localStorage에 추가
+        	}
+      
+      	    var url = './customerlogin';
+      	    //var url = './myLogin';
+      		//서버로 AJAX 요청,응답
+        	 $.ajax({
+        		  url : url
+        		, method : 'post'
+        		, data: {id:$('form.login input[name=id]').val(),
+        			     pwd:$('form.login input[name=pwd]').val()
+        			    } 
+        		, success:function(responseData){
+        			 alert(responseData);
+        			 location.href="./user";
+        			
+        		}
+        		,error:function(xhr){
+        		  alert(xhr.status);
+        		}
+        	}); 
+        	event.preventDefault();
+        });
+      });
+    </script>
+<!-- 메인페이지에 포함될 때삭제할 영역 시작 -->
+
+<!-- 메인페이지에 포함될 때삭제할 영역 끝 -->
+
+
+    <form class="login" method="post" action="http://www.daum.net">
+      <label>아이디:<input type="text" name="id" required /></label><br />
+      <label>비밀번호:<input type="password" name="pwd" required /></label><br />
+      <input type="checkbox" checked /><span>아이디저장</span>
+      <button type="submit">로그인</button>
+    </form>
+
+<!-- 메인페이지에 포함될 때삭제할 영역 시작 -->
+
+<!-- 메인페이지에 포함될 때삭제할 영역 끝 -->

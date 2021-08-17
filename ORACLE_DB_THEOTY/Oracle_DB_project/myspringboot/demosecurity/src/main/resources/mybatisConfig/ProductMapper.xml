@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.day.dto.ProductMapper">
+  <select id="selectByNo" parameterType="java.lang.String" resultType="product">
+    SELECT * FROM product WHERE prod_no = #{aaa}
+  </select>
+  <select id="selectAll" resultType="product">
+    SELECT * FROM product ORDER BY prod_no ASC
+  </select>
+  <select id="selectAllPage" parameterType="java.util.HashMap"   resultType="product">
+SELECT * 
+FROM (
+    SELECT rownum rn, a.* 
+    FROM (
+     SELECT *
+     FROM product  
+     ORDER BY prod_no ASC ) a
+)
+WHERE rn BETWEEN START_ROW(#{currentPage}, #{cnt_per_page}) AND  
+                 END_ROW(#{currentPage},   #{cnt_per_page})
+  </select>
+  
+  <!-- <select id="selectByName" parameterType="string" resultType="com.day.dto.Product"> -->
+   <!-- SELECT * FROM product WHERE prod_name LIKE #{word} ORDER BY prod_no -->
+   <!-- SELECT * FROM product WHERE prod_name LIKE '%${word}%' ORDER BY prod_no -->
+  <select id="selectByName" 
+          parameterType="hashmap" 
+          resultType="product"> 
+   SELECT * 
+   FROM product 
+   WHERE prod_name LIKE '%${word}%'
+   ORDER BY ${ordermethod}
+  </select>
+  
+  
+  
+</mapper>

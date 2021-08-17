@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>가입</title>
+    <link rel="stylesheet" href="./css/basic.css" />
+    <style>
+      form.signup {
+        width: 100%;
+      }
+      form.signup > label {
+        padding: 10px;
+      }
+      /*form.signup > label::after {
+         content: '&lt;br&gt;'; 
+      }*/
+      form.signup > label > span::after {
+        content: ' : ';
+      }
+      /* form.signup input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 1px solid #555;
+        outline: none;
+      } */
+      form.signup input:focus {
+        background-color: azure;
+      }
+      form.signup input {
+        outline: none;
+        padding: 12px 20px;
+        margin: 8px 0;
+      }
+
+      form.signup input[name='pwd'],
+      form.signup input.pwd1,
+      form.signup input[name='name'],
+      form.signup input.baseaddr,
+      form.signup input[name='addr'] {
+        width: 100%;
+      }
+	  form.signup button.iddupchk, form.signup button.searchzip{
+	  	padding: 12px 20px;
+	  }
+      form.signup button[type='submit'] {
+        display: none;
+      }
+    </style>
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script>
+      $(function () {
+        var $idObj = $('form.signup>label>input[name=id]');
+        var $btIdDupchkObj = $('form.signup button.iddupchk');//아이디중복확인버튼
+        var $btSearchzipObj = $('form.signup button.searchzip');
+        var $btSubmitObj = $('form.signup button[type=submit]'); //가입버튼
+        $idObj.focus(function () {
+          $btSubmitObj.hide();
+        });
+
+        $btIdDupchkObj.click(function () {
+          var idValue = $idObj.val(); //아이디값
+         /*  if (idValue == 'id9') {
+            $btSubmitObj.show(); //가입버튼보여주기
+          } */
+          var url = "./iddupchk";
+          $.ajax({
+        	  url : url,
+        	  method: 'get',
+        	  data: {id:idValue},
+        	  success:function(responseData){
+        		  if(responseData.trim() == '1'){ //사용가능한 아이디인 경우
+        			  $btSubmitObj.show(); 
+        		  }else{ //이미사용중인 아이디인 경우
+        			  alert('이미 사용중인 아이디입니다');
+        		  	  $idObj.focus(); 
+        		  	  $idObj.select();
+        		  }
+        	  }
+          });
+          return false;
+        });
+        $btSearchzipObj.click(function () {
+          var url = './searchzip.html';
+          var name = 'searchzip';
+          var opt = 'width=300 height=300';
+          window.open(url, name, opt);
+        });
+
+        $('form.signup').submit(function(){
+        	//비밀번호 유효성 검사
+        	var $pwd = $('form.signup input[name=pwd]');
+        	var $pwd1 = $('form.signup input.pwd1');
+        	console.log($pwd.val() + ":" + $pwd1.val());
+        	if( $pwd.val() != $pwd1.val() ){
+        		alert('비밀번호가 서로 다릅니다');
+        		$pwd.focus();
+        	}else{
+        		var url = './signup';
+        		var method = 'post';
+        		var data = $('form.signup').serialize();
+        		console.log(data); 
+        		$.ajax({
+        			url:url,
+        			method:method,
+        			data: data,
+        			success:function(responseData){
+        				if(responseData.trim() == '1'){ //성공
+        					alert("가입성공");
+        				    location.href="./user";
+        				}else{//실패
+        					alert("가입실패");
+        				}
+        			}, error:function(xhr){
+        				alert("ERROR:" + xhr.status);
+        			}
+        		});
+        	}
+        	return false;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form class="signup" method="post" action="http://www.daum.net">
+      <label>
+        <span>ID</span>
+        <input type="text" name="id" required placeholder="아이디를 입력하세요" />
+      </label>
+      <button type="button" class="iddupchk">아이디 중복확인</button>
+      <br />
+
+      <label> <span>비밀번호</span> <input type="password" name="pwd" required /> </label><br />
+      <label> <span>비밀번호1</span> <input type="password" class="pwd1" required /> </label><br />
+      <label
+        ><span>이름</span>
+        <input type="text" name="name" required placeholder="이름을 입력하세요" /></label
+      ><br />
+
+      <label>
+        <span>주소</span>
+        <input type="text" readonly maxlength="5" class="zipcode"/>
+        <button type="button" class="searchzip">우편번호검색</button><br />
+        <input type="text" readonly class="baseaddr" />
+        <input type="text" name="addr" />
+      </label>
+      <button type="submit">가입</button>
+      <!-- input type="submit" value="가입" 과 같음-->
+    </form>
+  </body>
+</html>
