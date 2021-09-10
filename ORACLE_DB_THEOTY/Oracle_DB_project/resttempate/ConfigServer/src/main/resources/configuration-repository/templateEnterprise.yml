@@ -1,0 +1,11 @@
+
+config:
+  profile: hello #ebt2로 변경
+  message: templateEnterprise
+
+Globals:
+  DbType: mysql
+  DriverClassName: com.mysql.jdbc.Driver
+  Url: jdbc:mysql://127.0.0.1:3306/ebt
+  UserName: com
+  Password: com01

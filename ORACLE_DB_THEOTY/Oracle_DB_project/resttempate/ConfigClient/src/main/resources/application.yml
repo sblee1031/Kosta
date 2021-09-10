@@ -1,0 +1,11 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  #엔드포인트, ex) http://localhost:9265/actuator/refresh (POST)
+#spring:
+#  config:
+#   import: optional:configserver: http://localhost:8888
+#spring:
+#  profiles:
+#    active: dev
