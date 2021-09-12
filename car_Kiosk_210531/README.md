@@ -50,17 +50,15 @@
 * 대여 및 반납 이후 5초후 처음 페이지로 이동.
 
 ## 실행 화면
-__메인화면__<br/>
+
 <img src="./capture/main.png" height="300px" alt="Main"></img>
-__메인화면__<br/>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-__메인화면__<br/>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
-<img src="./capture/main.png" height="300px" alt="Main"></img>
+<img src="./capture/signup_check.png" height="300px" alt="Main"></img>
+<img src="./capture/non_member.png" height="300px" alt="Main"></img>
+<img src="./capture/car_select_two.png" height="300px" alt="Main"></img>
+<img src="./capture/car_detail.png" height="300px" alt="Main"></img>
+<img src="./capture/time_select.png" height="300px" alt="Main"></img>
+<img src="./capture/payment.png" height="300px" alt="Main"></img>
+<img src="./capture/rent_select.png" height="300px" alt="Main"></img>
+<img src="./capture/exit.png" height="300px" alt="Main"></img>
+<img src="./capture/admin.png" height="300px" alt="Main"></img>
+
