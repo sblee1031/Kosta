@@ -6,11 +6,11 @@
 <br/><img src="./capture/main.png" height="300px" alt="Main"></img>
 
 
-### Environment
+## Environment
 **Java 1.8, Swing WindowBuilder, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf**
 
 
-### Files
+## Files
 * /capture : 구현 캡처 이미지
 * /db : SQLite DB파일
 * /img : 프로젝트 사용된 image파일
