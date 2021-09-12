@@ -52,9 +52,7 @@
 ## 실행 화면
 __메인화면__<br/>
 <img src="./capture/main.png" height="300px" alt="Main"></img>
-
 <img src="./capture/main.png" height="300px" alt="Main"></img>
-
 <img src="./capture/main.png" height="300px" alt="Main"></img>
 <img src="./capture/main.png" height="300px" alt="Main"></img>
 <img src="./capture/main.png" height="300px" alt="Main"></img>
