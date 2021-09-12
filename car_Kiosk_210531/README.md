@@ -50,7 +50,7 @@
 * 대여 및 반납 이후 5초후 처음 페이지로 이동.
 
 ## 실행 화면
-##### 메인화면
+#### 메인화면
 <img src="./capture/main.png" height="300px" alt="Main"></img>
 
 <img src="./capture/main.png" height="300px" alt="Main"></img>
