@@ -52,7 +52,11 @@
 ## 실행 화면
 **메인화면**
 <img src="./capture/main.png" height="300px" alt="Main"></img>
+
+**메인화면**
 #### 메인화면
+
+**메인화면**
 <img src="./capture/main.png" height="300px" alt="Main"></img>
 #### 메인화면
 <img src="./capture/main.png" height="300px" alt="Main"></img>
