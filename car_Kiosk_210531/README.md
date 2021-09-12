@@ -5,10 +5,15 @@
 
 <br/><img src="./capture/main.png" height="300px" alt="Main"></img>
 
-
+##
 ## Environment
 **Java 1.8, Swing WindowBuilder, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf**
 
+## 나의 기여
+* 프로젝트 PM
+* 프로젝트 아이템 제안
+* 비지니스 Flow 설정
+* 메인화면, 회원가입, 차량선택, 반납화면, 관리자
 
 ## Files
 * /capture : 구현 캡처 이미지
