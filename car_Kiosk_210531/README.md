@@ -5,4 +5,19 @@
 <br/><img src="./capture/main.png" height="300px" alt="Main"></img>
 
 ### Environment
->Java 1.8, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf
+**Java 1.8, Swing WindowBuilder, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf**
+
+### Files
+* /capture : 구현 캡처 이미지
+* /db : SQLite DB파일
+* /img : 프로젝트 사용된 image파일
+* /src : 프로젝트 source
+* /table : 발표 시 사용할 쿼리문
+* /기획단계_코드의美 : 기획단계 문서들
+
+**실행시 필요 파일
+1. /db
+2. /img
+3. /src
+4. build.gradle
+5. settings.gradle
