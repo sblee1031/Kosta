@@ -7,7 +7,7 @@
 
 
 ## Environment
-#### **Java 1.8, Swing WindowBuilder, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf**
+### **Java 1.8, Swing WindowBuilder, SpringBoot(2.3.1), SQLite(3.34.0), Gradle, thymeleaf**
 
 ## 나의 기여
 * 프로젝트 PM
